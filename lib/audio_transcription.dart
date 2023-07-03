@@ -1,15 +1,14 @@
 import 'package:http/http.dart' as http;
-import 'dart:io';
 import 'package:flutter/material.dart';
 
-Future<void> transcribeAudio(String filename, TextEditingController text_controller) async {
+Future<void> transcribeAudio(String filename, TextEditingController textController) async {
   var request = http.MultipartRequest(
     'POST', 
     Uri.parse('https://api.openai.com/v1/audio/transcriptions')
   );
 
   request.headers.addAll({
-    'Authorization': 'Bearer <key>',
+    'Authorization': 'Bearer sk-',
   });
 
   request.files.add(
@@ -24,8 +23,8 @@ Future<void> transcribeAudio(String filename, TextEditingController text_control
   var response = await request.send();
 
   if (response.statusCode == 200) {
-    text_controller.text = 'Transcription successful!';
+    textController.text = 'Transcription successful!';
 } else {
-    text_controller.text = 'Failed to transcribe audio';
+    textController.text = 'Failed to transcribe audio';
   }
 }
