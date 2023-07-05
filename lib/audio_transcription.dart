@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -20,10 +22,20 @@ Future<void> transcribeAudio(String filename, TextEditingController textControll
 
   request.fields['model'] = 'whisper-1';
 
-  var response = await request.send();
+  var streamedResponse = await request.send();
+  var response = await http.Response.fromStream(streamedResponse);
+  print(response.body);
 
   if (response.statusCode == 200) {
-    textController.text = 'Transcription successful!';
+    jsonDecode(response.body)['text'];
+      // Étape 1 : Décoder le JSON
+    Map<String, dynamic> data = jsonDecode(response.body);
+
+    // Étape 2 : Encoder la string en latin1
+    List<int> latin1Bytes = latin1.encode(data['text']);
+
+    // Étape 3 : Décoder la liste d'octets en UTF-8
+    textController.text = utf8.decode(latin1Bytes);
 } else {
     textController.text = 'Failed to transcribe audio';
   }

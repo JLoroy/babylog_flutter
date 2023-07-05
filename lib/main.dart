@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:babylog/timeline.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:record/record.dart';
@@ -225,6 +226,8 @@ class BabylogApp extends StatefulWidget {
 class _BabylogAppState extends State<BabylogApp> {
   bool showPlayer = false;
   String? audioPath;
+  final _textController = TextEditingController();
+  
 
   @override
   void initState() {
@@ -232,30 +235,49 @@ class _BabylogAppState extends State<BabylogApp> {
     super.initState();
   }
 
+  
   @override
   Widget build(BuildContext context) {
+    _textController.text = "Ce matin, Basile a bu 50ml et a fait un petit vomi";
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: showPlayer
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: AudioPlayer(
-                    source: audioPath!,
-                    onDelete: () {
-                      setState(() => showPlayer = false);
-                    },
-                  ),
-                )
-              : AudioRecorder(
-                  onStop: (path) {
-                    if (kDebugMode) print('Recorded file path: $path');
-                    setState(() {
-                      audioPath = path;
-                      showPlayer = true;
-                    });
-                  },
+        body: SizedBox(
+          height: 500,
+          child: Column( 
+            children: [
+              TextField(
+                controller: _textController,
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+              ),
+              SizedBox(
+                height:200,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: showPlayer
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: AudioPlayer(
+                            source: audioPath!,
+                            onDelete: () {
+                              setState(() => showPlayer = false);
+                            },
+                          ),
+                        )
+                      : AudioRecorder(
+                          onStop: (path) {
+                            if (kDebugMode) print('Recorded file path: $path');
+                            transcribeAudio(path, _textController);
+                            setState(() {
+                              audioPath = path;
+                              showPlayer = true;
+                            });
+                          },
+                        ),
                 ),
+              ),
+              SizedBox(height:200,child: BabyTimeline())
+            ]
+          ),
         ),
       ),
     );
