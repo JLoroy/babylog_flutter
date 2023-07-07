@@ -13,6 +13,10 @@ class TopBar extends StatelessWidget {
           height: 50
         ),
         Container(
+          decoration: BoxDecoration(
+            color:Color(0xFFFCF7F3),
+            boxShadow: [BoxShadow(blurRadius: 20, offset:Offset(0, 15) ,color: Color(0xFFFCF7F3))],
+          ),
           height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

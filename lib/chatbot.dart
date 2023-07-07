@@ -78,12 +78,12 @@ Future callGpt(String userInput) async {
   }
 }
 
-void interpret(String userInput, TextEditingController textController) async {
+void interpret(String userInput, Function(String) _changeText) async {
   var replyContent = await callGpt(userInput);
   var funcArg = replyContent['function_call']['arguments'];
   print(funcArg);
   var func = json.decode(funcArg);
   var text = logEvent(func['events']);
   print(text);
-  textController.text = text;
+  _changeText(text);
 }

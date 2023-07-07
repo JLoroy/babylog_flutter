@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'chatbot.dart';
 
 String openAIKey = Platform.environment['OPENAI_API_KEY'] ?? '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';
-Future<void> transcribeAudio(String filename, TextEditingController textController) async {
+Future<void> transcribeAudio(String filename, Function(String) _changeText) async {
   var request = httpeuh.MultipartRequest(
     'POST', 
     Uri.parse('https://api.openai.com/v1/audio/transcriptions')
@@ -26,6 +26,7 @@ Future<void> transcribeAudio(String filename, TextEditingController textControll
 
   request.fields['model'] = 'whisper-1';
 
+  _changeText("sent for transcription");
   var streamedResponse = await request.send();
   var response = await httpeuh.Response.fromStream(streamedResponse);
   print(response.body);
@@ -40,9 +41,9 @@ Future<void> transcribeAudio(String filename, TextEditingController textControll
 
     // Étape 3 : Décoder la liste d'octets en UTF-8
     var userText = utf8.decode(latin1Bytes);
-    textController.text = userText;
-    interpret(userText, textController);
+    _changeText(userText);
+    interpret(userText, _changeText);
 } else {
-    textController.text = 'Failed to transcribe audio';
+    _changeText('Failed to transcribe audio');
   }
 }

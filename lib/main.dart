@@ -15,8 +15,14 @@ void main() async {
   
   await Hive.initFlutter();
   var box = await Hive.openBox('babylogBox');
-  box.put(1688616763,["bebe a bu 120ml"]);
+  box.put(1688616763,["biberon de 120ml\nfer (4 gouttes)\nanti-cholique"]);
   box.put(1688620363,["bebe a fait caca"]);
+  box.put(1688623763,["biberon 120ml\npas de rot"]);
+  box.put(1688626363,["caca\ntemperature 36.6°"]);
+  box.put(1688630763,["biberon 120ml"]);
+  box.put(1688633363,["bebe a fait caca"]);
+  box.put(1688638763,["bebe a bu 120ml"]);
+  box.put(1688642363,["bebe a fait caca"]);
   
   // Dart uses for-in loop, not for loop like Python
   for (var val in box.values) {
@@ -112,10 +118,10 @@ class _AudioRecorderState extends State<AudioRecorder> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 _buildRecordStopControl(),
-                const SizedBox(width: 20),
-                _buildPauseResumeControl(),
-                const SizedBox(width: 20),
-                _buildText(),
+                //const SizedBox(width: 20),
+                //_buildPauseResumeControl(),
+                //const SizedBox(width: 20),
+                //_buildText(),
               ],
             )
           ],
@@ -140,8 +146,10 @@ class _AudioRecorderState extends State<AudioRecorder> {
       color = Colors.red.withOpacity(0.1);
     } else {
       final theme = Theme.of(context);
-      icon = Icon(Icons.mic, color: theme.primaryColor, size: 30);
-      color = theme.primaryColor.withOpacity(0.1);
+      // icon = Icon(Icons.mic, color: theme.primaryColor, size: 30);
+      // color = theme.primaryColor.withOpacity(0.1);
+      icon = Icon(Icons.mic, color: Color.fromARGB(255, 246, 124, 124), size: 30);
+      color = Color(0xFFFCF7F3);
     }
 
     return ClipOval(
@@ -233,7 +241,8 @@ class BabylogApp extends StatefulWidget {
 class _BabylogAppState extends State<BabylogApp> {
   bool showPlayer = false;
   String? audioPath;
-  final _textController = TextEditingController();
+
+  String _descriptionText = 'Initial Text';
   
 
   @override
@@ -242,10 +251,16 @@ class _BabylogAppState extends State<BabylogApp> {
     super.initState();
   }
 
+  void _changeText(String t) {
+    setState(() {
+      _descriptionText = t;
+    });
+  }
+
   
   @override
   Widget build(BuildContext context) {
-    _textController.text = "Ce matin, Basile a bu 50ml et a fait un petit vomi";
+    _changeText("");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Babylog',
@@ -253,48 +268,80 @@ class _BabylogAppState extends State<BabylogApp> {
         backgroundColor: Color(0xFFFCF7F3),
         body: Stack(
           children: [
-            TopBar(),
             Positioned(
               top:100,
               left:0,
               right:0,
               child: Container(height:500,child: BabyTimeline())
             ),
+            TopBar(),
             Positioned(
               left:0,
               right:0,
               bottom:0,
               child: Container(
-                height: 180,
+                height: 130,
+                decoration: BoxDecoration(
+                  color:Color(0xFFFFD55C),
+                  borderRadius: BorderRadius.only(topRight:Radius.circular(50)),
+                  boxShadow: [BoxShadow(blurRadius: 10, offset:Offset(0, -5) ,color: Color.fromARGB(89, 195, 168, 146))],
+                ),
                 child: Column(
                   children: [ 
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: _textController,
-                        decoration: const InputDecoration(border: OutlineInputBorder()),
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.fromLTRB(10, 2, 2, 2),
+                            height:80,
+                            width:250,
+                            decoration:BoxDecoration(color:Colors.white, borderRadius: BorderRadius.circular(10)),
+                            child: SingleChildScrollView (
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.grey, 
+                                      fontSize: 11
+                                    ),
+                                    _descriptionText,
+                                  ),
+                                ]
+                              ),
+                            )
+                          ), 
+                          Container(
+                            height:80,
+                            width:100,
+                            child: showPlayer
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 35),
+                                child: AudioPlayer(
+                                  source: audioPath!,
+                                  onDelete: () {
+                                    setState(() => showPlayer = false);
+                                  },
+                                ),
+                              )
+                             : AudioRecorder(
+                                onStop: (path) {
+                                  if (kDebugMode) print('Recorded file path: $path');
+                                  transcribeAudio(path, _changeText);
+                                  setState(() {
+                                    audioPath = path;
+                                    showPlayer = true;
+                                  });
+                                },
+                              ),
+                          ) 
+                          
+                        ]
                       ),
                     ),
-                    showPlayer
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25),
-                          child: AudioPlayer(
-                            source: audioPath!,
-                            onDelete: () {
-                              setState(() => showPlayer = false);
-                            },
-                          ),
-                        )
-                      : AudioRecorder(
-                          onStop: (path) {
-                            if (kDebugMode) print('Recorded file path: $path');
-                            transcribeAudio(path, _textController);
-                            setState(() {
-                              audioPath = path;
-                              showPlayer = true;
-                            });
-                          },
-                        ),
                   ]
                 ),
               ),
