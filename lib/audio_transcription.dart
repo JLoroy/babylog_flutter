@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'chatbot.dart';
 
-String openAIKey = Platform.environment['OPENAI_API_KEY'] ?? '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';
+String openAIKey = Platform.environment['OPENAI_API_KEY'] ?? '';
 Future<void> transcribeAudio(String filename, Function(String) _changeText) async {
   var request = httpeuh.MultipartRequest(
     'POST', 

@@ -303,7 +303,7 @@ class _BabylogAppState extends State<BabylogApp> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontStyle: FontStyle.italic,
                                       color: Colors.grey, 
                                       fontSize: 11
