@@ -1,20 +1,24 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as httpeuh;
 import 'package:flutter/material.dart';
 
+import 'chatbot.dart';
+
+String openAIKey = Platform.environment['OPENAI_API_KEY'] ?? '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';
 Future<void> transcribeAudio(String filename, TextEditingController textController) async {
-  var request = http.MultipartRequest(
+  var request = httpeuh.MultipartRequest(
     'POST', 
     Uri.parse('https://api.openai.com/v1/audio/transcriptions')
   );
 
   request.headers.addAll({
-    'Authorization': 'Bearer sk-',
+    'Authorization': 'Bearer '+openAIKey,
   });
 
   request.files.add(
-    await http.MultipartFile.fromPath(
+    await httpeuh.MultipartFile.fromPath(
       'file',
       filename,
     ),
@@ -23,7 +27,7 @@ Future<void> transcribeAudio(String filename, TextEditingController textControll
   request.fields['model'] = 'whisper-1';
 
   var streamedResponse = await request.send();
-  var response = await http.Response.fromStream(streamedResponse);
+  var response = await httpeuh.Response.fromStream(streamedResponse);
   print(response.body);
 
   if (response.statusCode == 200) {
@@ -35,7 +39,9 @@ Future<void> transcribeAudio(String filename, TextEditingController textControll
     List<int> latin1Bytes = latin1.encode(data['text']);
 
     // Étape 3 : Décoder la liste d'octets en UTF-8
-    textController.text = utf8.decode(latin1Bytes);
+    var userText = utf8.decode(latin1Bytes);
+    textController.text = userText;
+    interpret(userText, textController);
 } else {
     textController.text = 'Failed to transcribe audio';
   }

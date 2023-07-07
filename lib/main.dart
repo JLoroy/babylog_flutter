@@ -1,14 +1,30 @@
 import 'dart:async';
 
 import 'package:babylog/timeline.dart';
+import 'package:babylog/topbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:record/record.dart';
 import 'package:babylog/audio_player.dart';
 import 'package:babylog/audio_transcription.dart';
 
-void main() => runApp(const BabylogApp());
 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  await Hive.initFlutter();
+  var box = await Hive.openBox('babylogBox');
+  box.put(1688616763,["bebe a bu 120ml"]);
+  box.put(1688620363,["bebe a fait caca"]);
+  
+  // Dart uses for-in loop, not for loop like Python
+  for (var val in box.values) {
+    print(val);
+  }
+  
+  runApp(const BabylogApp());
+}
 class AudioRecorder extends StatefulWidget {
   final void Function(String path) onStop;
 
@@ -89,9 +105,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Column(
+    return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
@@ -103,16 +117,9 @@ class _AudioRecorderState extends State<AudioRecorder> {
                 const SizedBox(width: 20),
                 _buildText(),
               ],
-            ),
-            if (_amplitude != null) ...[
-              const SizedBox(height: 40),
-              Text('Current: ${_amplitude?.current ?? 0.0}'),
-              Text('Max: ${_amplitude?.max ?? 0.0}'),
-            ],
+            )
           ],
-        ),
-      ),
-    );
+        );
   }
 
   @override
@@ -240,20 +247,35 @@ class _BabylogAppState extends State<BabylogApp> {
   Widget build(BuildContext context) {
     _textController.text = "Ce matin, Basile a bu 50ml et a fait un petit vomi";
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Babylog',
       home: Scaffold(
-        body: SizedBox(
-          height: 500,
-          child: Column( 
-            children: [
-              TextField(
-                controller: _textController,
-                decoration: const InputDecoration(border: OutlineInputBorder()),
-              ),
-              SizedBox(
-                height:200,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: showPlayer
+        backgroundColor: Color(0xFFFCF7F3),
+        body: Stack(
+          children: [
+            TopBar(),
+            Positioned(
+              top:100,
+              left:0,
+              right:0,
+              child: Container(height:500,child: BabyTimeline())
+            ),
+            Positioned(
+              left:0,
+              right:0,
+              bottom:0,
+              child: Container(
+                height: 180,
+                child: Column(
+                  children: [ 
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _textController,
+                        decoration: const InputDecoration(border: OutlineInputBorder()),
+                      ),
+                    ),
+                    showPlayer
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: AudioPlayer(
@@ -273,11 +295,11 @@ class _BabylogAppState extends State<BabylogApp> {
                             });
                           },
                         ),
+                  ]
                 ),
               ),
-              SizedBox(height:200,child: BabyTimeline())
-            ]
-          ),
+            ),
+          ]
         ),
       ),
     );
