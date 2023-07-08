@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>328975985379-hulnd0s42f0hj38t005mivjt5unta8ju.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.328975985379-hulnd0s42f0hj38t005mivjt5unta8ju</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA4E8x5aNMkLWMObra_wXt_puLzuzVizrQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>328975985379</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.babylog</string>
+	<key>PROJECT_ID</key>
+	<string>babylog-flutter</string>
+	<key>STORAGE_BUCKET</key>
+	<string>babylog-flutter.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:328975985379:ios:8995c0af4d0c50b09af3d6</string>
+</dict>
+</plist>

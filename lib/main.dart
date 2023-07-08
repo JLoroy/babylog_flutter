@@ -8,21 +8,29 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:record/record.dart';
 import 'package:babylog/audio_player.dart';
 import 'package:babylog/audio_transcription.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   
   await Hive.initFlutter();
   var box = await Hive.openBox('babylogBox');
-  box.put(1688616763,["biberon de 120ml\nfer (4 gouttes)\nanti-cholique"]);
-  box.put(1688620363,["bebe a fait caca"]);
-  box.put(1688623763,["biberon 120ml\npas de rot"]);
-  box.put(1688626363,["caca\ntemperature 36.6°"]);
-  box.put(1688630763,["biberon 120ml"]);
-  box.put(1688633363,["bebe a fait caca"]);
-  box.put(1688638763,["bebe a bu 120ml"]);
-  box.put(1688642363,["bebe a fait caca"]);
+  box.deleteAll(box.keys);
+  box.put(1688616763,["assets/bottle.svg","biberon de 120ml\nfer (4 gouttes)\nanti-cholique"]);
+  box.put(1688620363,["assets/pampers.svg","bebe a fait caca"]);
+  box.put(1688623763,["assets/bottle.svg","biberon 120ml\npas de rot"]);
+  box.put(1688626363,["assets/pampers.svg","caca\ntemperature 36.6°"]);
+  box.put(1688630763,["assets/bottle.svg","biberon 120ml"]);
+  box.put(1688633363,["assets/baby.svg","bébé fait 3,890kg"]);
+  box.put(1688638763,["assets/bottle.svg","bebe a bu 120ml\nfer (4 gouttes)"]);
   
   // Dart uses for-in loop, not for loop like Python
   for (var val in box.values) {
@@ -257,6 +265,12 @@ class _BabylogAppState extends State<BabylogApp> {
     });
   }
 
+  void resetRecord() {
+    setState(() {
+      showPlayer = false;
+    });
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -272,7 +286,8 @@ class _BabylogAppState extends State<BabylogApp> {
               top:100,
               left:0,
               right:0,
-              child: Container(height:500,child: BabyTimeline())
+              bottom:130,
+              child: Container(child: BabyTimeline())
             ),
             TopBar(),
             Positioned(
@@ -318,14 +333,9 @@ class _BabylogAppState extends State<BabylogApp> {
                             height:80,
                             width:100,
                             child: showPlayer
-                            ? Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 35),
-                                child: AudioPlayer(
-                                  source: audioPath!,
-                                  onDelete: () {
-                                    setState(() => showPlayer = false);
-                                  },
-                                ),
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [CircularProgressIndicator(strokeWidth: 12,color:Color(0xFFFF6B6B))]
                               )
                              : AudioRecorder(
                                 onStop: (path) {

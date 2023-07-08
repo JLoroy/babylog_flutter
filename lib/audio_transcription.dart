@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:http/http.dart' as httpeuh;
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'chatbot.dart';
 
-String openAIKey = Platform.environment['OPENAI_API_KEY'] ?? '';
+String openAIKey = dotenv.env['OPENAI_API_KEY'] ?? '';
+
 Future<void> transcribeAudio(String filename, Function(String) _changeText) async {
   var request = httpeuh.MultipartRequest(
     'POST', 

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "328975985379",
+    "project_id": "babylog-flutter",
+    "storage_bucket": "babylog-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328975985379:android:9b9ab48fd27147b79af3d6",
+        "android_client_info": {
+          "package_name": "com.example.babylog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328975985379-pr8mkiluvddcjhk1m6tcj3rqn0ld2059.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGaauJfG5B4GY6kwuJVTBMlLb-OBJ3250"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328975985379-pr8mkiluvddcjhk1m6tcj3rqn0ld2059.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "328975985379-6vc6nlk5lpe661tn9pr0rd4hc9t6adp2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.babylog.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -126,7 +126,7 @@ class EventCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [BoxShadow(blurRadius: 3, offset:Offset(1, 4) ,color: Color.fromARGB(89, 195, 168, 146))],
+        boxShadow: const [BoxShadow(blurRadius: 3, offset:Offset(1, 4) ,color: Color.fromARGB(89, 195, 168, 146))],
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -143,8 +143,8 @@ class EventCard extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         backgroundColor: Color(0xFFFCF7F3),
-                        radius: 18,
-                        child: SvgPicture.asset("assets/baby-bottle.svg", color:Colors.red, width:24, height:24),
+                        radius: 15,
+                        child: SvgPicture.asset("${entry.value[0]}", color:Colors.red, width:24, height:24),
 
                       ),
                     ),
@@ -164,7 +164,7 @@ class EventCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    '${entry.value[0]}',
+                    '${entry.value[1]}',
                     style: const TextStyle(fontWeight: FontWeight.w200, fontSize: 12)
                   ),
                 ),
