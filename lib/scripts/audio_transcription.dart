@@ -9,7 +9,7 @@ import 'chatbot.dart';
 
 String openAIKey = dotenv.env['OPENAI_API_KEY'] ?? '';
 
-Future<void> transcribeAudio(String filename, Function(String) _changeText) async {
+Future<void> transcribeAudio(String filename, Function(String) _changeText, Function() resetRecord) async {
   var request = httpeuh.MultipartRequest(
     'POST', 
     Uri.parse('https://api.openai.com/v1/audio/transcriptions')
@@ -34,18 +34,14 @@ Future<void> transcribeAudio(String filename, Function(String) _changeText) asyn
   print(response.body);
 
   if (response.statusCode == 200) {
-    jsonDecode(response.body)['text'];
-      // Étape 1 : Décoder le JSON
+    //jsonDecode(response.body)['text'];
     Map<String, dynamic> data = jsonDecode(response.body);
-
-    // Étape 2 : Encoder la string en latin1
     List<int> latin1Bytes = latin1.encode(data['text']);
-
-    // Étape 3 : Décoder la liste d'octets en UTF-8
     var userText = utf8.decode(latin1Bytes);
     _changeText(userText);
-    interpret(userText, _changeText);
+    interpret(userText, _changeText, resetRecord);
 } else {
     _changeText('Failed to transcribe audio');
+    resetRecord();
   }
 }

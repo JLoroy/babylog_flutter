@@ -1,9 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 class TopBar extends StatelessWidget {
   const TopBar({
     super.key,
+    this.auth,
   });
+
+  final FirebaseAuth? auth;
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +47,14 @@ class TopBar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    CircleAvatar(
-                      radius:20,
-                      backgroundImage: Image.asset('assets/avatar.png').image,
-                    )
+                    IconButton(
+                      onPressed: () => signOutFromBabylog(context),
+                      icon: Icon(Icons.logout)
+                    ),
+                    // CircleAvatar(
+                    //   radius:20,
+                    //   backgroundImage: Image.asset('assets/avatar.png').image,test4@gmail.com
+                    // )
                   ]
                 ),
               ),
@@ -54,5 +63,10 @@ class TopBar extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void signOutFromBabylog(BuildContext context) {
+    FirebaseUIAuth.signOut(context: context,auth: auth);
+    Navigator.pushReplacementNamed(context, '/auth');
   }  
 }
