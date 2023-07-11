@@ -1,4 +1,5 @@
 import 'package:babylog/pages/babylogapp.dart';
+import 'package:babylog/pages/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
@@ -27,13 +28,6 @@ class AuthGateApp extends StatelessWidget {
               AuthStateChangeAction<SignedIn>((context, state) {
                 Navigator.pushReplacementNamed(context, '/app');
               }),
-              AuthStateChangeAction<UserCreated>((context, state) {
-                if (false && !state.credential.user!.emailVerified) {
-                  Navigator.pushNamed(context, '/verify-email');//use to configure the assistant at first login
-                } else {
-                  Navigator.pushReplacementNamed(context, '/app');
-                }
-              }),
               ForgotPasswordAction((context, email) {
                 Navigator.pushNamed(
                   context,
@@ -56,6 +50,7 @@ class AuthGateApp extends StatelessWidget {
             headerMaxExtent: 200,
           );
         },
+        '/settings': (context) => SettingsPage(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Babylog',
