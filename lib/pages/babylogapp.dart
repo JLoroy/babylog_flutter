@@ -1,8 +1,9 @@
 
 import 'package:babylog/components/recorder.dart';
-import 'package:babylog/components/timeline.dart';
+import 'package:babylog/components/event_timeline.dart';
 import 'package:babylog/datamodel/babylogassistant.dart';
-import 'package:babylog/pages/settings.dart';
+import 'package:babylog/datamodel/babylogevent.dart';
+import 'package:babylog/pages/settingspage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -14,8 +15,15 @@ import '../scripts/audio_transcription.dart';
 
 class BabylogApp extends StatefulWidget {
   //const BabylogApp({Key? key}) : super(key: key);
-  const BabylogApp({super.key, required this.assistant});
-  final BabylogAssistant? assistant;
+  const BabylogApp({
+    super.key, 
+    required this.assistant,
+    required this.saveAssistant,
+    required this.backToAuth,
+  });
+  final Function() backToAuth;
+  final BabylogAssistant assistant;
+  final Function saveAssistant;
 
   @override
   State<BabylogApp> createState() => _BabylogAppState(); 
@@ -31,9 +39,11 @@ class _BabylogAppState extends State<BabylogApp> {
     return _auth ?? FirebaseAuth.instance;
   }
 
-  BabylogAssistant? currentAssistant;
-
   String _descriptionText = '';
+
+  BabylogAssistant currentAssistant = anonAssistant();
+
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -41,14 +51,18 @@ class _BabylogAppState extends State<BabylogApp> {
     super.initState();
     showPlayer = false;
     currentAssistant = widget.assistant;
-    if (currentAssistant == null || currentAssistant!.name != null){
-      print("WHERE IS HE?");
-    }
   }
 
   void _changeText(String t) {
     setState(() {
       _descriptionText = t;
+    });
+  }
+
+  void onSaveAssistant(BabylogAssistant newAssistant){
+    widget.saveAssistant(newAssistant);
+    setState(() {
+      currentAssistant = newAssistant;
     });
   }
 
@@ -60,9 +74,9 @@ class _BabylogAppState extends State<BabylogApp> {
   
   void signOutFromBabylog(BuildContext context) {
     FirebaseUIAuth.signOut(context: context, auth: auth);
+    widget.backToAuth();
     //bye
   }
-
 
   
   @override
@@ -79,7 +93,7 @@ class _BabylogAppState extends State<BabylogApp> {
               left:0,
               right:0,
               bottom:130,
-              child: Container(child: BabyTimeline())
+              child: Container(child: Timeline(assistant: currentAssistant))
             ),
             Column(
               children: [
@@ -118,7 +132,7 @@ class _BabylogAppState extends State<BabylogApp> {
                               itemBuilder: (context) => [
                                 PopupMenuItem(
                                   value: 1,
-                                  child: Text("Seettings"),
+                                  child: Text("Settings"),
                                 ),
                                 PopupMenuItem(
                                   value: 2,
@@ -128,13 +142,13 @@ class _BabylogAppState extends State<BabylogApp> {
                               onSelected: (value) {
                                 if (value == 1) {
                                   // Navigate to Settings page
-                                  print(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SettingsPage(assistant: currentAssistant),
-                                    ),
-                                  );
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context, 
+                                    builder: (ctx) => SettingsPage(
+                                      currentAssistant: currentAssistant, 
+                                      saveAssistant: onSaveAssistant,)
+                                    );
                                 } else if (value == 2) {
                                   // Sign out
                                   signOutFromBabylog(context);
@@ -204,7 +218,7 @@ class _BabylogAppState extends State<BabylogApp> {
                              : AudioRecorder(
                                 onStop: (path) {
                                   if (kDebugMode) print('Recorded file path: $path');
-                                  transcribeAudio(path, _changeText, resetRecord);
+                                  transcribeAudio(currentAssistant, path, _changeText, resetRecord);
                                   setState(() {
                                     audioPath = path;
                                     showPlayer = true;

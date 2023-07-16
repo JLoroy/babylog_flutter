@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:babylog/datamodel/babylogassistant.dart';
 import 'package:http/http.dart' as httpeuh;
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,7 +10,7 @@ import 'chatbot.dart';
 
 String openAIKey = dotenv.env['OPENAI_API_KEY'] ?? '';
 
-Future<void> transcribeAudio(String filename, Function(String) _changeText, Function() resetRecord) async {
+Future<void> transcribeAudio(BabylogAssistant assistant, String filename, Function(String) _changeText, Function() resetRecord) async {
   var request = httpeuh.MultipartRequest(
     'POST', 
     Uri.parse('https://api.openai.com/v1/audio/transcriptions')
@@ -39,7 +40,7 @@ Future<void> transcribeAudio(String filename, Function(String) _changeText, Func
     List<int> latin1Bytes = latin1.encode(data['text']);
     var userText = utf8.decode(latin1Bytes);
     _changeText(userText);
-    interpret(userText, _changeText, resetRecord);
+    interpret(assistant, userText, _changeText, resetRecord);
 } else {
     _changeText('Failed to transcribe audio');
     resetRecord();

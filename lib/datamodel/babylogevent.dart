@@ -4,7 +4,7 @@ class BabylogEvent {
   final Timestamp? when;
   final String? description;
   final String? by;
-  final DocumentReference? assistant;
+  final String? assistant;
   final String? type;
   final Timestamp? log;
 
@@ -23,7 +23,7 @@ class BabylogEvent {
         when: json['when']! as Timestamp,        
         description: json['description']! as String,
         by: json['by']! as String,
-        assistant: json['assistant']! as DocumentReference,
+        assistant: json['assistant']! as String,
         type: json['type']! as String,
         log: json['log']! as Timestamp
       );

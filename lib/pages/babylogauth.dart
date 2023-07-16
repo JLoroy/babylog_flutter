@@ -1,6 +1,5 @@
 import 'package:babylog/pages/babylogapp.dart';
-import 'package:babylog/pages/homeapp.dart';
-import 'package:babylog/pages/settings.dart';
+import 'package:babylog/pages/assistantManager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +13,10 @@ class AuthGateApp extends StatelessWidget {
       return '/auth';
     }
     return '/app';
+  }
+
+  void backToAuth(context) {
+    Navigator.pushReplacementNamed(context, '/auth');
   }
 
   @override
@@ -38,7 +41,7 @@ class AuthGateApp extends StatelessWidget {
           );
         },
         '/app': (context) => MaterialApp(
-          home: HomeApp(),
+          home: AssistantManager(backToAuth: () => backToAuth(context)),
         ),
         '/forgot-password': (context) {
           final arguments = ModalRoute.of(context)?.settings.arguments

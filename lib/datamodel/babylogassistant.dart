@@ -1,4 +1,28 @@
+import 'package:babylog/datamodel/babylogevent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
+BabylogAssistant defaultAssistant(User user) {
+  return BabylogAssistant(
+      assistantId: "notimportant",
+      name: "Louisa", 
+      language: "fr", 
+      apikey: "key", 
+      users: [user.email!], 
+      promptsettings: {"bottle_ml":"120", "baby_name":"Basile", "medicine":"gaviscon, fer, vitamineD, anticholique"},
+    );
+}
+BabylogAssistant anonAssistant() {
+  return BabylogAssistant(
+      assistantId: "notimportant",
+      name: "Louisa", 
+      language: "fr", 
+      apikey: "key", 
+      users: ["notimportant"], 
+      promptsettings: {"bottle_ml":"120", "baby_name":"Basile", "medicine":"gaviscon, fer, vitamineD, anticholique"},
+    );
+}
 
 class BabylogAssistant {
   final String? assistantId;
@@ -7,6 +31,24 @@ class BabylogAssistant {
   final String? apikey;
   final List<String>? users;
   final Map<String, String>? promptsettings;
+
+  List<BabylogEvent>? _events;
+
+  fetchEvents() async {
+    var eventsQuery = FirebaseFirestore.instance.collection('events')
+      .where("assistant", isEqualTo: "${assistantId}")
+      .orderBy('when')
+      .withConverter<BabylogEvent>(
+        fromFirestore: (snapshot, _) => BabylogEvent.fromJson(snapshot.data()!),
+        toFirestore: (BabylogEvent event, _) => event.toJson(),
+      );
+
+      await eventsQuery.get().then((data) {
+        final List<DocumentSnapshot<BabylogEvent>> documents = data.docs;
+        _events = documents.map((doc) => doc.data()!).toList();
+      });
+
+  }
 
 
   BabylogAssistant({
@@ -27,6 +69,7 @@ class BabylogAssistant {
         users: json['users'] is Iterable ? List.from(json['users']  as Iterable<dynamic>) : null,
         promptsettings: json['promptsettings'] is Map ? Map<String, String>.from(json['promptsettings'] as Map<String, String>) : null,
       );
+
 
 
   Map<String, Object?> toJson() {
@@ -64,5 +107,34 @@ class BabylogAssistant {
       if (promptsettings != null) "promptsettings": promptsettings
     };
   }
+
+  List<BabylogEvent> get events {
+    if (_events == null){
+      fetchEvents();
+      return [];
+    }
+    else {
+      return _events!;
+    }
+  }
+
+  
+  Stream<List<BabylogEvent>> get eventsStream {
+    return FirebaseFirestore.instance.collection('events')
+      .where("assistant", isEqualTo: "${assistantId}")
+      .orderBy('when')
+      .snapshots()
+      .map((snapshot) {
+        return snapshot.docs.map((doc) => BabylogEvent.fromJson(doc.data())).toList();
+      });
+  }
+
+
+  void addEvent(BabylogEvent event){
+    var db = FirebaseFirestore.instance;
+    db.collection('events').add(event.toFirestore());
+    fetchEvents();
+  }
+
 
 }

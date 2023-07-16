@@ -1,16 +1,22 @@
 import 'package:babylog/pages/babylogapp.dart';
-import 'package:babylog/pages/settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../datamodel/babylogassistant.dart';
-class HomeApp extends StatefulWidget {
+
+class AssistantManager extends StatefulWidget {
+  const AssistantManager({
+    super.key, 
+    required this.backToAuth,
+  });
+  final Function() backToAuth;
+
   @override
-  _HomeAppState createState() => _HomeAppState();
+  State<AssistantManager> createState() => _AssistantManagerState();
 }
 
-class _HomeAppState extends State<HomeApp> {
+class _AssistantManagerState extends State<AssistantManager> {
   FirebaseAuth? _auth;
   FirebaseAuth get auth {
     return _auth ?? FirebaseAuth.instance;
@@ -29,7 +35,10 @@ class _HomeAppState extends State<HomeApp> {
 
         // Check if the assistant document actually exists
         if (assistantDoc.exists) {
-          return BabylogAssistant.fromFirestore(assistantDoc, null);
+          var ass =  BabylogAssistant.fromFirestore(assistantDoc, null);
+          await ass.fetchEvents();
+          return ass;
+
         } else {
           // If the assistant document does not exist, create a new one
           return createAssistant(user, userDoc, users);
@@ -64,33 +73,33 @@ class _HomeAppState extends State<HomeApp> {
     return loadOrCreateAssistant(user);
   }
 
+  void saveAssistant(BabylogAssistant newAssistant) async {
+    // Get a reference to the assistant's document in Firestore.
+    DocumentReference assistantRef = FirebaseFirestore.instance.collection('assistants').doc(newAssistant.assistantId);
+    await assistantRef.update(newAssistant.toFirestore());
+    setState(() {
+      print("rebuild assistant manager");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<BabylogAssistant?>(
       future: auth.currentUser != null ? loadOrCreateAssistant(auth.currentUser!) : null,
       builder: (BuildContext context, AsyncSnapshot<BabylogAssistant?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Or any other loading widget
+          return const Scaffold(
+            backgroundColor: Color(0xFFFCF7F3),
+            body: Center(child: CircularProgressIndicator()),
+          ); // Or any other loading widget
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return Navigator(
-            initialRoute: '/',
-            onGenerateRoute: (RouteSettings settings) {
-              WidgetBuilder builder;
-              switch (settings.name) {
-                case '/':
-                  builder = (BuildContext _) => BabylogApp(assistant: snapshot.data); // Your main app page
-                  break;
-                case '/settings':
-                  builder = (BuildContext _) => SettingsPage(assistant: snapshot.data); // Pass the currentAssistant here
-                  break;
-                default:
-                  throw Exception('Invalid route: ${settings.name}');
-              }
-              return MaterialPageRoute(builder: builder, settings: settings);
-            },
-          );
+          return BabylogApp(
+            assistant: snapshot.data!,
+            saveAssistant: saveAssistant,
+            backToAuth: widget.backToAuth
+            );
         }
       },
     );

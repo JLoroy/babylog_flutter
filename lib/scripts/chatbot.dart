@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:babylog/datamodel/babylogassistant.dart';
 import 'package:babylog/datamodel/babylogevent.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,29 +31,28 @@ String systemPrompt = """Ton role est d'extraire les evenements important d'un t
                      - other pour tout autre evenement 
                     """;
 
-String logEvent(List events) {
+String logEvent(BabylogAssistant assistant, List events) {
   String resultText = "";
   for (var event in events) {
     var whenRaw = event['when'];
     var descriptionRaw = event['description'];
     var typeRaw = event['type'];
-    //decode fore utf8
+    //decode for utf8
     var when = DateTime.parse(utf8.decode(latin1.encode(whenRaw)));
     var description = utf8.decode(latin1.encode(descriptionRaw));
     var type = utf8.decode(latin1.encode(typeRaw));
 
     resultText += "${DateFormat('dd/MM HH:mm').format(when)} | {$description}\n";
 
-    var db = FirebaseFirestore.instance;
-    db.collection('events').add(
+    assistant.addEvent(
       BabylogEvent(
         when: Timestamp.fromDate(when),
-        description: "${event['description']}",
+        description: description,
         by: auth.currentUser?.uid != null ? auth.currentUser!.email! : "anonymous",
-        assistant: db.doc('assistants/6BM3kaQ4dO2aQJOVGQAU'),
+        assistant: "${assistant.assistantId}",
         type: type,
         log: Timestamp.fromDate(DateTime.now())
-      ).toFirestore()
+      )
     );
   }
   return resultText;
@@ -119,11 +119,11 @@ Future callGpt(String userInput) async {
   }
 }
 
-void interpret(String userInput, Function(String) _changeText, Function() resetRecord) async {
+void interpret(BabylogAssistant assistant, String userInput, Function(String) _changeText, Function() resetRecord) async {
   var replyContent = await callGpt(userInput);
   var funcArg = replyContent['function_call']['arguments'];
   var func = json.decode(funcArg);
-  var text = logEvent(func['events']);
+  var text = logEvent(assistant, func['events']);
   _changeText(text);
   resetRecord();
 }
