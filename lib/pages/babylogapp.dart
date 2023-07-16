@@ -1,10 +1,11 @@
 
 import 'package:babylog/components/recorder.dart';
 import 'package:babylog/components/timeline.dart';
-import 'package:babylog/components/topbar.dart';
 import 'package:babylog/datamodel/babylogassistant.dart';
+import 'package:babylog/pages/settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 //import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -12,13 +13,16 @@ import 'package:flutter/material.dart';
 import '../scripts/audio_transcription.dart';
 
 class BabylogApp extends StatefulWidget {
-  const BabylogApp({Key? key}) : super(key: key);
+  //const BabylogApp({Key? key}) : super(key: key);
+  const BabylogApp({super.key, required this.assistant});
+  final BabylogAssistant? assistant;
+
   @override
-  State<BabylogApp> createState() => _BabylogAppState();
+  State<BabylogApp> createState() => _BabylogAppState(); 
+
 }
 
 class _BabylogAppState extends State<BabylogApp> {
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   bool showPlayer = false;
   String? audioPath;
 
@@ -33,9 +37,13 @@ class _BabylogAppState extends State<BabylogApp> {
 
   @override
   void initState() {
-    showPlayer = false;
-    _changeText(auth.currentUser?.uid != null ? auth.currentUser!.email! : "anon");
+    print("INITIALIZATION");
     super.initState();
+    showPlayer = false;
+    currentAssistant = widget.assistant;
+    if (currentAssistant == null || currentAssistant!.name != null){
+      print("WHERE IS HE?");
+    }
   }
 
   void _changeText(String t) {
@@ -44,81 +52,22 @@ class _BabylogAppState extends State<BabylogApp> {
     });
   }
 
-
-  void _settings() {
-    navigatorKey.currentState!.pushNamed('/settings');
-  }
-
   void resetRecord() {
     setState(() {
       showPlayer = false;
     });
   }
-
-  void loadOrCreateAssistant(User user) async {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    DocumentSnapshot userDoc = await users.doc(user.uid).get();
-
-    if (userDoc.exists) {
-      Map<String, dynamic>? userData = userDoc.data() as Map<String, dynamic>?;
-      if (userData != null && userData.containsKey('current_assistant')) {
-        // Load assistant if it exists
-        DocumentReference assistantRef = userData['current_assistant'];
-        DocumentSnapshot assistantDoc = await assistantRef.get();
-
-        // Check if the assistant document actually exists
-        if (assistantDoc.exists) {
-          setState(() {
-            currentAssistant = BabylogAssistant.fromFirestore(assistantDoc, null);
-            _changeText(currentAssistant!.name!);
-          });
-        } else {
-          // If the assistant document does not exist, create a new one
-          createAssistant(user, userDoc, users);
-        }
-      } else {
-        // If 'current_assistant' field does not exist in the user document, create a new assistant
-        createAssistant(user, userDoc, users);
-      }
-    } else {
-      // If user document does not exist, create it and a new assistant
-      await users.doc(user.uid).set({'email': user.email});
-      userDoc = await users.doc(user.uid).get();
-      createAssistant(user, userDoc, users);
-    }
+  
+  void signOutFromBabylog(BuildContext context) {
+    FirebaseUIAuth.signOut(context: context, auth: auth);
+    //bye
   }
-
-  void createAssistant(User user, DocumentSnapshot userDoc, CollectionReference users) async {
-    // Create new assistant
-    DocumentReference assistantRef = await FirebaseFirestore.instance.collection('assistants').add(
-      BabylogAssistant(
-        name: "Louisa", 
-        language: "fr", 
-        apikey: "key", 
-        users: [user.email!], 
-        promptsettings: {"bottle_ml":"120", "baby_name":"Basile", "medicine":"gaviscon, fer, vitamineD, anticholique"},
-      ).toFirestore()
-    );
-    // Update user document with new assistant
-    await users.doc(user.uid).update({'current_assistant': assistantRef});
-    // Reload assistant
-    loadOrCreateAssistant(user);
-  }
-
 
 
   
   @override
   Widget build(BuildContext context) {
-    auth.authStateChanges().listen((User? user) {
-      if (user == null) {
-        Navigator.of(context).pushReplacementNamed('/auth');
-      } else {
-        loadOrCreateAssistant(user);
-      }
-    });
     return MaterialApp(
-      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Babylog',
       home: Scaffold(
@@ -132,7 +81,74 @@ class _BabylogAppState extends State<BabylogApp> {
               bottom:130,
               child: Container(child: BabyTimeline())
             ),
-            TopBar(auth: auth, settings: _settings),
+            Column(
+              children: [
+                SizedBox(height: 50),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFCF7F3),
+                    boxShadow: [BoxShadow(blurRadius: 20, offset: Offset(0, 15), color: Color(0xFFFCF7F3))],
+                  ),
+                  height: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              currentAssistant != null && currentAssistant!.name != null ? currentAssistant!.name! : "Louisa",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(fontStyle: FontStyle.normal, fontSize: 24),
+                            ),
+                            Text("Babylog Assistant", style: TextStyle(letterSpacing: 1.5, fontSize: 12)),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            PopupMenuButton<int>(
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                  value: 1,
+                                  child: Text("Seettings"),
+                                ),
+                                PopupMenuItem(
+                                  value: 2,
+                                  child: Text("Sign Out"),
+                                ),
+                              ],
+                              onSelected: (value) {
+                                if (value == 1) {
+                                  // Navigate to Settings page
+                                  print(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SettingsPage(assistant: currentAssistant),
+                                    ),
+                                  );
+                                } else if (value == 2) {
+                                  // Sign out
+                                  signOutFromBabylog(context);
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
             Positioned(
               left:0,
               right:0,

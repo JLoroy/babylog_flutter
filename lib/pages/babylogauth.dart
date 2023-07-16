@@ -1,14 +1,14 @@
 import 'package:babylog/pages/babylogapp.dart';
+import 'package:babylog/pages/homeapp.dart';
 import 'package:babylog/pages/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:flutter/material.dart';
 
 class AuthGateApp extends StatelessWidget {
- const AuthGateApp({super.key});
+  const AuthGateApp({super.key});
 
- String get initialRoute {
+  String get initialRoute {
     final auth = FirebaseAuth.instance;
     if (auth.currentUser == null) {
       return '/auth';
@@ -16,10 +16,9 @@ class AuthGateApp extends StatelessWidget {
     return '/app';
   }
 
- @override
- Widget build(BuildContext context) {
-   //final providers = [EmailAuthProvider()];
-   return MaterialApp(
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       initialRoute: initialRoute,
       routes: {
         '/auth': (context) {
@@ -38,9 +37,9 @@ class AuthGateApp extends StatelessWidget {
             ],
           );
         },
-        '/app': (context) {
-          return BabylogApp();
-        },
+        '/app': (context) => MaterialApp(
+          home: HomeApp(),
+        ),
         '/forgot-password': (context) {
           final arguments = ModalRoute.of(context)?.settings.arguments
               as Map<String, dynamic>?;
@@ -50,10 +49,9 @@ class AuthGateApp extends StatelessWidget {
             headerMaxExtent: 200,
           );
         },
-        '/settings': (context) => SettingsPage(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Babylog',
-   );
+    );
   }
 }

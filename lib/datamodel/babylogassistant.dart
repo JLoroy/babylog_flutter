@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BabylogAssistant {
+  final String? assistantId;
   final String? name;
   final String? language;
   final String? apikey;
@@ -9,6 +10,7 @@ class BabylogAssistant {
 
 
   BabylogAssistant({
+    required this.assistantId,
     required this.name, 
     required this.language,
     required this.apikey,
@@ -18,6 +20,7 @@ class BabylogAssistant {
 
   BabylogAssistant.fromJson(Map<String, Object?> json)
     : this(
+        assistantId: json['id']! as String,
         name: json['name']! as String,        
         language: json['language']! as String,
         apikey: json['apikey']! as String,
@@ -42,6 +45,7 @@ class BabylogAssistant {
   ) {
     final data = snapshot.data() as Map<String, dynamic>?;
     return BabylogAssistant(
+      assistantId: snapshot.id,
       name: data?['name'],
       language: data?['language'],
       apikey: data?['apikey'],
