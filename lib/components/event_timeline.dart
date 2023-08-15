@@ -81,7 +81,7 @@ class Timeline extends StatelessWidget {
                 var formattedDate = displayDateformat.format(DateTime.parse(date));
                 var entriesForDate = entriesByDate[date];
                 var dayEvents = entriesForDate!.map<Widget>((entry) {
-                    return TimelineItem(item: EventCard(event: entry));
+                    return TimelineItem(item: EventCard(assistant:assistant, event: entry));
                   }).toList();
                 dayEvents.insert(0,TimelineItem(item: Text(
                     formattedDate,
@@ -104,9 +104,11 @@ class Timeline extends StatelessWidget {
 class EventCard extends StatelessWidget {
   EventCard({
     super.key,
+    required this.assistant,
     required this.event
   });
 
+  final BabylogAssistant assistant;
   final BabylogEvent event;
 
   @override
@@ -146,7 +148,20 @@ class EventCard extends StatelessWidget {
                       ),
                     ),
                   ],),
-                  const Icon(Icons.more_vert)
+                  PopupMenuButton<int>(
+                    itemBuilder: (context) => [
+                      const PopupMenuItem(
+                        value: 1,
+                        child: Text("Delete"),
+                      ),
+                    ],
+                    onSelected: (value) {
+                      if (value == 1) {
+                        // Delete the event
+                        assistant.deleteEvent(event);
+                      }
+                    },
+                  ),
                 ]
               ),
             Row(
@@ -154,7 +169,7 @@ class EventCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top:5),
                   child: Text(
-                    '${event.description}',
+                    event.description??"",
                     style: const TextStyle(fontWeight: FontWeight.w200, fontSize: 12),
                     overflow: TextOverflow.ellipsis,
 

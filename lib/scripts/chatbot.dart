@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 
@@ -16,9 +15,8 @@ FirebaseAuth get auth {
   return _auth ?? FirebaseAuth.instance;
 }
   
-String openAIKey = dotenv.env['OPENAI_API_KEY'] ?? '';
 String systemPrompt = """Ton role est d'extraire les evenements important d'un texte donne par l'utilisateur. Les evenements peuvent etre du type:
-                    - un bebe a bu du lait. Il est important de savoir combien il a bu. (en ml). Les biberons font 120ml
+                    - un bebe a bu du lait. Il est important de savoir combien il a bu. (en ml). Les biberons font 120ml en general. 
                     - un bebe a fait un caca. 
                     - un bebe a pris un medicament (du fer, du gaviscon, des vitamines D)
 
@@ -46,6 +44,7 @@ String logEvent(BabylogAssistant assistant, List events) {
 
     assistant.addEvent(
       BabylogEvent(
+        ids: [],
         when: Timestamp.fromDate(when),
         description: description,
         by: auth.currentUser?.uid != null ? auth.currentUser!.email! : "anonymous",
@@ -58,7 +57,7 @@ String logEvent(BabylogAssistant assistant, List events) {
   return resultText;
 }
 
-Future callGpt(String userInput) async {
+Future callGpt(String userInput, BabylogAssistant assistant) async {
   var url = Uri.parse('https://api.openai.com/v1/chat/completions');
   var body = json.encode({
     'model': 'gpt-4-0613',
@@ -106,7 +105,7 @@ Future callGpt(String userInput) async {
     url,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $openAIKey',
+      'Authorization': 'Bearer ${assistant.apikey}',
     },
     body: body,
   );
@@ -120,7 +119,7 @@ Future callGpt(String userInput) async {
 }
 
 void interpret(BabylogAssistant assistant, String userInput, Function(String) _changeText, Function() resetRecord) async {
-  var replyContent = await callGpt(userInput);
+  var replyContent = await callGpt(userInput, assistant);
   var funcArg = replyContent['function_call']['arguments'];
   var func = json.decode(funcArg);
   var text = logEvent(assistant, func['events']);

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BabylogEvent {
+  final List<String>? ids;
   final Timestamp? when;
   final String? description;
   final String? by;
@@ -10,6 +11,7 @@ class BabylogEvent {
 
 
   BabylogEvent({
+    required this.ids,
     required this.when, 
     required this.description,
     required this.by,
@@ -18,8 +20,9 @@ class BabylogEvent {
     required this.log,
     });
 
-  BabylogEvent.fromJson(Map<String, Object?> json)
+  BabylogEvent.fromJson(String id, Map<String, Object?> json)
     : this(
+        ids: [id],
         when: json['when']! as Timestamp,        
         description: json['description']! as String,
         by: json['by']! as String,
@@ -46,6 +49,7 @@ class BabylogEvent {
   ) {
     final data = snapshot.data();
     return BabylogEvent(
+      ids: [snapshot.id],
       when: data?['when'],
       description: data?['description'],
       by: data?['by'],
@@ -74,6 +78,8 @@ class BabylogEvent {
     events.sort((a, b) => b.log!.compareTo(a.log!));  // Sort by log, latest first
 
     return BabylogEvent(
+      //append the list of ids
+      ids: events.map((e) => e.ids!).expand((i) => i).toList(),
       when: events.first.when,
       description: events.map((e) => e.description!).join('\n'),
       by: events.first.by,

@@ -3,12 +3,9 @@ import 'dart:io';
 
 import 'package:babylog/datamodel/babylogassistant.dart';
 import 'package:http/http.dart' as httpeuh;
-import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'chatbot.dart';
 
-String openAIKey = dotenv.env['OPENAI_API_KEY'] ?? '';
 
 Future<void> transcribeAudio(BabylogAssistant assistant, String filename, Function(String) _changeText, Function() resetRecord) async {
   var request = httpeuh.MultipartRequest(
@@ -17,7 +14,7 @@ Future<void> transcribeAudio(BabylogAssistant assistant, String filename, Functi
   );
 
   request.headers.addAll({
-    'Authorization': 'Bearer '+openAIKey,
+    'Authorization': 'Bearer ${assistant.apikey}',
   });
 
   request.files.add(

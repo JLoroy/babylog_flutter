@@ -32,14 +32,14 @@ class _SettingsPageState extends State<SettingsPage> {
           children: <Widget>[
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Assistant's Name",
               ),
             ),
             TextField(
               obscureText: true,
               controller: _apikeyController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "OpenAI API key",
               ),
             ),

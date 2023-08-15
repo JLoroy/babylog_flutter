@@ -39,7 +39,7 @@ class BabylogAssistant {
       .where("assistant", isEqualTo: "${assistantId}")
       .orderBy('when')
       .withConverter<BabylogEvent>(
-        fromFirestore: (snapshot, _) => BabylogEvent.fromJson(snapshot.data()!),
+        fromFirestore: (snapshot, _) => BabylogEvent.fromJson(snapshot.id, snapshot.data()!),
         toFirestore: (BabylogEvent event, _) => event.toJson(),
       );
 
@@ -125,14 +125,24 @@ class BabylogAssistant {
       .orderBy('when')
       .snapshots()
       .map((snapshot) {
-        return snapshot.docs.map((doc) => BabylogEvent.fromJson(doc.data())).toList();
+        return snapshot.docs.map((doc) => BabylogEvent.fromJson(doc.id, doc.data())).toList();
       });
   }
 
-
+  // add an event to the assistant
   void addEvent(BabylogEvent event){
     var db = FirebaseFirestore.instance;
     db.collection('events').add(event.toFirestore());
+    fetchEvents();
+  }
+
+  // delete an event from the assistant
+  void deleteEvent(BabylogEvent event){
+    var db = FirebaseFirestore.instance;
+    //delete all events with id from event.ids
+    event.ids!.forEach((id) {
+      db.collection('events').doc(id).delete();
+    });
     fetchEvents();
   }
 
