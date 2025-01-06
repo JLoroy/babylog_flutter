@@ -8,7 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
+class Event {
+  final DateTime when;
+  final String description;
+  final String type;
 
+  Event({required this.when, required this.description, required this.type});
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      when: DateTime.parse(json['when']),
+      description: json['description'],
+      type: json['type'],
+    );
+  }
+}
 
 FirebaseAuth? _auth;
 FirebaseAuth get auth {
@@ -29,27 +43,24 @@ String systemPrompt = """Ton role est d'extraire les evenements important d'un t
                      - other pour tout autre evenement 
                     """;
 
-String logEvent(BabylogAssistant assistant, List events) {
+String logEvent(BabylogAssistant assistant, List<Event> events) {
   String resultText = "";
   for (var event in events) {
-    var whenRaw = event['when'];
-    var descriptionRaw = event['description'];
-    var typeRaw = event['type'];
     //decode for utf8
-    var when = DateTime.parse(utf8.decode(latin1.encode(whenRaw)));
-    var description = utf8.decode(latin1.encode(descriptionRaw));
-    var type = utf8.decode(latin1.encode(typeRaw));
+    //var when = DateTime.parse(utf8.decode(latin1.encode(event.)));
+    //var description = utf8.decode(latin1.encode(descriptionRaw));
+    //var type = utf8.decode(latin1.encode(typeRaw));
 
-    resultText += "${DateFormat('dd/MM HH:mm').format(when)} | {$description}\n";
+    resultText += "${DateFormat('dd/MM HH:mm').format(event.when)} | ${event.description}\n";
 
     assistant.addEvent(
       BabylogEvent(
         ids: [],
-        when: Timestamp.fromDate(when),
-        description: description,
+        when: Timestamp.fromDate(event.when),
+        description: event.description,
         by: auth.currentUser?.uid != null ? auth.currentUser!.email! : "anonymous",
         assistant: "${assistant.assistantId}",
-        type: type,
+        type: event.type,
         log: Timestamp.fromDate(DateTime.now())
       )
     );
@@ -57,9 +68,9 @@ String logEvent(BabylogAssistant assistant, List events) {
   return resultText;
 }
 
-Future callGpt(String userInput, BabylogAssistant assistant) async {
-  var url = Uri.parse('https://api.openai.com/v1/chat/completions');
-  var body = json.encode({
+Future<List<Event>> getEventsFromText(String userInput, BabylogAssistant assistant) async {
+  final url = Uri.parse('https://api.openai.com/v1/chat/completions');
+  final body = json.encode({
     'model': 'gpt-4o-mini',
     'messages': [
       {'role': 'system', 'content': systemPrompt},
@@ -93,7 +104,8 @@ Future callGpt(String userInput, BabylogAssistant assistant) async {
       }
     }
   });
-  var response = await http.post(
+
+  final response = await http.post(
     url,
     headers: {
       'Content-Type': 'application/json',
@@ -103,19 +115,37 @@ Future callGpt(String userInput, BabylogAssistant assistant) async {
   );
 
   if (response.statusCode == 200) {
-    return json.decode(response.body)['choices'][0]['message'];
+    final responseBody = json.decode(response.body);
+    if (responseBody['choices'] != null && responseBody['choices'].isNotEmpty) {
+      final replyContent = responseBody['choices'][0]['message'];
+      if (replyContent != null && replyContent.containsKey('content')) {
+        final content = json.decode(replyContent['content']);
+        if (content.containsKey('events')) {
+          return (content['events'] as List)
+              .map((event) => Event.fromJson(event))
+              .toList();
+        } else {
+          throw Exception('Response does not contain "events" object.');
+        }
+      } else {
+        throw Exception('Response does not contain "content" object.');
+      }
+    } else {
+      throw Exception('Invalid response format from OpenAI.');
+    }
   } else {
-    print('Failed to load data from OpenAI.');
-    throw Exception('Failed to load data');
+    throw Exception('Failed to load data from OpenAI. Status code: ${response.statusCode}');
   }
 }
 
-
 void interpret(BabylogAssistant assistant, String userInput, Function(String) _changeText, Function() resetRecord) async {
-  var replyContent = await callGpt(userInput, assistant);
-  var content = replyContent['content'];
-  var events = json.decode(content);
-  var text = logEvent(assistant, events["events"]);
-  _changeText(text);
-  resetRecord();
+  try {
+    final events = await getEventsFromText(userInput, assistant);
+    final text = logEvent(assistant, events);
+    _changeText(text);
+    resetRecord();
+  } catch (e) {
+    print('Error interpreting response: $e');
+    _changeText('An error occurred while processing your request.');
+  }
 }
