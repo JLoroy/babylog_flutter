@@ -60,7 +60,7 @@ class _AssistantManagerState extends State<AssistantManager> {
     DocumentReference assistantRef = await FirebaseFirestore.instance.collection('assistants').add(
       BabylogAssistant(
         assistantId: "notimportant",
-        name: "Louisa", 
+        name: "Baby", 
         language: "fr", 
         apikey: "key", 
         users: [user.email!], 
@@ -77,9 +77,7 @@ class _AssistantManagerState extends State<AssistantManager> {
     // Get a reference to the assistant's document in Firestore.
     DocumentReference assistantRef = FirebaseFirestore.instance.collection('assistants').doc(newAssistant.assistantId);
     await assistantRef.update(newAssistant.toFirestore());
-    setState(() {
-      print("rebuild assistant manager");
-    });
+    setState(() {});
   }
 
   @override

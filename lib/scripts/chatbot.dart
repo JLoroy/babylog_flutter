@@ -60,46 +60,38 @@ String logEvent(BabylogAssistant assistant, List events) {
 Future callGpt(String userInput, BabylogAssistant assistant) async {
   var url = Uri.parse('https://api.openai.com/v1/chat/completions');
   var body = json.encode({
-    'model': 'gpt-4-0613',
+    'model': 'gpt-4o-mini',
     'messages': [
       {'role': 'system', 'content': systemPrompt},
       {'role': 'user', 'content': userInput}
     ],
-    'functions': [
-      {
-        'name': 'log_event',
-        'description':
-            'enregistrer les evenements importants d\'un texte donne par l\'utilisateur',
-        'parameters': {
+    'response_format': {
+      'type': 'json_schema',
+      'json_schema': {
+        'name': 'log_event_response',
+        'strict': true,
+        'schema': {
           'type': 'object',
           'properties': {
             'events': {
               'type': 'array',
-              'description': 'la liste des evenements',
               'items': {
                 'type': 'object',
                 'properties': {
-                  'when': {
-                    'type': 'string',
-                    'description':
-                        'quand l\'evenement est arrive en format YYYY-MM-DD HH:mm:SS cela peut etre approximatif'
-                  },
-                  'description': {
-                    'type': 'string',
-                    'description': 'description de l evenement'
-                  },
-                  'type': {
-                    'type': 'string',
-                    'description': 'doit etre bottle, medecine, parameter, hygiene ou other'
-                  }
-                }
+                  'when': {'type': 'string'},
+                  'description': {'type': 'string'},
+                  'type': {'type': 'string'}
+                },
+                'required': ['when', 'description', 'type'],
+                'additionalProperties': false
               }
             }
-          }
+          },
+          'required': ['events'],
+          'additionalProperties': false
         }
       }
-    ],
-    'function_call': 'auto',
+    }
   });
   var response = await http.post(
     url,
@@ -118,11 +110,12 @@ Future callGpt(String userInput, BabylogAssistant assistant) async {
   }
 }
 
+
 void interpret(BabylogAssistant assistant, String userInput, Function(String) _changeText, Function() resetRecord) async {
   var replyContent = await callGpt(userInput, assistant);
-  var funcArg = replyContent['function_call']['arguments'];
-  var func = json.decode(funcArg);
-  var text = logEvent(assistant, func['events']);
+  var content = replyContent['content'];
+  var events = json.decode(content);
+  var text = logEvent(assistant, events["events"]);
   _changeText(text);
   resetRecord();
 }
