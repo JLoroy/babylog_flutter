@@ -27,6 +27,10 @@ class AuthGateApp extends StatelessWidget {
         '/auth': (context) {
           return SignInScreen(
             actions: [
+              AuthStateChangeAction<UserCreated>((context, state) {
+                // If someone just created an account, also go to '/app'.
+                Navigator.pushReplacementNamed(context, '/app');
+              }),
               AuthStateChangeAction<SignedIn>((context, state) {
                 Navigator.pushReplacementNamed(context, '/app');
               }),
@@ -40,9 +44,7 @@ class AuthGateApp extends StatelessWidget {
             ],
           );
         },
-        '/app': (context) => MaterialApp(
-          home: AssistantManager(backToAuth: () => backToAuth(context)),
-        ),
+        '/app': (context) => AssistantManager(backToAuth: () => backToAuth(context)),
         '/forgot-password': (context) {
           final arguments = ModalRoute.of(context)?.settings.arguments
               as Map<String, dynamic>?;
