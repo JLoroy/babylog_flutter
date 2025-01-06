@@ -27,7 +27,6 @@ class Timeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return StreamBuilder<List<BabylogEvent>>(
       stream: assistant.eventsStream,
       builder: (BuildContext context, AsyncSnapshot<List<BabylogEvent>> snapshot) {
@@ -39,64 +38,80 @@ class Timeline extends StatelessWidget {
           return Text("Loading...");
         }
 
-        // This is your list of events.
         var events = snapshot.data;
 
-        if (events == null){
+        if (events == null) {
           events = [];
         }
 
-        // Now use this events variable instead of assistant.events in your code.
-         if(events.isNotEmpty){
-            List<BabylogEvent> mergedEntries = [];
-            events.sort((a, b) => a.when!.compareTo(b.when!));  // Sort by 'when'
-            List<BabylogEvent> currentBatch = [];
-            for (var entry in events) {
-              if (currentBatch.isEmpty || entry.when == currentBatch.first.when) {
-                // If the current batch is empty, or this entry has the same 'when' as the current batch, add it to the batch
-                currentBatch.add(entry);
-              } else {
-                // Otherwise, merge the current batch and start a new one
-                mergedEntries.add(BabylogEvent.merge(currentBatch));
-                currentBatch = [entry];
-              }
-            }
-            // Don't forget to merge the last batch
-            if (currentBatch.isNotEmpty) {
+        if (events.isNotEmpty) {
+          List<BabylogEvent> mergedEntries = [];
+          events.sort((a, b) => a.when!.compareTo(b.when!));  // Sort by 'when'
+          List<BabylogEvent> currentBatch = [];
+          for (var entry in events) {
+            if (currentBatch.isEmpty || entry.when == currentBatch.first.when) {
+              currentBatch.add(entry);
+            } else {
               mergedEntries.add(BabylogEvent.merge(currentBatch));
+              currentBatch = [entry];
             }
-
-
-            var entriesByDate = <String, List<BabylogEvent>>{};
-            for (var entry in mergedEntries) {
-              var dateString = DateFormat('yyyy-MM-dd').format(entry.when!.toDate());
-              entriesByDate.putIfAbsent(dateString, () => []).add(entry);
-            }
-            var timeline = ListView.builder(
-              controller: _scrollController,
-              itemCount: entriesByDate.keys.length,
-              itemBuilder: (context, index) {
-                var date = entriesByDate.keys.elementAt(index);
-                var displayDateformat = DateFormat('EEEE d MMMM');
-                var formattedDate = displayDateformat.format(DateTime.parse(date));
-                var entriesForDate = entriesByDate[date];
-                var dayEvents = entriesForDate!.map<Widget>((entry) {
-                    return TimelineItem(item: EventCard(assistant:assistant, event: entry));
-                  }).toList();
-                dayEvents.insert(0,TimelineItem(item: Text(
-                    formattedDate,
-                    style: TextStyle(fontSize: 18, color: Color(0xFFFF6B6B)),
-                    )));
-                return Column(children: dayEvents);
-              },
-            );
-            WidgetsBinding.instance.addPostFrameCallback((_) => _runsAfterBuild());
-            return timeline;
           }
-          else {
-            return Text("nothing yet");
+          if (currentBatch.isNotEmpty) {
+            mergedEntries.add(BabylogEvent.merge(currentBatch));
           }
-      }
+
+          var entriesByDate = <String, List<BabylogEvent>>{};
+          for (var entry in mergedEntries) {
+            var dateString = DateFormat('yyyy-MM-dd').format(entry.when!.toDate());
+            entriesByDate.putIfAbsent(dateString, () => []).add(entry);
+          }
+          var timeline = ListView.builder(
+            controller: _scrollController,
+            itemCount: entriesByDate.keys.length,
+            itemBuilder: (context, index) {
+              var date = entriesByDate.keys.elementAt(index);
+              var displayDateformat = DateFormat('EEEE d MMMM');
+              var formattedDate = displayDateformat.format(DateTime.parse(date));
+              var entriesForDate = entriesByDate[date];
+              var dayEvents = entriesForDate!.map<Widget>((entry) {
+                return TimelineItem(item: EventCard(assistant: assistant, event: entry));
+              }).toList();
+              dayEvents.insert(0, TimelineItem(item: Text(
+                formattedDate,
+                style: TextStyle(fontSize: 18, color: Color(0xFFFF6B6B)),
+              )));
+              return Column(children: dayEvents);
+            },
+          );
+          WidgetsBinding.instance.addPostFrameCallback((_) => _runsAfterBuild());
+          return timeline;
+        } else {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Welcome!",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blueAccent),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Log your first event with the record button below",
+                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 5),
+                Text(
+                  "or enter your preferences in the settings.",
+                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          );
+        }
+      },
     );
   }
 }
