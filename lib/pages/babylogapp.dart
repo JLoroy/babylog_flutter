@@ -19,11 +19,13 @@ class BabylogApp extends StatefulWidget {
     super.key, 
     required this.assistant,
     required this.saveAssistant,
+    required this.joinAssistant,
     required this.backToAuth,
   });
   final Function() backToAuth;
   final BabylogAssistant assistant;
   final Function saveAssistant;
+  final Function joinAssistant;
 
   @override
   State<BabylogApp> createState() => _BabylogAppState(); 
@@ -64,6 +66,10 @@ class _BabylogAppState extends State<BabylogApp> {
     setState(() {
       currentAssistant = newAssistant;
     });
+  }
+
+  void onJoinAssistant(String newAssistantId){
+    widget.joinAssistant(newAssistantId);
   }
 
   void resetRecord() {
@@ -147,7 +153,9 @@ class _BabylogAppState extends State<BabylogApp> {
                                     context: context, 
                                     builder: (ctx) => SettingsPage(
                                       currentAssistant: currentAssistant, 
-                                      saveAssistant: onSaveAssistant,)
+                                      saveAssistant: onSaveAssistant,
+                                      joinAssistant: onJoinAssistant,
+                                      )
                                     );
                                 } else if (value == 2) {
                                   // Sign out
