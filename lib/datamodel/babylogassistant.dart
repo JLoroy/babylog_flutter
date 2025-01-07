@@ -146,5 +146,16 @@ class BabylogAssistant {
     fetchEvents();
   }
 
+  //delete all events
+  void deleteAllEvents(){
+    var db = FirebaseFirestore.instance;
+    events.forEach((event) {
+      event.ids!.forEach((id) {
+        db.collection('events').doc(id).delete();
+      });
+    });
+    fetchEvents();
+  }
+
 
 }

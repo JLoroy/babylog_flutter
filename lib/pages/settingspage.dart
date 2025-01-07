@@ -6,12 +6,14 @@ class SettingsPage extends StatefulWidget {
     super.key,
     required this.currentAssistant,
     required this.saveAssistant,
-    required this.joinAssistant, // <-- Confirm we pass in a joinAssistant method
+    required this.joinAssistant, 
+    required this.deleteAccount, 
   });
 
   final BabylogAssistant currentAssistant;
   final Function(BabylogAssistant newAssistant) saveAssistant;
   final Function(String newAssistantId) joinAssistant; 
+  final Function(BuildContext context) deleteAccount; 
   // This method should update your Firestore doc and reset the app as needed.
 
   @override
@@ -32,16 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   // 10 most spoken languages (example list)
   final List<String> _availableLanguages = [
-    'English',
-    'Mandarin',
-    'Hindi',
-    'Spanish',
     'French',
-    'Arabic',
-    'Bengali',
-    'Russian',
-    'Portuguese',
-    'Indonesian',
   ];
 
   // For "Join another assistant" dialog
@@ -313,39 +306,76 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 20),
 
                 // Back and Save Buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    OutlinedButton(
-                      onPressed: () {
-                        // Go back without saving
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text("Back"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Save and close
-                        Navigator.of(context).pop();
-                        widget.saveAssistant(_buildUpdatedAssistant());
-                      },
-                      child: const Text("Save"),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-
-                // assistantId in italic grey at the bottom
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Back"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      widget.saveAssistant(_buildUpdatedAssistant());
+                    },
+                    child: const Text("Save"),
+                  ),
+                ],
+              ),
+const SizedBox(height: 30),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    widget.currentAssistant.assistantId ?? 'No ID',
+                    widget.currentAssistant.assistantId != null 
+                        ? 'Assistant ID: ${widget.currentAssistant.assistantId}' 
+                        : 'No ID',
                     style: const TextStyle(
                       fontStyle: FontStyle.italic,
                       color: Colors.grey,
                     ),
                   ),
                 ),
+              const SizedBox(height: 30),
+
+              // NEW: Delete Account Button
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, // Use your own color if needed
+                ),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (ctx) {
+                      return AlertDialog(
+                        title: const Text("Delete all data?"),
+                        content: const Text(
+                          "Are you sure you want to permanently delete your account? All other users of your assistant will lose all events.",
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(ctx).pop(),
+                            child: const Text("Cancel"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                              widget.deleteAccount(context);
+                            },
+                            child: const Text("Delete Everything"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: const Text("Delete Account"),
+              ),
+
+              
+
+                // assistantId in italic grey at the bottom
               ],
             ),
           ),

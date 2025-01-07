@@ -84,6 +84,11 @@ class _BabylogAppState extends State<BabylogApp> {
     //bye
   }
 
+  void deleteAccount(BuildContext context) {
+    currentAssistant.deleteAllEvents();
+    signOutFromBabylog(context);
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -120,7 +125,7 @@ class _BabylogAppState extends State<BabylogApp> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              currentAssistant != null && currentAssistant!.name != null ? currentAssistant!.name! : "Louisa",
+                              currentAssistant != null && currentAssistant!.name != null ? currentAssistant!.name! : "Baby",
                               textAlign: TextAlign.start,
                               style: TextStyle(fontStyle: FontStyle.normal, fontSize: 24),
                             ),
@@ -155,6 +160,7 @@ class _BabylogAppState extends State<BabylogApp> {
                                       currentAssistant: currentAssistant, 
                                       saveAssistant: onSaveAssistant,
                                       joinAssistant: onJoinAssistant,
+                                      deleteAccount: deleteAccount,
                                       )
                                     );
                                 } else if (value == 2) {
