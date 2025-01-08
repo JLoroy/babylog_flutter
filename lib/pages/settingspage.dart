@@ -203,6 +203,7 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Assistant Settings"),
+          toolbarHeight: 80,
           actions: [
             // Top-right "Join another assistant" button
             TextButton(
