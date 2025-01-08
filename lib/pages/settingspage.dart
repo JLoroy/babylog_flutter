@@ -1,5 +1,6 @@
 import 'package:babylog/datamodel/babylogassistant.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({
@@ -24,6 +25,9 @@ class _SettingsPageState extends State<SettingsPage> {
   final _nameController = TextEditingController();
   final _apikeyController = TextEditingController();
 
+  bool _byok = false;
+  int _usage = 0;
+
   String? _selectedLanguage;
 
   // Users are displayed but cannot be added/removed
@@ -47,6 +51,8 @@ class _SettingsPageState extends State<SettingsPage> {
     // Fill initial TextControllers from currentAssistant
     _nameController.text = widget.currentAssistant.name ?? '';
     _apikeyController.text = widget.currentAssistant.apikey ?? '';
+    _byok = widget.currentAssistant.byok ?? false;
+    _usage = widget.currentAssistant.usage ?? 0;
 
     _selectedLanguage = widget.currentAssistant.language;
     if (_selectedLanguage == null ||
@@ -110,7 +116,9 @@ class _SettingsPageState extends State<SettingsPage> {
       assistantId: widget.currentAssistant.assistantId,
       name: _nameController.text,
       language: _selectedLanguage,
+      byok: _byok,
       apikey: _apikeyController.text,
+      usage: _usage,
       users: updatedUsers,
       promptsettings: updatedPrompts,
     );
@@ -175,6 +183,20 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+
+  // Open the coffee link
+  Future<void> _openCoffeeLink() async {
+    const coffeeUrl = 'https://justin.loroy.be';
+    final uri = Uri.parse(coffeeUrl);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Could not launch $coffeeUrl")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -206,14 +228,45 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 10),
 
-                // API Key
-                TextField(
-                  obscureText: true,
-                  controller: _apikeyController,
-                  decoration: const InputDecoration(
-                    labelText: "OpenAI API Key",
-                  ),
+                SwitchListTile(
+                  title: const Text("Bring your own API key"),
+                  value: _byok,
+                  onChanged: (bool newValue) {
+                    setState(() {
+                      _byok = newValue;
+                    });
+                  },
                 ),
+                const SizedBox(height: 10),
+                // If byok is on -> show the API key text field
+                // If byok is off -> show usage progress bar
+                if (_byok) ...[
+                  TextField(
+                    obscureText: true,
+                    controller: _apikeyController,
+                    decoration: const InputDecoration(
+                      labelText: "OpenAI API Key",
+                    ),
+                  ),
+                ] else ...[
+                  Row(
+                    children: [
+                      Expanded(
+                        child: LinearProgressIndicator(
+                          // usage is from 0 to 100, so we convert usage/100.0
+                          value: _usage.clamp(0, 100) / 100.0,
+                          backgroundColor: Colors.grey.shade300,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text("$_usage left"),
+                    ],
+                  ),
+                ],
+
                 const SizedBox(height: 20),
 
                 // Language dropdown
@@ -339,7 +392,7 @@ const SizedBox(height: 30),
                 ),
               const SizedBox(height: 30),
 
-              // NEW: Delete Account Button
+              
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red, // Use your own color if needed
@@ -373,9 +426,27 @@ const SizedBox(height: 30),
                 child: const Text("Delete Account"),
               ),
 
-              
+                const SizedBox(height: 30),
+
+                // NEW: Pay the developer a coffee button
+                ElevatedButton(
+                  onPressed: _openCoffeeLink,
+                  child: const Text("Pay the developer a coffee"),
+                ),
+
+                const SizedBox(height: 30),
 
                 // assistantId in italic grey at the bottom
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    widget.currentAssistant.assistantId ?? 'No ID',
+                    style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

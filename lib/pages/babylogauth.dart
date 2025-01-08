@@ -28,7 +28,13 @@ class AuthGateApp extends StatelessWidget {
           return SignInScreen(
             actions: [
               AuthStateChangeAction<UserCreated>((context, state) {
-                // If someone just created an account, also go to '/app'.
+                // If someone just created an account, 
+                //first verif  email, then go to '/app'.
+                if (!state.credential.user!.emailVerified) {
+                  state.credential.user!.sendEmailVerification();
+                  return;
+                }
+                //also go to '/app'.
                 Navigator.pushReplacementNamed(context, '/app');
               }),
               AuthStateChangeAction<SignedIn>((context, state) {

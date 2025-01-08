@@ -65,6 +65,10 @@ String logEvent(BabylogAssistant assistant, List<Event> events) {
       )
     );
   }
+  if (assistant.byok == false) {
+    assistant.decrementUsage();
+    print("DECREMENT USAGE");
+  }
   return resultText;
 }
 
@@ -109,13 +113,17 @@ Future<List<Event>> getEventsFromText(String userInput, BabylogAssistant assista
     url,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${assistant.apikey}',
+      'Authorization': 'Bearer ${assistant.byok! ? assistant.apikey : assistant.devapikey}',
     },
     body: body,
   );
 
+  // Force UTF-8 decoding to avoid garbled text
+  final decodedJson = utf8.decode(response.bodyBytes);
+
   if (response.statusCode == 200) {
-    final responseBody = json.decode(response.body);
+    final responseBody = json.decode(decodedJson);
+
     if (responseBody['choices'] != null && responseBody['choices'].isNotEmpty) {
       final replyContent = responseBody['choices'][0]['message'];
       if (replyContent != null && replyContent.containsKey('content')) {
@@ -137,6 +145,7 @@ Future<List<Event>> getEventsFromText(String userInput, BabylogAssistant assista
     throw Exception('Failed to load data from OpenAI. Status code: ${response.statusCode}');
   }
 }
+
 
 void interpret(BabylogAssistant assistant, String userInput, Function(String) _changeText, Function() resetRecord) async {
   try {

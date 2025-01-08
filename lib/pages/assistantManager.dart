@@ -62,7 +62,9 @@ class _AssistantManagerState extends State<AssistantManager> {
         assistantId: "notimportant",
         name: "Baby", 
         language: "fr", 
-        apikey: "key", 
+        byok: false,
+        apikey: "", 
+        usage: 100,
         users: [user.email!], 
         promptsettings: {"bottle_ml":"120", "baby_name":"Basile", "medicine":"gaviscon, fer, vitamineD, anticholique"},
       ).toFirestore()
@@ -130,3 +132,4 @@ class _AssistantManagerState extends State<AssistantManager> {
     );
   }
 }
+
