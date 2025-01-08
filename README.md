@@ -1,6 +1,6 @@
 # Babylog
 
-Babylog is a simple mobile application built using Flutter and Dart. The app allows the user to record their voice and transcribe it into text using OpenAI's API. This app is primarily intended for parents who want to log key moments and milestones in their baby's life.
+Babylog is every parent's dearest comapnion. It is a mobile app that allows you to record your baby events onto a shared timeline, using GenAI to transcribe the audio into events.
 
 ## Installation
 
