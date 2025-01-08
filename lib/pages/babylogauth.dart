@@ -1,5 +1,6 @@
 import 'package:babylog/pages/babylogapp.dart';
 import 'package:babylog/pages/assistantManager.dart';
+import 'package:babylog/pages/verifyScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +10,33 @@ class AuthGateApp extends StatelessWidget {
 
   String get initialRoute {
     final auth = FirebaseAuth.instance;
-    if (auth.currentUser == null) {
+    final user = auth.currentUser;
+    if (user == null) {
       return '/auth';
+    }
+    if (!user.emailVerified) {
+      return '/verify-email';
     }
     return '/app';
   }
 
   void backToAuth(context) {
     Navigator.pushReplacementNamed(context, '/auth');
+  }
+
+  void goToApp(context, user) async {
+    if (user != null) {
+      // Reload the user to ensure we have the most up-to-date info
+      await user.reload();
+      if (!user.emailVerified) {
+        // Option: Send them a verification email again
+        user.sendEmailVerification();
+        Navigator.pushReplacementNamed(context, '/verify-email');
+      } else {
+        // If email is verified, allow them into the app
+        Navigator.pushReplacementNamed(context, '/app');
+      }
+    }
   }
 
   @override
@@ -28,17 +48,10 @@ class AuthGateApp extends StatelessWidget {
           return SignInScreen(
             actions: [
               AuthStateChangeAction<UserCreated>((context, state) {
-                // If someone just created an account, 
-                //first verif  email, then go to '/app'.
-                if (!state.credential.user!.emailVerified) {
-                  state.credential.user!.sendEmailVerification();
-                  return;
-                }
-                //also go to '/app'.
-                Navigator.pushReplacementNamed(context, '/app');
+                goToApp(context, state.credential.user);
               }),
-              AuthStateChangeAction<SignedIn>((context, state) {
-                Navigator.pushReplacementNamed(context, '/app');
+              AuthStateChangeAction<SignedIn>((context, state) async {
+                goToApp(context, state.user);
               }),
               ForgotPasswordAction((context, email) {
                 Navigator.pushNamed(
@@ -60,6 +73,7 @@ class AuthGateApp extends StatelessWidget {
             headerMaxExtent: 200,
           );
         },
+        '/verify-email': (context) => const VerifyEmailScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Babylog',
