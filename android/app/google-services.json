@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:328975985379:android:9b9ab48fd27147b79af3d6",
         "android_client_info": {
-          "package_name": "com.example.babylog"
+          "package_name": "com.eranova.babylog"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "328975985379-6vc6nlk5lpe661tn9pr0rd4hc9t6adp2.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.babylog.RunnerTests"
+                "bundle_id": "com.eranova.babylog.RunnerTests"
               }
             }
           ]

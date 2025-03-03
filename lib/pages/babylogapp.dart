@@ -232,7 +232,7 @@ class _BabylogAppState extends State<BabylogApp> {
                                       )
                                     ],
                                   )
-                                : AudioRecorder(
+                                : AudioRecorderWidget(
                                     onStop: (path) {
                                       if (kDebugMode) print('Recorded file path: $path');
                                       transcribeAudio(currentAssistant, path, _changeText, resetRecord);
