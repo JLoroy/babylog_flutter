@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:record/record.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as pth;
 
 class AudioRecorderWidget extends StatefulWidget {
   final void Function(String path) onStop;
@@ -38,8 +40,9 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
   Future<void> _start() async {
   try {
     if (await _audioRecorder.hasPermission()) {
-      // Create a file path (you may want to generate this dynamically)
-      final String path = 'your/app/directory/recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
+      final dir = await getTemporaryDirectory();
+      final filename = 'babylog_recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
+      final String path = pth.join(dir.path, filename);
       
       await _audioRecorder.start(
         const RecordConfig(

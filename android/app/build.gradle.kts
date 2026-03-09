@@ -10,6 +10,15 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    FileInputStream(keystorePropertiesFile).use { stream ->
+        keystoreProperties.load(stream)
+    }
+}
+
 val flutterRoot = localProperties.getProperty("flutter.sdk") ?: 
     throw GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 
@@ -44,14 +53,31 @@ android {
         disable += "InvalidPackage"
     }
 
+    
     signingConfigs {
         create("release") {
-            storeFile = file("H:/My Drive/Nacho/Admin/AndroidReleaseKeys/eranova_upload.jks")
-            storePassword = System.getenv("ERA_NOVA_ANDROID_STORE_PASSWORD")
-            keyAlias = "upload"
-            keyPassword = System.getenv("ERA_NOVA_ANDROID_STORE_PASSWORD")
+            // Prefer key.properties (android/key.properties) for local/CI portability.
+            // Fallback to env vars when not provided.
+            val storeFilePath = (keystoreProperties["storeFile"] as String?)
+                ?: System.getenv("ERA_NOVA_ANDROID_STORE_FILE")
+            val storePassword = (keystoreProperties["storePassword"] as String?)
+                ?: System.getenv("ERA_NOVA_ANDROID_STORE_PASSWORD")
+            val keyAlias = (keystoreProperties["keyAlias"] as String?)
+                ?: System.getenv("ERA_NOVA_ANDROID_KEY_ALIAS")
+                ?: "upload"
+            val keyPassword = (keystoreProperties["keyPassword"] as String?)
+                ?: System.getenv("ERA_NOVA_ANDROID_KEY_PASSWORD")
+                ?: storePassword
+
+            if (storeFilePath != null) {
+                storeFile = file(storeFilePath)
+            }
+            this.storePassword = storePassword
+            this.keyAlias = keyAlias
+            this.keyPassword = keyPassword
         }
     }
+
 
     defaultConfig {
         applicationId = "com.eranova.babylog"
