@@ -1,6 +1,25 @@
 # STATUS — Babylog
 
-**Last updated:** 2026-02-12
+**Last updated:** 2026-05-05
+
+## Update (2026-05-05)
+
+### Current milestone
+- Merge completed locally: `feature/unbug` is now merged into `main`.
+
+### What changed
+- Created merge commit `4f3cd94` on `main`.
+- Preserved the pre-merge dirty workspace in stash `pre-main-merge dirty workspace backup`.
+- Added `plan.md` so merge and cleanup decisions have a durable place to live.
+
+### Verification
+- `git status` was clean immediately after the merge.
+- `flutter test` could not run because `flutter` is not installed or not on `PATH` in this shell.
+
+### Next steps
+1. Restore or inspect the pre-merge stash only if those local-only files are still needed.
+2. Run Flutter tests once the Flutter SDK is available.
+3. Push local `main` when ready.
 
 ## What this is
 A quick, living snapshot of where the Babylog app is at, what’s risky, and what we’re doing next.
