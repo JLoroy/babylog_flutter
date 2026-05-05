@@ -1,0 +1,6 @@
+# Copy to android/key.properties (ignored) or provide via CI
+storePassword=YOUR_STORE_PASSWORD
+keyPassword=YOUR_KEY_PASSWORD
+keyAlias=upload
+# Path to your keystore file (relative to android/ or absolute)
+storeFile=/path/to/eranova_upload.jks

@@ -1,25 +1,24 @@
-
-
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:record/record.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as pth;
 
-class AudioRecorder extends StatefulWidget {
+class AudioRecorderWidget extends StatefulWidget {
   final void Function(String path) onStop;
 
-  const AudioRecorder({Key? key, required this.onStop}) : super(key: key);
+  const AudioRecorderWidget({Key? key, required this.onStop}) : super(key: key);
 
   @override
-  State<AudioRecorder> createState() => _AudioRecorderState();
+  State<AudioRecorderWidget> createState() => _AudioRecorderState();
 }
 
-class _AudioRecorderState extends State<AudioRecorder> {
+class _AudioRecorderState extends State<AudioRecorderWidget> {
   int _recordDuration = 0;
   Timer? _timer;
-  final _audioRecorder = Record();
+  final _audioRecorder = AudioRecorder();
   StreamSubscription<RecordState>? _recordSub;
   RecordState _recordState = RecordState.stop;
   StreamSubscription<Amplitude>? _amplitudeSub;
@@ -39,30 +38,29 @@ class _AudioRecorderState extends State<AudioRecorder> {
   }
 
   Future<void> _start() async {
-    try {
-      if (await _audioRecorder.hasPermission()) {
-        // We don't do anything with this but printing
-        final isSupported = await _audioRecorder.isEncoderSupported(
-          AudioEncoder.aacLc,
-        );
-        if (kDebugMode) {
-          print('${AudioEncoder.aacLc.name} supported: $isSupported');
-        }
-
-        // final devs = await _audioRecorder.listInputDevices();
-        // final isRecording = await _audioRecorder.isRecording();
-
-        await _audioRecorder.start();
-        _recordDuration = 0;
-
-        _startTimer();
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+  try {
+    if (await _audioRecorder.hasPermission()) {
+      final dir = await getTemporaryDirectory();
+      final filename = 'babylog_recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
+      final String path = pth.join(dir.path, filename);
+      
+      await _audioRecorder.start(
+        const RecordConfig(
+          encoder: AudioEncoder.aacLc,
+          // Add other settings as needed
+        ),
+        path: path
+      );
+      
+      _recordDuration = 0;
+      _startTimer();
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print(e);
     }
   }
+}
 
   Future<void> _stop() async {
     _timer?.cancel();
