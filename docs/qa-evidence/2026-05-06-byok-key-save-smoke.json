@@ -1,0 +1,26 @@
+{
+  "capturedAt": "2026-05-06T08:53:02.687Z",
+  "firebaseProject": "babylog-flutter",
+  "appPackage": "com.eranova.babylog",
+  "appVersion": "1.0.2+3",
+  "reviewer": {
+    "uid": "rsU7yU2TZfPmGUsLw0PXoozLd0C2",
+    "email": "test@era-nova.be",
+    "password": "stored only in .qa-secrets/play-reviewer-account.json, not committed"
+  },
+  "assistantId": "play-reviewer-assistant",
+  "byokInput": "non-secret fake key used only to validate local save/restart storage path",
+  "checks": {
+    "restAuthSignIn": true,
+    "releaseApkByokSave": true,
+    "releaseApkRestartShowsMaskedKey": true,
+    "assistantDocReadableAfterSave": true,
+    "assistantByokEnabledInFirestore": true,
+    "assistantHasNoApikeyFieldInFirestore": true,
+    "assistantStillBelongsToReviewer": true
+  },
+  "screenshots": [
+    "docs/qa-evidence/2026-05-06-release-apk-byok-key-hidden-after-restart.png"
+  ],
+  "remainingGap": "A real limited OpenAI key is still required to validate recording, transcription, and recorder-created event creation."
+}

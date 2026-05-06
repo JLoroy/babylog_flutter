@@ -32,7 +32,7 @@ Not achieved.
 | --- | --- | --- | --- |
 | Track decisions in `plan.md` | `plan.md` contains release decisions through Play metadata/policy CI checks and the Play release runbook. | In progress | Continue updating for every material decision. |
 | Track progress in `STATUS.md` | `STATUS.md` has current milestone, changes, verification, and blockers. | In progress | Continue updating after each work chunk. |
-| Professional release gate | `docs/release-verification.md`, `docs/play-release-runbook.md`, `.github/workflows/flutter-ci.yml`, local tests, and latest green remote run `25424811883` for commit `298e983`. | Passing for current main | Continue keeping remote CI green after each release slice. |
+| Professional release gate | `docs/release-verification.md`, `docs/play-release-runbook.md`, `.github/workflows/flutter-ci.yml`, local tests, and green remote runs including `25424811883` for commit `298e983` and `25425216927` for commit `2bb528a`. | Passing for current main | Continue keeping remote CI green after each release slice. |
 | Flutter formatting | `dart format --set-exit-if-changed lib test` is recorded passing in `STATUS.md`; remote CI run `25422575356` passed formatting. | Passing | Keep enforced in CI. |
 | Flutter analyzer | `flutter analyze --no-fatal-infos` is recorded passing with 84 info-level issues. | Passing locally | Info-level lint debt remains. |
 | Flutter tests | `flutter test` is recorded passing with 10 tests; remote CI run `25422575356` passed tests. | Passing | Expand coverage as release risk changes. |
@@ -63,7 +63,7 @@ Not achieved.
 | Manual QA evidence | `docs/manual-qa-checklist.md` exists, is prefilled with known release artifact/reviewer/public URL details, records local AVD `babylog_api35`, release APK install success, launch screenshot, disposable verified sign-in, timeline screenshot, Firestore smoke JSON, and account deletion smoke JSON/screenshots; `npm run test:manual-qa` passes. | Partially started | BYOK recording, event creation through the recorder, event deletion through the UI, sharing, restart persistence, and final reviewer credentials still require manual evidence. |
 | 1000-user metric plan | `docs/growth-metrics.md` exists; `npm run test:growth` passes. | Paused / metric defined | Actual Play Console/Firebase metric evidence intentionally deferred until after release. |
 | Ads/analytics surface | Firebase Analytics and RTDB Flutter dependencies removed; searches recorded clean in `STATUS.md`. | Improved | Final Play SDK/data disclosure must verify uploaded artifact. |
-| OpenAI key handling | Firestore dev/shared key fallback removed; BYOK local secure storage implemented and tested; first-release decision is BYOK-only direct client calls with backend proxy deferred. | Improved | Manual BYOK key save/restart/recording QA still required. |
+| OpenAI key handling | Firestore dev/shared key fallback removed; BYOK local secure storage implemented and tested; first-release decision is BYOK-only direct client calls with backend proxy deferred. `docs/qa-evidence/2026-05-06-byok-key-save-smoke.json` confirms the release APK saves a non-secret fake key locally, shows it masked after app restart, and Firestore has `byok: true` with no `apikey` field. | Improved and key-save smoke-tested | Real limited OpenAI key recording/transcription and recorder-created event QA still required. |
 | Production availability on Play Store | Signed AAB exists locally, but no Play Console upload evidence or public listing URL exists in this workspace. | Not achieved | Upload the AAB, complete review, and finish production release. |
 | 1000 downloads/users | `docs/growth-metrics.md` defines Play Console installs as primary evidence, but no metric capture exists. | Paused / not achieved | Resume after release and verify at least 1000 Play Console installs/acquisitions. |
 
@@ -86,8 +86,10 @@ Not achieved.
 - Firebase rules are deployed and partially smoke-tested for disposable
   sign-in/user/assistant data, but account deletion, event writes/deletes,
   sharing, and BYOK recording are not fully validated yet.
-- BYOK-only direct OpenAI architecture is the first-release decision, but it
-  still needs real-device/internal-test BYOK recording validation.
+- BYOK-only direct OpenAI architecture is the first-release decision. Local
+  fake-key save/restart/no-Firestore-key evidence exists, but real
+  device/internal-test BYOK recording validation still needs a limited OpenAI
+  key.
 - The 1000-user/download target is paused by user direction; no Play Console or
   Firebase evidence shows 1000 downloads/users yet.
 

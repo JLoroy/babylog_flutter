@@ -58,6 +58,12 @@ Play reviewer access smoke evidence:
 Play reviewer release APK screenshot:
 `docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png`
 
+BYOK key-save/restart smoke evidence:
+`docs/qa-evidence/2026-05-06-byok-key-save-smoke.json`
+
+BYOK key-save/restart screenshot:
+`docs/qa-evidence/2026-05-06-release-apk-byok-key-hidden-after-restart.png`
+
 Local Play screenshot set captured from the same release APK on AVD:
 `docs/play-assets/screenshots/phone-00-sign-in.png`,
 `docs/play-assets/screenshots/phone-01-shared-timeline.png`,
@@ -91,7 +97,7 @@ or a Play internal testing install.
 | Email verification | Complete or bypass only with documented reviewer-ready test account. | Screenshot/note showing verified state. | PASS for disposable imported QA user; email-verified state is recorded in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`. |
 | Assistant creation | Let the app create the initial assistant/timeline. | Firestore `users/{uid}` and `assistants/{assistantId}` evidence. | PASS locally on AVD with disposable QA user; evidence saved in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json` and signed-in screenshot saved at `docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png`. |
 | Privacy Policy access | Open Settings and tap Privacy Policy. | Screenshot of Settings and policy dialog. | PASS locally on AVD `babylog_api35`; Settings and Privacy Policy screenshots saved at `docs/play-assets/screenshots/phone-02-settings.png` and `docs/play-assets/screenshots/phone-03-privacy-policy.png`. |
-| BYOK key save | Enable BYOK and save a limited test OpenAI key. | Screenshot with key hidden plus note confirming no Firestore `apikey`. | TODO |
+| BYOK key save | Enable BYOK and save a limited test OpenAI key. | Screenshot with key hidden plus note confirming no Firestore `apikey`. | PARTIAL PASS locally on AVD `babylog_api35`; a non-secret fake key validates local key save/restart masking and confirms Firestore has `byok: true` with no `apikey` field. Evidence: `docs/qa-evidence/2026-05-06-byok-key-save-smoke.json`. A real limited OpenAI key is still required for recording/transcription QA. |
 | Recording permission | Tap record and approve microphone permission. | Screenshot of Android permission dialog or post-permission recording state. | PASS locally on AVD `babylog_api35`; microphone permission dialog screenshot saved at `docs/play-assets/screenshots/phone-04-recording-permission.png`. |
 | First recording | Record a synthetic baby-care event and send it. | Screenshot of recording/send flow. | TODO |
 | First event creation | Confirm transcription creates a timeline event. | Screenshot of event and matching Firestore `events` doc. | TODO |

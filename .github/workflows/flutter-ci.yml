@@ -91,6 +91,9 @@ jobs:
       - name: Test Play Console app content draft
         run: npm run test:app-content
 
+      - name: Test BYOK key-save smoke evidence
+        run: npm run test:byok-smoke
+
       - name: Test Play compliance docs
         run: npm run test:compliance-docs
 

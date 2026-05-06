@@ -82,6 +82,8 @@
 - Captured a local Play screenshot set from the release APK on AVD `babylog_api35`: sign-in, synthetic shared timeline, Settings/BYOK, Privacy Policy dialog, and Android microphone permission. The non-secret manifest is `docs/play-assets/screenshots/2026-05-06-local-release-screenshot-set.json`.
 - Updated `docs/release-completion-audit.md` with the latest green remote CI run, local screenshot evidence, and explicit remaining blockers for Play Console release, BYOK recorder QA, and 1000-user evidence.
 - Added `npm run test:release-audit` and wired it into GitHub Actions so the objective-level audit is checked in CI.
+- Validated BYOK key save/restart on the release APK using a non-secret fake key only; evidence at `docs/qa-evidence/2026-05-06-byok-key-save-smoke.json` confirms the key is masked after restart and Firestore has `byok: true` with no `apikey` field.
+- Added `npm run test:byok-smoke` and wired it into GitHub Actions for the BYOK key-save evidence.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -105,6 +107,7 @@
 - `npm run test:play-assets` passes: `docs/play-assets/icon-512.png` is a 512 x 512 PNG, `docs/play-assets/feature-graphic-1024x500.png` is a 1024 x 500 no-alpha PNG, and both are referenced from the Play Store listing draft.
 - `npm run test:play-reviewer-access` passes: reviewer notes cover Firebase email/password access, `test@era-nova.be`, `play-reviewer-assistant`, BYOK-only behavior, no OpenAI test key, sample-data warning, Privacy Policy, and Delete Account.
 - `npm run test:release-audit` passes: the completion audit still concludes the active objective is not achieved and cites the remaining Play Console, BYOK recorder QA, and 1000-user evidence gaps.
+- `npm run test:byok-smoke` passes: BYOK smoke evidence is non-secret, release-scoped, verifies all recorded checks, and keeps the real OpenAI recording gap explicit.
 - `npm run test:play-screenshots` passes: screenshot plan covers sign-in, Settings/Privacy Policy, shared timeline, recording permission, first event, Delete Account, synthetic data rules, hidden OpenAI keys, and manual QA linkage.
 - `npm run test:public-urls` passes: verified Firebase Hosting privacy-policy and account-deletion URLs are recorded.
 - `npm run test:play-distribution` passes: distribution draft covers free app setup, Parenting category, suggested tags, Belgium/United States initial rollout, no ads, no IAP, and not enrolling in Families.

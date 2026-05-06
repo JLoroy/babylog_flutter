@@ -66,6 +66,7 @@
 - 2026-05-06: Set the `test@era-nova.be` Play reviewer password in Firebase Auth, store it only in ignored `.qa-secrets/play-reviewer-account.json`, and validate release APK sign-in to `play-reviewer-assistant`.
 - 2026-05-06: Capture local Play screenshots from the signed release APK on AVD `babylog_api35` for sign-in, synthetic timeline, Settings/BYOK, Privacy Policy, and microphone permission; recorder-created event validation still requires a BYOK/internal-test run.
 - 2026-05-06: Add `npm run test:release-audit` to CI so the objective-level release audit keeps distinguishing local readiness evidence from actual Play Store availability and 1000-user evidence.
+- 2026-05-06: Validate BYOK key save/restart on the release APK with a non-secret fake key only; use this as evidence for local secure-storage/no-Firestore-key behavior, not for recording/transcription readiness.
 
 ## Next
 
