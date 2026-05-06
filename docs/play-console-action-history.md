@@ -37,7 +37,7 @@ or accepted.
 Before production rollout, verify or update these Console fields:
 
 - Upload `build/app/outputs/bundle/release/app-release.aab` for version
-  `1.0.2+3`.
+  `1.0.5+6`.
 - Replace the old contact email with `privacy@lenacho.be`.
 - Replace the old website with
   `https://babylog-flutter.web.app/privacy-policy` or the final `lenacho.be`

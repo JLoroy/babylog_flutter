@@ -25,7 +25,7 @@ Package name:
 com.eranova.babylog
 
 Release version:
-1.0.2+3
+1.0.5+6
 
 Target API:
 Android 15 / API level 35

@@ -24,7 +24,7 @@ is done.
 
 | Console item | Evidence to capture | Evidence path or URL | Status |
 | --- | --- | --- | --- |
-| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.2+3`, and accepted AAB state. | Pending | Pending |
+| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.5+6`, and accepted AAB state. | Pending | Pending |
 | Internal testing release rolled out | Internal testing track screen showing rollout active or available to testers. | Pending | Pending |
 | Production release available | Production track screen or public listing proving Babylog is available to users. | Pending | Pending |
 | Public Play listing URL | Public Google Play URL for Babylog. | Pending | Pending |

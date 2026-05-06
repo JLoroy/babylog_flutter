@@ -65,6 +65,8 @@
 - Added `docs/play-console-submit-packet.md` and `npm run test:play-submit-packet` as a compact Play Console handoff with exact copy/paste values.
 - Updated `android/app/releasenotes.md` to match the current Play listing release notes and added `npm run test:play-release-notes`.
 - Updated `docs/play-store-listing.md` so account deletion is described as published, not merely prepared for publication.
+- Reviewed the freshly pulled `origin/feature/unbug` tip `63d7761` and found it still cannot be used for the next Play upload because it is `1.0.4+4`, while Play has already used version code 5.
+- Bumped the hardened `main` release identity to `1.0.5+6`, rebuilt the signed release AAB, and updated the Play submit packet, listing, runbook, manual QA checklist, and release audit to reference the new upload candidate.
 - Rechecked local Android device/emulator availability: `flutter emulators` now lists `babylog_api35`, and after launch `flutter devices` sees `emulator-5554` as Android 15 / API 35.
 - Installed `build/app/outputs/flutter-apk/app-release.apk` on AVD `babylog_api35`, launched `com.eranova.babylog`, confirmed it stayed running, and saved a non-private sign-in screenshot at `docs/qa-evidence/2026-05-06-release-apk-launch.png`.
 - Reproduced a release APK sign-in crash on the AVD with a verified disposable Firebase Auth user: Firebase Auth succeeded, then stale Firebase Auth/UI generated-code decoding failed with `type 'List<Object?>' is not a subtype of type 'PigeonUserDetails?'`.
@@ -113,7 +115,7 @@
 - `npm run test:play-release` passes: Play release runbook covers upload, internal testing, production release, monitoring, and 1000-install evidence.
 - `npm run test:upload-key` passes: upload-key recovery runbook covers password recovery, Play App Signing reset, new upload key generation, and signed AAB retry steps.
 - `npm run test:android-manifest` passes: Android launcher label is `Babylog`.
-- `npm run test:android-release-identity` passes: package name is `com.eranova.babylog`, release version is `1.0.2+3`, target SDK is 35, compile SDK is 36, required permissions are present, and listing identity fields match the app config.
+- `npm run test:android-release-identity` passes: package name is `com.eranova.babylog`, release version is `1.0.5+6`, target SDK is 35, compile SDK is 36, required permissions are present, and listing identity fields match the app config.
 - `npm run test:play-assets` passes: `docs/play-assets/icon-512.png` is a 512 x 512 PNG, `docs/play-assets/feature-graphic-1024x500.png` is a 1024 x 500 no-alpha PNG, and both are referenced from the Play Store listing draft.
 - `npm run test:play-reviewer-access` passes: reviewer notes cover Firebase email/password access, `test@era-nova.be`, `play-reviewer-assistant`, BYOK-only behavior, no OpenAI test key, sample-data warning, Privacy Policy, and Delete Account.
 - `npm run test:release-audit` passes: the completion audit still concludes the active objective is not achieved and cites the remaining Play Console, BYOK recorder QA, and 1000-user evidence gaps.
@@ -134,8 +136,9 @@
 - `npm run test:public-urls` passes: verified Firebase Hosting privacy-policy and account-deletion URLs are recorded.
 - `npm run test:play-distribution` passes: distribution draft covers free app setup, Parenting category, suggested tags, Belgium/United States initial rollout, no ads, no IAP, and not enrolling in Families.
 - `keytool -list` opens `/Users/home/Documents/AndroidReleaseKeys/eranova_upload.jks` with alias `upload` using the ignored local signing config.
-- `flutter build appbundle --release` passes with Homebrew OpenJDK 17, producing `build/app/outputs/bundle/release/app-release.aab` at 46.9 MB.
-- Signed AAB SHA-256: `11ccb6bd27a564f9772725b8ef10fdd1762c55cb1e2a38abffa7d78d1572f283`.
+- `flutter build appbundle --release` passes with Homebrew OpenJDK 17, producing `build/app/outputs/bundle/release/app-release.aab` at 46.9 MB for `1.0.5+6`.
+- Signed AAB SHA-256: `f8674c6287a0100807709da49cd70327d9457f1c51bb402f3e2bcfad8fed54a0`.
+- The bundle release manifest generated for the AAB reports package `com.eranova.babylog`, `android:versionCode="6"`, and `android:versionName="1.0.5"`.
 - `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0.
 - `firebase projects:list` shows `babylog-flutter` as the current Firebase project.
 - `firebase deploy --only hosting` succeeds for `babylog-flutter`.

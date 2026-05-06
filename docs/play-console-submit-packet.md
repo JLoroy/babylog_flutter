@@ -15,10 +15,10 @@ access notes file from `.qa-secrets/play-reviewer-account.json`.
 ## Release Artifact
 
 - Existing Play package: `com.eranova.babylog`
-- Release version: `1.0.2+3`
+- Release version: `1.0.5+6`
 - AAB path: `build/app/outputs/bundle/release/app-release.aab`
 - AAB SHA-256:
-  `11ccb6bd27a564f9772725b8ef10fdd1762c55cb1e2a38abffa7d78d1572f283`
+  `f8674c6287a0100807709da49cd70327d9457f1c51bb402f3e2bcfad8fed54a0`
 - Signing verification: `jarsigner -verify` exits 0.
 
 ## Store Listing

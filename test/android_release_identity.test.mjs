@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 
 const PACKAGE_NAME = 'com.eranova.babylog';
 const APP_NAME = 'Babylog';
-const VERSION = '1.0.2+3';
+const VERSION = '1.0.5+6';
 
 test('Android release identity is stable for Play Console submission', async () => {
   const [pubspec, buildGradle, manifest, listing] = await Promise.all([
