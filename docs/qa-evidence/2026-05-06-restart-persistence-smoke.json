@@ -1,0 +1,38 @@
+{
+  "capturedAt": "2026-05-06T15:37:44.480Z",
+  "firebaseProject": "babylog-flutter",
+  "appPackage": "com.eranova.babylog",
+  "appVersion": "1.0.6+7",
+  "releaseApk": "build/app/outputs/flutter-apk/app-release.apk",
+  "reviewer": {
+    "email": "test@era-nova.be",
+    "uid": "rsU7yU2TZfPmGUsLw0PXoozLd0C2",
+    "password": "stored only in ignored .qa-secrets/play-reviewer-account.json"
+  },
+  "assistantId": "play-reviewer-assistant",
+  "persistedEventId": "play-reviewer-welcome",
+  "checks": {
+    "releaseApkInstalledAndReviewerSignedIn": true,
+    "timelineDisplayedBeforeRestart": true,
+    "appForceStoppedAndRelaunched": true,
+    "timelineDisplayedAfterRestart": true,
+    "reviewerCurrentAssistantStillLinked": true,
+    "assistantDocExists": true,
+    "persistedEventExistsInFirestore": true,
+    "persistedEventQueryStillFindsEvent": true
+  },
+  "firestore": {
+    "reviewerCurrentAssistantPath": "assistants/play-reviewer-assistant",
+    "assistantUsers": [
+      "test@era-nova.be"
+    ],
+    "eventIdsForAssistant": [
+      "play-reviewer-welcome"
+    ],
+    "persistedEventDescription": "Sample reviewer timeline event. No real child data."
+  },
+  "screenshots": {
+    "beforeRestart": "docs/qa-evidence/2026-05-06-release-apk-restart-persistence-before.png",
+    "afterRestart": "docs/qa-evidence/2026-05-06-release-apk-restart-persistence-after.png"
+  }
+}

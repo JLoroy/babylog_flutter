@@ -100,6 +100,6 @@ Format: Title / Description / Guidance / How to validate.
 
 **Description:** A professional launch needs the first session to be reliable and understandable for new parents. A manual QA evidence template now lives in `docs/manual-qa-checklist.md`.
 
-**Guidance:** Test first-run auth, email verification, assistant creation, first recording, first event creation, settings, account deletion, public privacy/deletion pages, and Firebase Console evidence on real Android devices. Invite/join assistant has local release APK smoke evidence, but can still be rechecked during Play internal testing.
+**Guidance:** Test first-run auth, email verification, assistant creation, first recording, first event creation, settings, account deletion, public privacy/deletion pages, and Firebase Console evidence on real Android devices. Invite/join assistant and restart persistence have local release APK smoke evidence, but can still be rechecked during Play internal testing.
 
 **How to validate:** Run `npm run test:manual-qa`, then complete `docs/manual-qa-checklist.md` with screenshots or notes for each flow before production rollout.

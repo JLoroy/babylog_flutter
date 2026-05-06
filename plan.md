@@ -85,6 +85,7 @@
 - 2026-05-06: Implement shared-assistant joining as a narrow non-member update that can only add the signed-in user's own email to `assistants/{id}.users`; keep non-member assistant reads denied.
 - 2026-05-06: Bump the next Play upload candidate to `1.0.6+7`; current signed AAB SHA-256 is `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`, and current release APK SHA-256 is `62adf39ff32aee776a4b4d1af4fd05f548b6368d1fc9e09fa19f392c5c77fa1d`.
 - 2026-05-06: Count the shared-assistant join UI path as release-smoked on AVD `babylog_api35` for `1.0.6+7` when evidence shows Settings > Join another assistant switches the timeline, refreshed Settings shows both users, and the joiner can write an event.
+- 2026-05-06: Count restart persistence as release-smoked on AVD `babylog_api35` for `1.0.6+7` when reviewer event `play-reviewer-welcome` remains visible after force-stop/relaunch and Firestore still links the reviewer to `play-reviewer-assistant`.
 
 ## Next
 
@@ -104,7 +105,7 @@
 - Upload/confirm the captured phone screenshots in Play Console; replace or extend them if Play Console rejects local AVD screenshots.
 - Capture Play Console install/acquisition evidence and Firebase Auth supporting evidence after production release.
 - Smoke-test deployed Firebase rules with production assistant membership data and the app/internal test account.
-- Complete full manual QA beyond the disposable AVD sign-in/assistant/deletion/sharing smoke: BYOK recording, event creation through the recorder, restart persistence, and final Play screenshots.
+- Complete full manual QA beyond the disposable AVD sign-in/assistant/deletion/sharing/restart smoke: BYOK recording, event creation through the recorder, and final Play screenshots.
 - Capture Play Console screenshots or exports after updating contact email, website, privacy policy URL, account deletion URL, app access notes, media, and release artifact.
 - Re-check `docs/play-policy-freshness.md` against official Play docs before upload if submission slips past 2026-08-01.
 - Run `npm run prepare:play-handoff` immediately before Play Console upload and copy/upload from `dist/play-console-handoff/`.

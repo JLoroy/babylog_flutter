@@ -59,6 +59,9 @@ test('manual QA checklist covers release-critical flows', async () => {
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png',
     'docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json',
     'docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png',
+    'docs/qa-evidence/2026-05-06-restart-persistence-smoke.json',
+    'docs/qa-evidence/2026-05-06-release-apk-restart-persistence-before.png',
+    'docs/qa-evidence/2026-05-06-release-apk-restart-persistence-after.png',
     '.qa-secrets/current-qa-account.json',
     '.qa-secrets/deletion-qa-account.json',
     '.qa-secrets/play-reviewer-account.json',
@@ -80,6 +83,7 @@ test('manual QA checklist covers release-critical flows', async () => {
     'joiner20260506151008@example.com',
     '.qa-secrets/join-assistant-qa-account.json',
     'play-reviewer-welcome',
+    'Restart persistence event after relaunch',
     'current assistant reference',
     'test@era-nova.be',
     'play-reviewer-assistant',
@@ -181,6 +185,45 @@ test('manual QA checklist covers release-critical flows', async () => {
   assert.equal(reviewerScreenshot.toString('ascii', 1, 4), 'PNG');
   assert.equal(reviewerScreenshot.readUInt32BE(16), 1080);
   assert.equal(reviewerScreenshot.readUInt32BE(20), 2400);
+
+  const restartSmoke = JSON.parse(
+    await readFile(
+      'docs/qa-evidence/2026-05-06-restart-persistence-smoke.json',
+      'utf8',
+    ),
+  );
+  assert.equal(restartSmoke.firebaseProject, 'babylog-flutter');
+  assert.equal(restartSmoke.appPackage, 'com.eranova.babylog');
+  assert.equal(restartSmoke.appVersion, '1.0.6+7');
+  assert.equal(restartSmoke.reviewer.email, 'test@era-nova.be');
+  assert.equal(restartSmoke.assistantId, 'play-reviewer-assistant');
+  assert.equal(restartSmoke.persistedEventId, 'play-reviewer-welcome');
+  assert.match(restartSmoke.reviewer.password, /ignored/);
+  for (const key of [
+    'releaseApkInstalledAndReviewerSignedIn',
+    'timelineDisplayedBeforeRestart',
+    'appForceStoppedAndRelaunched',
+    'timelineDisplayedAfterRestart',
+    'reviewerCurrentAssistantStillLinked',
+    'assistantDocExists',
+    'persistedEventExistsInFirestore',
+    'persistedEventQueryStillFindsEvent',
+  ]) {
+    assert.equal(restartSmoke.checks[key], true, `${key} should pass`);
+  }
+  assert.equal(
+    restartSmoke.firestore.reviewerCurrentAssistantPath,
+    'assistants/play-reviewer-assistant',
+  );
+  assert.deepEqual(restartSmoke.firestore.eventIdsForAssistant, [
+    'play-reviewer-welcome',
+  ]);
+  for (const screenshotPath of Object.values(restartSmoke.screenshots)) {
+    const image = await readFile(screenshotPath);
+    assert.equal(image.toString('ascii', 1, 4), 'PNG');
+    assert.equal(image.readUInt32BE(16), 1080);
+    assert.equal(image.readUInt32BE(20), 2400);
+  }
 
   const eventDeleteSmoke = JSON.parse(
     await readFile(

@@ -58,6 +58,13 @@ Play reviewer access smoke evidence:
 Play reviewer release APK screenshot:
 `docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png`
 
+Restart persistence smoke evidence:
+`docs/qa-evidence/2026-05-06-restart-persistence-smoke.json`
+
+Restart persistence screenshots:
+`docs/qa-evidence/2026-05-06-release-apk-restart-persistence-before.png` and
+`docs/qa-evidence/2026-05-06-release-apk-restart-persistence-after.png`.
+
 BYOK key-save/restart smoke evidence:
 `docs/qa-evidence/2026-05-06-byok-key-save-smoke.json`
 
@@ -139,7 +146,7 @@ or a Play internal testing install.
 | Recording permission | Tap record and approve microphone permission. | Screenshot of Android permission dialog or post-permission recording state. | PASS locally on AVD `babylog_api35`; microphone permission dialog screenshot saved at `docs/play-assets/screenshots/phone-04-recording-permission.png`. |
 | First recording | Record a synthetic baby-care event and send it. | Screenshot of recording/send flow. | TODO |
 | First event creation | Confirm transcription creates a timeline event. | Screenshot of event and matching Firestore `events` doc. | TODO |
-| Restart persistence | Restart the app and confirm the event remains visible. | Screenshot after restart. | TODO |
+| Restart persistence | Restart the app and confirm the event remains visible. | Screenshot after restart. | PASS locally on AVD `babylog_api35` with release APK `1.0.6+7`: reviewer account `test@era-nova.be` displayed `play-reviewer-welcome`, the app was force-stopped and relaunched, and the same event remained visible. Evidence: `docs/qa-evidence/2026-05-06-restart-persistence-smoke.json`. |
 | Shared assistant join | Sign in with a second test account and join the assistant. | Screenshot and Firestore `assistants.users` evidence. | PASS locally on AVD `babylog_api35` with release APK `1.0.6+7`: joiner `joiner20260506151008@example.com` used Settings > Join another assistant to join assistant `join-ui-smoke-20260506151008`, the timeline switched to owner event `join-ui-owner-event-20260506151008`, refreshed Settings showed both synthetic users, and Firestore confirmed the joiner can write event `join-ui-joiner-event-20260506151008`. Evidence: `docs/qa-evidence/2026-05-06-join-assistant-ui-smoke.json`. |
 | Delete event | Delete a test event from the timeline. | Screenshot and Firestore evidence that event doc is gone. | PASS locally on AVD `babylog_api35` for an existing synthetic event in the reviewer assistant; evidence in `docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json` confirms event `ui-delete-smoke-20260506090414` was visible before deletion, hidden afterward, absent from the Firestore query, and the reviewer sample event remained. Recorder-created event deletion remains pending until recording/event creation QA is complete. |
 | Delete account | Delete the primary test account from Settings. | Firebase Auth, `users`, `assistants`, `events`, and local BYOK cleanup evidence. | PASS for single-user release APK smoke on AVD `babylog_api35`; evidence in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` confirms the app returned to sign-in, Auth sign-in was rejected afterward, and the Firebase user, assistant, and synthetic event documents were deleted. PASS for shared-assistant release APK smoke in `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json`: primary Auth sign-in is rejected after deletion, partner Auth sign-in still works, the assistant doc still exists for the partner, assistant `users` contains only the partner, old shared events are deleted, and the partner can create a new event afterward. Local BYOK cleanup is still covered by tests and exercised with a fake key before deletion, but not directly introspected from device secure storage. |
@@ -157,6 +164,7 @@ or a Play internal testing install.
 - Assistant users after deletion: TODO
 - Event documents before deletion: PASS for account deletion event `delete-smoke-codexdeleteqa20260506075317ad1d03` and UI deletion event `ui-delete-smoke-20260506090414`.
 - Event documents after deletion: PASS in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` and `docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json`; the reviewer sample event `play-reviewer-welcome` remains for Play review.
+- Restart persistence event after relaunch: PASS in `docs/qa-evidence/2026-05-06-restart-persistence-smoke.json`; reviewer assistant `play-reviewer-assistant` still has event `play-reviewer-welcome` after release APK force-stop/relaunch.
 - Shared assistant before deletion: `shared-delete-smoke-20260506145235` contained users `sharedprimary20260506145235@example.com` and `sharedpartner20260506145235@example.com`, plus event `shared-delete-event-20260506145235`.
 - Shared assistant after primary deletion: PASS in `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json`; primary Auth sign-in is rejected, partner Auth sign-in succeeds, assistant users are `sharedpartner20260506145235@example.com`, old shared events are gone, and partner-created event `shared-delete-partner-event-20260506145235` proves the remaining member can still write.
 - Shared assistant join via UI: PASS in `docs/qa-evidence/2026-05-06-join-assistant-ui-smoke.json`; assistant `join-ui-smoke-20260506151008` contains users `joinowner20260506151008@example.com` and `joiner20260506151008@example.com`, and events `join-ui-owner-event-20260506151008` and `join-ui-joiner-event-20260506151008`.
