@@ -2,7 +2,7 @@
 
 Last updated: 2026-05-06
 
-Status: pending Console capture.
+Status: partial Console capture.
 
 Purpose:
 Capture the redacted evidence that proves Play Console accepted the release,
@@ -24,8 +24,8 @@ is done.
 
 | Console item | Evidence to capture | Evidence path or URL | Status |
 | --- | --- | --- | --- |
-| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.5+6`, and accepted AAB state. | Pending | Pending |
-| Internal testing release rolled out | Internal testing track screen showing rollout active or available to testers. | Pending | Pending |
+| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.5+6`, and accepted AAB state. | User-provided chat screenshot on 2026-05-06: Internal testing track shows latest release `6 (1.0.5)`, `1 version code`, and active track summary. | Accepted for internal testing |
+| Internal testing release rolled out | Internal testing track screen showing rollout active or available to testers. | User-provided chat screenshot on 2026-05-06: release `6 (1.0.5)` shows `Available to internal testers`, released on 6 May 15:06, review status `Not reviewed`. | Active / not reviewed |
 | Production release available | Production track screen or public listing proving Babylog is available to users. | Pending | Pending |
 | Public Play listing URL | Public Google Play URL for Babylog. | Pending | Pending |
 | Privacy policy URL configured | App content or Store settings screen showing `https://babylog-flutter.web.app/privacy-policy`. | Pending | Pending |

@@ -7,10 +7,12 @@ test('Play Console evidence template covers release acceptance proof without sec
 
   for (const required of [
     '# Babylog Play Console Evidence',
-    'Status: pending Console capture',
+    'Status: partial Console capture',
     'Do not commit unredacted reviewer passwords',
     'AAB uploaded and accepted',
+    'Accepted for internal testing',
     'Internal testing release rolled out',
+    'Active / not reviewed',
     'Production release available',
     'Public Play listing URL',
     'Privacy policy URL configured',

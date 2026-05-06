@@ -99,6 +99,7 @@
 - Added `scripts/prepare_play_console_private_notes.mjs` and `npm run test:play-private-notes` to generate ignored private Play Console App access notes from `.qa-secrets/play-reviewer-account.json` without committing reviewer credentials.
 - Generated the ignored private Play Console App access notes at `dist/play-console-handoff/private/play-console-app-access-notes.txt`; the file is local-only and must not be committed or screenshotted without redacting the reviewer password.
 - Added `docs/play-console-evidence.md` and `npm run test:play-console-evidence` to define the redacted Play Console acceptance evidence that must be captured after upload, policy setup, listing/media acceptance, internal testing, production release, and later install metrics.
+- Justin uploaded the `1.0.5+6` AAB to Play Console internal testing, copied `android/app/releasenotes.md` into the release notes, left the release name as `6 (1.0.5)`, and provided a screenshot showing the release is active, available to internal testers, released on 2026-05-06 15:06, and still `Not reviewed`.
 
 ### Verification
 - `git status` was clean immediately after the merge.
