@@ -53,6 +53,7 @@ npm run test:hosting
 npm run test:listing
 npm run test:play-distribution
 npm run test:play-assets
+npm run test:play-handoff
 npm run test:play-policy-freshness
 npm run test:play-reviewer-access
 npm run test:play-screenshots
@@ -112,7 +113,9 @@ Complete these before production rollout:
 3. Go to Testing > Internal testing.
 4. Create or select the internal testing track.
 5. Create a new release.
-6. Upload `build/app/outputs/bundle/release/app-release.aab`.
+6. Optionally run `npm run prepare:play-handoff`, then upload
+   `dist/play-console-handoff/release/app-release.aab`; otherwise upload
+   `build/app/outputs/bundle/release/app-release.aab`.
 7. Set release name to the version/build, for example `1.0.2+3`.
 8. Use release notes from `docs/play-store-listing.md`.
 9. Add internal testers or tester email list.

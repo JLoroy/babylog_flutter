@@ -71,6 +71,7 @@
 - 2026-05-06: Capture public Firebase Hosting privacy-policy and account-deletion page screenshots from Google Chrome headless as browser evidence; Play Console field confirmation remains separate.
 - 2026-05-06: Treat the exported Play Console action history as evidence that Babylog already exists in Play Console, not as evidence that current Nacho/privacy URL/reviewer/AAB fields have been accepted.
 - 2026-05-06: Official Play target API docs still require Android 15 / API 35 or higher for new apps and updates; keep Babylog at `targetSdk = 35` for the current submission, and re-check the policy before any submission after 2026-08-01.
+- 2026-05-06: Prepare Play Console upload inputs through a generated non-secret handoff folder instead of manually hunting for AAB/media/copy files during Console submission.
 
 ## Next
 
@@ -93,3 +94,4 @@
 - Complete full manual QA beyond the disposable AVD sign-in/assistant/deletion smoke: BYOK recording, event creation through the recorder, restart persistence, sharing, and final Play screenshots.
 - Capture Play Console screenshots or exports after updating contact email, website, privacy policy URL, account deletion URL, app access notes, media, and release artifact.
 - Re-check `docs/play-policy-freshness.md` against official Play docs before upload if submission slips past 2026-08-01.
+- Run `npm run prepare:play-handoff` immediately before Play Console upload and copy/upload from `dist/play-console-handoff/`.

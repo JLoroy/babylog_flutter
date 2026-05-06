@@ -20,6 +20,7 @@ npm run test:firestore-indexes
 npm run test:listing
 npm run test:play-distribution
 npm run test:play-assets
+npm run test:play-handoff
 npm run test:play-reviewer-access
 npm run test:play-policy-freshness
 npm run test:play-screenshots
@@ -47,6 +48,8 @@ Expected status today:
   `build/app/outputs/bundle/release/app-release.aab`.
 - Artifact SHA-256 captured on 2026-05-06:
   `11ccb6bd27a564f9772725b8ef10fdd1762c55cb1e2a38abffa7d78d1572f283`.
+- `npm run prepare:play-handoff` creates the optional non-secret upload folder
+  at `dist/play-console-handoff/`.
 
 ## Artifact inspection
 

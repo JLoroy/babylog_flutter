@@ -6,6 +6,10 @@ Status:
 Ready for Play Console copy/paste after the reviewer password is copied from
 the local secret file and the AAB is uploaded.
 
+Optional generated handoff folder:
+Run `npm run prepare:play-handoff` to gather the signed AAB, graphics,
+screenshots, and copy sources into `dist/play-console-handoff/`.
+
 ## Release Artifact
 
 - Existing Play package: `com.eranova.babylog`
@@ -95,6 +99,8 @@ Please do not delete the reviewer account unless the review specifically needs t
 ## Before Rollout
 
 - Upload the signed AAB to internal testing.
+- Optionally generate `dist/play-console-handoff/` with
+  `npm run prepare:play-handoff` and upload/copy from that folder.
 - Copy the final reviewer password from `.qa-secrets/play-reviewer-account.json`.
 - Copy the app-access notes into Play Console.
 - Add/confirm the public privacy-policy and account-deletion URLs.

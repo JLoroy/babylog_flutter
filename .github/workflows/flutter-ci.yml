@@ -121,6 +121,9 @@ jobs:
       - name: Test Play Console action history review
         run: npm run test:play-console-history
 
+      - name: Test Play Console handoff bundle
+        run: npm run test:play-handoff
+
       - name: Test Play policy freshness notes
         run: npm run test:play-policy-freshness
 
