@@ -25,6 +25,7 @@
 - `flutter build appbundle --release` passes, producing `build/app/outputs/bundle/release/app-release.aab` at 47.1 MB.
 - `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0 with the expected self-signed upload-key warnings.
 - AVD visual smoke passes for launch, reviewer timeline display, Settings sheet opening, visible Privacy Policy action, visible BYOK setting, and visible OpenAI key field.
+- GitHub Actions run `25465179981` for commit `0c64741` passed on `main`: Firebase rules completed in 25s, and Analyze/test completed in 6m29s including formatting, analyzer, Flutter tests, Play/docs validators, and Android debug APK build.
 
 ### Next steps
 1. Regenerate Play handoff files for `1.0.7+8`.
