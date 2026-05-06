@@ -68,6 +68,7 @@
 - 2026-05-06: Add `npm run test:release-audit` to CI so the objective-level release audit keeps distinguishing local readiness evidence from actual Play Store availability and 1000-user evidence.
 - 2026-05-06: Validate BYOK key save/restart on the release APK with a non-secret fake key only; use this as evidence for local secure-storage/no-Firestore-key behavior, not for recording/transcription readiness.
 - 2026-05-06: Validate release APK event deletion through the timeline UI using a temporary synthetic reviewer-assistant event; count it as existing-event delete smoke evidence, not recorder-created event coverage.
+- 2026-05-06: Capture public Firebase Hosting privacy-policy and account-deletion page screenshots from Google Chrome headless as browser evidence; Play Console field confirmation remains separate.
 
 ## Next
 

@@ -127,6 +127,9 @@ jobs:
       - name: Test Play submit packet
         run: npm run test:play-submit-packet
 
+      - name: Test public policy page smoke evidence
+        run: npm run test:public-policy-pages-smoke
+
       - name: Test public URL placeholders
         run: npm run test:public-urls
 

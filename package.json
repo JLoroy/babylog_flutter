@@ -18,6 +18,7 @@
     "test:play-reviewer-access": "node --test test/play_reviewer_access.test.mjs",
     "test:play-screenshots": "node --test test/play_screenshots.test.mjs",
     "test:play-submit-packet": "node --test test/play_submit_packet.test.mjs",
+    "test:public-policy-pages-smoke": "node --test test/public_policy_pages_smoke.test.mjs",
     "test:public-urls": "node --test test/public_urls.test.mjs",
     "test:release-audit": "node --test test/release_completion_audit.test.mjs",
     "test:manual-qa": "node --test test/manual_qa_checklist.test.mjs",

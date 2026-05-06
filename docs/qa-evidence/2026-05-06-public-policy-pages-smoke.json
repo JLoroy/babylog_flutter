@@ -1,0 +1,35 @@
+{
+  "capturedAt": "2026-05-06T09:19:42Z",
+  "hostingOrigin": "https://babylog-flutter.web.app",
+  "browser": "Google Chrome headless",
+  "viewport": {
+    "width": 1280,
+    "height": 1600
+  },
+  "checks": {
+    "privacyPolicyUrlReturnedHttp200": true,
+    "privacyPolicyMentionsNacho": true,
+    "privacyPolicyMentionsPrivacyContact": true,
+    "privacyPolicyMentionsFirebase": true,
+    "privacyPolicyMentionsOpenAI": true,
+    "deleteAccountUrlReturnedHttp200": true,
+    "deleteAccountMentionsPrivacyContact": true,
+    "deleteAccountMentionsDeletionRequestSubject": true,
+    "deleteAccountMentionsNoReinstallRequired": true
+  },
+  "pages": [
+    {
+      "name": "privacy-policy",
+      "url": "https://babylog-flutter.web.app/privacy-policy",
+      "screenshot": "docs/qa-evidence/2026-05-06-public-privacy-policy-page.png",
+      "sha256": "b7bf9509fb75c2ea4f37c5bdd7856e21cbfdc656d3b9e83753ca9a6afa338e4c"
+    },
+    {
+      "name": "delete-account",
+      "url": "https://babylog-flutter.web.app/delete-account",
+      "screenshot": "docs/qa-evidence/2026-05-06-public-delete-account-page.png",
+      "sha256": "8f4867900f05db8b609097be58706f66a2a68a03cd838f92c99855c142a1b468"
+    }
+  ],
+  "note": "This validates public browser access to Firebase Hosting policy pages without app authentication. Play Console still needs these URLs copied into the relevant fields."
+}

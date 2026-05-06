@@ -42,6 +42,9 @@ test('manual QA checklist covers release-critical flows', async () => {
     'docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json',
     'docs/qa-evidence/2026-05-06-release-apk-event-delete-before.png',
     'docs/qa-evidence/2026-05-06-release-apk-event-delete-after.png',
+    'docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json',
+    'docs/qa-evidence/2026-05-06-public-privacy-policy-page.png',
+    'docs/qa-evidence/2026-05-06-public-delete-account-page.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png',
@@ -195,6 +198,33 @@ test('manual QA checklist covers release-critical flows', async () => {
     assert.equal(image.toString('ascii', 1, 4), 'PNG');
     assert.equal(image.readUInt32BE(16), 1080);
     assert.equal(image.readUInt32BE(20), 2400);
+  }
+
+  const publicPolicySmoke = JSON.parse(
+    await readFile(
+      'docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json',
+      'utf8',
+    ),
+  );
+  assert.equal(publicPolicySmoke.hostingOrigin, 'https://babylog-flutter.web.app');
+  for (const key of [
+    'privacyPolicyUrlReturnedHttp200',
+    'privacyPolicyMentionsNacho',
+    'privacyPolicyMentionsPrivacyContact',
+    'privacyPolicyMentionsFirebase',
+    'privacyPolicyMentionsOpenAI',
+    'deleteAccountUrlReturnedHttp200',
+    'deleteAccountMentionsPrivacyContact',
+    'deleteAccountMentionsDeletionRequestSubject',
+    'deleteAccountMentionsNoReinstallRequired',
+  ]) {
+    assert.equal(publicPolicySmoke.checks[key], true, `${key} should pass`);
+  }
+  for (const page of publicPolicySmoke.pages) {
+    const image = await readFile(page.screenshot);
+    assert.equal(image.toString('ascii', 1, 4), 'PNG');
+    assert.equal(image.readUInt32BE(16), 1280);
+    assert.equal(image.readUInt32BE(20), 1600);
   }
 });
 

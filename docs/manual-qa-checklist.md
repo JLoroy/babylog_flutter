@@ -71,6 +71,13 @@ Event deletion UI screenshots:
 `docs/qa-evidence/2026-05-06-release-apk-event-delete-before.png` and
 `docs/qa-evidence/2026-05-06-release-apk-event-delete-after.png`.
 
+Public policy page browser smoke evidence:
+`docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json`
+
+Public policy page browser screenshots:
+`docs/qa-evidence/2026-05-06-public-privacy-policy-page.png` and
+`docs/qa-evidence/2026-05-06-public-delete-account-page.png`.
+
 Local Play screenshot set captured from the same release APK on AVD:
 `docs/play-assets/screenshots/phone-00-sign-in.png`,
 `docs/play-assets/screenshots/phone-01-shared-timeline.png`,
@@ -113,8 +120,8 @@ or a Play internal testing install.
 | Delete event | Delete a test event from the timeline. | Screenshot and Firestore evidence that event doc is gone. | PASS locally on AVD `babylog_api35` for an existing synthetic event in the reviewer assistant; evidence in `docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json` confirms event `ui-delete-smoke-20260506090414` was visible before deletion, hidden afterward, absent from the Firestore query, and the reviewer sample event remained. Recorder-created event deletion remains pending until recording/event creation QA is complete. |
 | Delete account | Delete the primary test account from Settings. | Firebase Auth, `users`, `assistants`, `events`, and local BYOK cleanup evidence. | PASS for single-user release APK smoke on AVD `babylog_api35`; evidence in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` confirms the app returned to sign-in, Auth sign-in was rejected afterward, and the Firebase user, assistant, and synthetic event documents were deleted. Shared-assistant deletion and local BYOK cleanup remain covered by tests, not manual device evidence. |
 | Reauthentication edge | Trigger or document `requires-recent-login` behavior. | Screenshot or note explaining reviewer-observed behavior. | TODO |
-| Public deletion page | Open the account deletion page without the app installed. | Browser screenshot with public URL. | TODO |
-| Public privacy page | Open the privacy policy page without authentication. | Browser screenshot with public URL. | TODO |
+| Public deletion page | Open the account deletion page without the app installed. | Browser screenshot with public URL. | PASS from public Firebase Hosting URL in Google Chrome headless; screenshot saved at `docs/qa-evidence/2026-05-06-public-delete-account-page.png` and evidence manifest saved at `docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json`. |
+| Public privacy page | Open the privacy policy page without authentication. | Browser screenshot with public URL. | PASS from public Firebase Hosting URL in Google Chrome headless; screenshot saved at `docs/qa-evidence/2026-05-06-public-privacy-policy-page.png` and evidence manifest saved at `docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json`. |
 
 ## Firebase Console Evidence
 
