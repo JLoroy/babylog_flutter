@@ -77,6 +77,7 @@
 - 2026-05-06: Bump the release identity to `1.0.5+6` after Play Console rejected version code 3 and Justin confirmed version code 5 was already used; keep the hardened `main` code instead of rebuilding stale `feature/unbug`.
 - 2026-05-06: Treat `build/app/outputs/bundle/release/app-release.aab` SHA-256 `f8674c6287a0100807709da49cd70327d9457f1c51bb402f3e2bcfad8fed54a0` as the current signed Play upload candidate for `1.0.5+6`.
 - 2026-05-06: Keep a CI guard that the configured Android version code remains greater than the highest known Play Console version code, currently 5.
+- 2026-05-06: Include the Play release identity in the generated handoff manifest and README so the upload folder visibly confirms package `com.eranova.babylog`, version `1.0.5+6`, and version code 6.
 
 ## Next
 

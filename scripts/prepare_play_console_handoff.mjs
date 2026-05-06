@@ -15,6 +15,7 @@ const aabSource =
   aabArgIndex === -1
     ? 'build/app/outputs/bundle/release/app-release.aab'
     : resolveFromRoot(args[aabArgIndex + 1]);
+const releaseIdentity = await readReleaseIdentity();
 
 const files = [
   ['signed-aab', aabSource, 'release/app-release.aab'],
@@ -61,6 +62,7 @@ const manifest = {
   generatedAt: new Date().toISOString(),
   note:
     'Non-secret Play Console handoff generated from repository release evidence. Copy reviewer password separately from ignored .qa-secrets/play-reviewer-account.json.',
+  release: releaseIdentity,
   files: [],
 };
 
@@ -83,7 +85,7 @@ for (const [role, source, target] of files) {
 }
 
 await writeFile(join(outputDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
-await writeFile(join(outputDir, 'README.md'), readmeFor(manifest.generatedAt));
+await writeFile(join(outputDir, 'README.md'), readmeFor(manifest.generatedAt, releaseIdentity));
 
 console.log(`Play Console handoff written to ${relative(root, outputDir)}`);
 
@@ -95,12 +97,39 @@ function resolveFromRoot(value) {
   return value.startsWith('/') ? value : join(root, value);
 }
 
-function readmeFor(generatedAt) {
+async function readReleaseIdentity() {
+  const pubspec = await readFile(join(root, 'pubspec.yaml'), 'utf8');
+  const version = pubspec.match(/^version:\s*(.+)$/m)?.[1]?.trim();
+  if (!version) {
+    throw new Error('Could not read version from pubspec.yaml');
+  }
+
+  const [versionName, versionCode] = version.split('+');
+  if (!versionName || !versionCode) {
+    throw new Error(`Expected pubspec version to include build number, got ${version}`);
+  }
+
+  return {
+    packageName: 'com.eranova.babylog',
+    version,
+    versionName,
+    versionCode: Number.parseInt(versionCode, 10),
+  };
+}
+
+function readmeFor(generatedAt, release) {
   return `# Babylog Play Console Handoff
 
 Generated: ${generatedAt}
 
 This folder contains non-secret files for the Play Console release handoff.
+
+Release identity:
+
+- Package: \`${release.packageName}\`
+- Version: \`${release.version}\`
+- Version name: \`${release.versionName}\`
+- Version code: \`${release.versionCode}\`
 
 Use:
 

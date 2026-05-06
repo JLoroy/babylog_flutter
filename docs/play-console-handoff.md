@@ -30,8 +30,9 @@ The generated folder includes:
 - Phone screenshots: `screenshots/*.png`
 - Store listing, App content, Data safety, reviewer access, and release notes
   copy under `copy/`
-- `manifest.json` with source paths, byte sizes, and SHA-256 hashes
-- `README.md` with Console upload notes
+- `manifest.json` with release identity, source paths, byte sizes, and SHA-256
+  hashes
+- `README.md` with release identity and Console upload notes
 
 ## Private App Access Notes
 
