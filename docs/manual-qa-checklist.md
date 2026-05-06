@@ -58,6 +58,15 @@ Play reviewer access smoke evidence:
 Play reviewer release APK screenshot:
 `docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png`
 
+Local Play screenshot set captured from the same release APK on AVD:
+`docs/play-assets/screenshots/phone-00-sign-in.png`,
+`docs/play-assets/screenshots/phone-01-shared-timeline.png`,
+`docs/play-assets/screenshots/phone-02-settings.png`,
+`docs/play-assets/screenshots/phone-03-privacy-policy.png`, and
+`docs/play-assets/screenshots/phone-04-recording-permission.png`.
+The non-secret screenshot manifest is
+`docs/play-assets/screenshots/2026-05-06-local-release-screenshot-set.json`.
+
 Disposable verified QA account passwords are stored only in ignored
 `.qa-secrets/current-qa-account.json` and
 `.qa-secrets/deletion-qa-account.json`. The Play reviewer password is stored
@@ -81,9 +90,9 @@ or a Play internal testing install.
 | Sign up | Create a new Firebase email/password test account. | Firebase Auth user id and screenshot without password. | Not covered by UI smoke yet; disposable verified Firebase Auth user `qa202605060729068d@example.com` was imported for release sign-in validation. |
 | Email verification | Complete or bypass only with documented reviewer-ready test account. | Screenshot/note showing verified state. | PASS for disposable imported QA user; email-verified state is recorded in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`. |
 | Assistant creation | Let the app create the initial assistant/timeline. | Firestore `users/{uid}` and `assistants/{assistantId}` evidence. | PASS locally on AVD with disposable QA user; evidence saved in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json` and signed-in screenshot saved at `docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png`. |
-| Privacy Policy access | Open Settings and tap Privacy Policy. | Screenshot of Settings and policy dialog. | TODO |
+| Privacy Policy access | Open Settings and tap Privacy Policy. | Screenshot of Settings and policy dialog. | PASS locally on AVD `babylog_api35`; Settings and Privacy Policy screenshots saved at `docs/play-assets/screenshots/phone-02-settings.png` and `docs/play-assets/screenshots/phone-03-privacy-policy.png`. |
 | BYOK key save | Enable BYOK and save a limited test OpenAI key. | Screenshot with key hidden plus note confirming no Firestore `apikey`. | TODO |
-| Recording permission | Tap record and approve microphone permission. | Screenshot of Android permission dialog or post-permission recording state. | TODO |
+| Recording permission | Tap record and approve microphone permission. | Screenshot of Android permission dialog or post-permission recording state. | PASS locally on AVD `babylog_api35`; microphone permission dialog screenshot saved at `docs/play-assets/screenshots/phone-04-recording-permission.png`. |
 | First recording | Record a synthetic baby-care event and send it. | Screenshot of recording/send flow. | TODO |
 | First event creation | Confirm transcription creates a timeline event. | Screenshot of event and matching Firestore `events` doc. | TODO |
 | Restart persistence | Restart the app and confirm the event remains visible. | Screenshot after restart. | TODO |

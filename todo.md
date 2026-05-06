@@ -56,7 +56,7 @@ Format: Title / Description / Guidance / How to validate.
 
 ### Prepare Play Store listing assets
 
-**Description:** Store listing text now has a draft in `docs/play-store-listing.md`, the Android launcher label is set to `Babylog`, Play graphics are prepared under `docs/play-assets/`, and screenshot requirements are defined in `docs/play-screenshots.md`. Actual screenshots and final Play Console media upload are still missing.
+**Description:** Store listing text now has a draft in `docs/play-store-listing.md`, the Android launcher label is set to `Babylog`, Play graphics are prepared under `docs/play-assets/`, and screenshot requirements are defined in `docs/play-screenshots.md`. A local release screenshot set is captured under `docs/play-assets/screenshots/`; final Play Console media upload/acceptance is still missing.
 
 **Guidance:** Use the listing draft for app name, package/version identity, short description, full description, release notes, contact fields, app icon, and feature graphic. Produce screenshots from a sanitized Android build according to `docs/play-screenshots.md` without exposing real baby names, email addresses, or API keys.
 

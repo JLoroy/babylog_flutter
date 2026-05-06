@@ -79,6 +79,7 @@
 - Set the `test@era-nova.be` Play reviewer password in Firebase Auth; the password is stored only in ignored `.qa-secrets/play-reviewer-account.json`.
 - Captured non-secret reviewer access evidence at `docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json`.
 - Signed into the release APK on AVD `babylog_api35` with `test@era-nova.be` and saved the reviewer sample timeline screenshot at `docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png`.
+- Captured a local Play screenshot set from the release APK on AVD `babylog_api35`: sign-in, synthetic shared timeline, Settings/BYOK, Privacy Policy dialog, and Android microphone permission. The non-secret manifest is `docs/play-assets/screenshots/2026-05-06-local-release-screenshot-set.json`.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -165,7 +166,7 @@
 13. Create or confirm the `privacy@lenacho.be` alias.
 14. Follow `docs/play-release-runbook.md` for internal testing, production rollout, and release evidence now that signing is fixed.
 15. Finish reviewer access: set the final `test@era-nova.be` password outside git and copy the final BYOK-only Play Console app-access notes without committing secrets.
-16. Capture final Play screenshots from the internal-test or release build using `docs/play-screenshots.md`.
+16. Upload/confirm the captured phone screenshots in Play Console, and replace or extend them if Play Console rejects local AVD screenshots.
 17. Provide Play Console access or Play Developer API/service-account automation if AAB upload should be done from this workspace.
 18. Provide a real Android device or create an Android AVD if manual QA/screenshots should be captured locally.
 19. GitHub Actions is being stabilized after the first push: Firebase rules now use project-local `firebase-tools`, and Flutter analysis now excludes generated dependency folders.

@@ -1,0 +1,54 @@
+{
+  "capturedAt": "2026-05-06T08:28:00Z",
+  "source": "local release APK on AVD",
+  "device": {
+    "avd": "babylog_api35",
+    "model": "sdk_gphone64_arm64",
+    "android": "Android 15 / API 35",
+    "resolution": "1080x2400"
+  },
+  "app": {
+    "package": "com.eranova.babylog",
+    "version": "1.0.2+3",
+    "artifact": "build/app/outputs/flutter-apk/app-release.apk"
+  },
+  "dataReview": {
+    "usesSyntheticBabyName": true,
+    "usesTestReviewerAccountOnly": true,
+    "showsOpenAiApiKey": false,
+    "showsPassword": false,
+    "redactsReviewerEmailAndAssistantId": true,
+    "containsRealChildData": false
+  },
+  "screenshots": [
+    {
+      "purpose": "signIn",
+      "path": "docs/play-assets/screenshots/phone-00-sign-in.png",
+      "sha256": "6ab75c06abdc8f41c60e799d9d9093e29ff075395094c7cd23249f1bcebff6c1"
+    },
+    {
+      "purpose": "sharedTimeline",
+      "path": "docs/play-assets/screenshots/phone-01-shared-timeline.png",
+      "sha256": "81193d1c8329e744d5d768b104179166b1e767bed81821df72f0c2904e4eaad2"
+    },
+    {
+      "purpose": "settingsAndByok",
+      "path": "docs/play-assets/screenshots/phone-02-settings.png",
+      "sha256": "bd0e09e62630ea9f4dbd96714cb39a86f0a404d2b89243944f24c45e37207fef"
+    },
+    {
+      "purpose": "privacyPolicy",
+      "path": "docs/play-assets/screenshots/phone-03-privacy-policy.png",
+      "sha256": "470449871d1d9600303586b413e6ceed27644f3b01c632f5869d297cca2a96d9"
+    },
+    {
+      "purpose": "recordingPermission",
+      "path": "docs/play-assets/screenshots/phone-04-recording-permission.png",
+      "sha256": "63bf8db1ce4824569d709b05ee2b8b9e8181f2120b15504985c6cfbf64957e68"
+    }
+  ],
+  "remainingGaps": [
+    "Recorder-created first event still needs a real OpenAI BYOK key or internal-test validation.",
+    "Final Play Console media upload acceptance is not captured yet."
+  ]
+}

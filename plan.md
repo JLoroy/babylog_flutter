@@ -64,6 +64,7 @@
 - 2026-05-06: Treat AVD release sign-in, user document load, current-assistant link creation, assistant document creation, and assistant membership under deployed Firestore rules as smoke-tested with disposable verified Firebase Auth user `qa202605060729068d@example.com`.
 - 2026-05-06: Validate the single-user in-app account deletion path on the release APK with disposable Firebase Auth user `deleteqa20260506075317ad1d03@example.com`; commit only non-secret before/after evidence.
 - 2026-05-06: Set the `test@era-nova.be` Play reviewer password in Firebase Auth, store it only in ignored `.qa-secrets/play-reviewer-account.json`, and validate release APK sign-in to `play-reviewer-assistant`.
+- 2026-05-06: Capture local Play screenshots from the signed release APK on AVD `babylog_api35` for sign-in, synthetic timeline, Settings/BYOK, Privacy Policy, and microphone permission; recorder-created event validation still requires a BYOK/internal-test run.
 
 ## Next
 
@@ -80,6 +81,7 @@
 - Replace the placeholders in `docs/play-reviewer-access.md` with real Play Console notes after credentials exist; keep secrets out of git.
 - Keep `docs/release-completion-audit.md` updated as objective-level evidence changes.
 - Complete `docs/manual-qa-checklist.md` during internal testing on a real Android device.
+- Upload/confirm the captured phone screenshots in Play Console; replace or extend them if Play Console rejects local AVD screenshots.
 - Capture Play Console install/acquisition evidence and Firebase Auth supporting evidence after production release.
 - Smoke-test deployed Firebase rules with production assistant membership data and the app/internal test account.
 - Complete full manual QA beyond the disposable AVD sign-in/assistant/deletion smoke: BYOK recording, event creation through the recorder, restart persistence, sharing, and final Play screenshots.
