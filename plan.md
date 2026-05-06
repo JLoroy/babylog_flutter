@@ -57,7 +57,7 @@
 - 2026-05-06: Add a Play Console submit packet with copy/paste values for the AAB, store listing, public URLs, reviewer access, BYOK note, app content, and assets.
 - 2026-05-06: Align `android/app/releasenotes.md` with the current Play listing release notes and validate it with `npm run test:play-release-notes`.
 - 2026-05-06: Update the Play Store listing copy so the account deletion page is described as published, not merely prepared.
-- 2026-05-06: Local Android QA/screenshot capture is blocked in this workspace because `flutter devices` only sees macOS/Chrome and `flutter emulators` finds no Android emulator sources.
+- 2026-05-06: Local Android QA/screenshot capture is no longer blocked by emulator availability: AVD `babylog_api35` boots as Android 15 / API 35, installs the release APK, and launches Babylog to the sign-in screen. Signed-in manual QA remains blocked by reviewer/test credentials and full flow execution.
 - 2026-05-06: Keep `firebase-tools` as a project dev dependency for CI rules tests and exclude `node_modules/**` from Flutter analysis so Firebase Dart templates are not analyzed as app code.
 
 ## Next

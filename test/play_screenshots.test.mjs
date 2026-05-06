@@ -16,11 +16,19 @@ test('Play screenshot plan covers required sanitized phone screenshots', async (
     'Do not show OpenAI API keys',
     'docs/manual-qa-checklist.md',
     'Final Android build',
-    'found only macOS and Chrome',
-    'found no Android emulator sources',
+    'babylog_api35',
+    'Android 15 / API 35',
+    'docs/qa-evidence/2026-05-06-release-apk-launch.png',
   ]) {
     assert.match(plan, new RegExp(escapeRegExp(required)));
   }
+
+  const screenshot = await readFile(
+    'docs/qa-evidence/2026-05-06-release-apk-launch.png',
+  );
+  assert.equal(screenshot.toString('ascii', 1, 4), 'PNG');
+  assert.equal(screenshot.readUInt32BE(16), 1080);
+  assert.equal(screenshot.readUInt32BE(20), 2400);
 });
 
 function escapeRegExp(value) {

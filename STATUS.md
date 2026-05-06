@@ -65,7 +65,8 @@
 - Added `docs/play-console-submit-packet.md` and `npm run test:play-submit-packet` as a compact Play Console handoff with exact copy/paste values.
 - Updated `android/app/releasenotes.md` to match the current Play listing release notes and added `npm run test:play-release-notes`.
 - Updated `docs/play-store-listing.md` so account deletion is described as published, not merely prepared for publication.
-- Checked local Android device/emulator availability: `flutter devices` found only macOS and Chrome, and `flutter emulators` found no Android emulator sources; manual Android QA/screenshots require a real device, new AVD, or Play internal testing install.
+- Rechecked local Android device/emulator availability: `flutter emulators` now lists `babylog_api35`, and after launch `flutter devices` sees `emulator-5554` as Android 15 / API 35.
+- Installed `build/app/outputs/flutter-apk/app-release.apk` on AVD `babylog_api35`, launched `com.eranova.babylog`, confirmed it stayed running, and saved a non-private sign-in screenshot at `docs/qa-evidence/2026-05-06-release-apk-launch.png`.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -189,7 +190,7 @@ Resolved from the earlier audit:
 ## High-risk / compliance
 - **Firebase security rules** are now in repo, emulator-tested, and deployed to `babylog-flutter`; they still need app-level smoke testing against real Firebase data.
 - **Data Safety disclosures** now have a draft inventory in `docs/play-console-compliance.md`, Settings exposes in-app privacy-policy text, and Firebase-hosted policy/deletion pages are published and verified; final Play Console answers still need signed-AAB SDK review and Console acceptance.
-- **Store listing** draft now exists in `docs/play-store-listing.md`; screenshots and final public URLs are still missing.
+- **Store listing** draft now exists in `docs/play-store-listing.md`; public URLs are published, but full signed-in screenshot coverage and final Play Console media upload are still missing.
 - **App content** draft now exists in `docs/play-console-app-content.md`; reviewer credentials and BYOK review instructions still need final inputs.
 
 ## Architecture pain points (to revamp)

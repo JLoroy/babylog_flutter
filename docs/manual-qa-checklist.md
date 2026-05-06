@@ -12,16 +12,27 @@ production release.
 - Build artifact: `build/app/outputs/bundle/release/app-release.aab`
 - Build artifact SHA-256:
   `ac9b27ec22bb4d6c963a2c38eb3b274f9c539ea508b566fccab8d3f4ba8b226b`
-- Device model: TODO
-- Android version: TODO
+- Device model: `sdk_gphone64_arm64` on local AVD `babylog_api35`
+- Android version: Android 15 / API 35
 - Firebase project: `babylog-flutter`
-- Tester: TODO
-- Date/time: TODO
+- Tester: Codex local release install smoke test
+- Date/time: 2026-05-06 09:07 Europe/Brussels
 
 Local workspace device check on 2026-05-06:
-`flutter devices` found only macOS and Chrome; `flutter emulators` found no Android emulator sources.
-Manual Android QA must run on a real Android device, new local AVD, or Play
-internal testing install.
+`flutter emulators` lists local AVD `babylog_api35`. After launching it,
+`flutter devices` found `emulator-5554` as Android 15 / API 35. The release APK
+`build/app/outputs/flutter-apk/app-release.apk` installed successfully with
+`adb install -r`, launched with package `com.eranova.babylog`, and stayed
+running as PID `3504`.
+
+Local release APK SHA-256:
+`aac71bfa737282db17251f9ea0277ea993fdab5ef164e29339eb3b328101702d`
+
+Launch screenshot evidence:
+`docs/qa-evidence/2026-05-06-release-apk-launch.png`
+
+Remaining manual Android QA still must run on this AVD, a real Android device,
+or a Play internal testing install.
 
 ## Test Data Rules
 
@@ -34,7 +45,7 @@ internal testing install.
 
 | Flow | Steps | Evidence to capture | Result |
 | --- | --- | --- | --- |
-| Install and launch | Install the APK/AAB test build and open Babylog. | Screenshot of launch/auth screen and installed app version. | TODO |
+| Install and launch | Install the APK/AAB test build and open Babylog. | Screenshot of launch/auth screen and installed app version. | PASS locally on AVD `babylog_api35`; release APK installed, `com.eranova.babylog` launched, screenshot saved at `docs/qa-evidence/2026-05-06-release-apk-launch.png`. |
 | Sign up | Create a new Firebase email/password test account. | Firebase Auth user id and screenshot without password. | TODO |
 | Email verification | Complete or bypass only with documented reviewer-ready test account. | Screenshot/note showing verified state. | TODO |
 | Assistant creation | Let the app create the initial assistant/timeline. | Firestore `users/{uid}` and `assistants/{assistantId}` evidence. | TODO |

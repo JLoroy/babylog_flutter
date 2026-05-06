@@ -31,9 +31,11 @@ test('manual QA checklist covers release-critical flows', async () => {
     'ac9b27ec22bb4d6c963a2c38eb3b274f9c539ea508b566fccab8d3f4ba8b226b',
     'babylog-flutter',
     'flutter devices',
-    'found only macOS and Chrome',
+    'Android 15 / API 35',
     'flutter emulators',
-    'found no Android emulator sources',
+    'babylog_api35',
+    'adb install -r',
+    'docs/qa-evidence/2026-05-06-release-apk-launch.png',
     'test@era-nova.be',
     'play-reviewer-assistant',
     'documented BYOK-only review',
@@ -43,6 +45,13 @@ test('manual QA checklist covers release-critical flows', async () => {
   ]) {
     assert.match(checklist, new RegExp(escapeRegExp(required)));
   }
+
+  const screenshot = await readFile(
+    'docs/qa-evidence/2026-05-06-release-apk-launch.png',
+  );
+  assert.equal(screenshot.toString('ascii', 1, 4), 'PNG');
+  assert.equal(screenshot.readUInt32BE(16), 1080);
+  assert.equal(screenshot.readUInt32BE(20), 2400);
 });
 
 function escapeRegExp(value) {

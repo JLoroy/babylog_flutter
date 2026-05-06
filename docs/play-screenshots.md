@@ -11,9 +11,13 @@ signing is fixed and the app is installed through internal testing or an
 equivalent release build.
 
 Local workspace device check on 2026-05-06:
-`flutter devices` found only macOS and Chrome; `flutter emulators` found no Android emulator sources.
-Final screenshots require a real Android device, a new local AVD, or a Play
-internal testing install.
+`flutter emulators` lists local AVD `babylog_api35`. After launching it,
+`flutter devices` found `emulator-5554` as Android 15 / API 35. The release APK
+installed and launched to the sign-in screen; the first local screenshot
+evidence is `docs/qa-evidence/2026-05-06-release-apk-launch.png`.
+
+Final full screenshot coverage still requires completing the signed-in flows on
+this AVD, a real Android device, or a Play internal testing install.
 
 ## Capture Rules
 
