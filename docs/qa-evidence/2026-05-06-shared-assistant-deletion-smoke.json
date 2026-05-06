@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-05-06T14:56:21.366Z",
+  "appPackage": "com.eranova.babylog",
+  "appVersion": "1.0.5+6",
+  "firebaseProject": "babylog-flutter",
+  "assistantId": "shared-delete-smoke-20260506145235",
+  "eventId": "shared-delete-event-20260506145235",
+  "afterEventId": "shared-delete-partner-event-20260506145235",
+  "primary": {
+    "uid": "codexsharedprimary20260506145235",
+    "email": "sharedprimary20260506145235@example.com",
+    "password": "stored only in .qa-secrets/shared-deletion-qa-account.json, not committed",
+    "rejectedSignInCode": "auth/user-not-found"
+  },
+  "partner": {
+    "uid": "codexsharedpartner20260506145235",
+    "email": "sharedpartner20260506145235@example.com",
+    "password": "stored only in .qa-secrets/shared-deletion-qa-account.json, not committed"
+  },
+  "checks": {
+    "primaryAuthSignInRejectedAfterDeletion": true,
+    "partnerAuthSignInStillWorks": true,
+    "assistantDocStillExistsForPartner": true,
+    "assistantUsersOnlyPartnerRemain": true,
+    "sharedAssistantEventsDeleted": true,
+    "partnerCanCreateEventAfterPrimaryDeletion": true
+  },
+  "firestore": {
+    "assistantUsersAfterPrimaryDeletion": [
+      "sharedpartner20260506145235@example.com"
+    ],
+    "eventIdsAfterPrimaryDeletion": [],
+    "partnerCreatedEventPath": "events/shared-delete-partner-event-20260506145235"
+  },
+  "screenshots": {
+    "beforeDelete": "docs/qa-evidence/2026-05-06-release-apk-shared-assistant-before-delete.png",
+    "confirmDelete": "docs/qa-evidence/2026-05-06-release-apk-shared-assistant-delete-confirm.png",
+    "afterDelete": "docs/qa-evidence/2026-05-06-release-apk-shared-assistant-after-delete.png"
+  }
+}

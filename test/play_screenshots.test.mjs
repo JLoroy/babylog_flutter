@@ -24,9 +24,14 @@ test('Play screenshot plan covers required sanitized phone screenshots', async (
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png',
+    'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-before-delete.png',
+    'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-delete-confirm.png',
+    'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-after-delete.png',
+    'docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json',
     'Firebase Auth/UI upgrade',
     'timeline shell loads',
     'Account deletion release APK smoke screenshots',
+    'Shared-assistant account deletion release APK smoke screenshots',
     'docs/play-assets/screenshots/2026-05-06-local-release-screenshot-set.json',
     'docs/play-assets/screenshots/phone-00-sign-in.png',
     'docs/play-assets/screenshots/phone-01-shared-timeline.png',
@@ -97,6 +102,9 @@ test('Play screenshot plan covers required sanitized phone screenshots', async (
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png',
+    'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-before-delete.png',
+    'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-delete-confirm.png',
+    'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-after-delete.png',
   ]) {
     const image = await readFile(screenshotPath);
     assert.equal(image.toString('ascii', 1, 4), 'PNG');

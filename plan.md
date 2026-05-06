@@ -80,6 +80,7 @@
 - 2026-05-06: Include the Play release identity in the generated handoff manifest and README so the upload folder visibly confirms package `com.eranova.babylog`, version `1.0.5+6`, and version code 6.
 - 2026-05-06: Treat Justin's Play Console screenshot as partial Console evidence: internal testing release `6 (1.0.5)` is active and available to internal testers, but review is still `Not reviewed` and production release remains open.
 - 2026-05-06: Keep OpenAI reviewer keys out of Firebase and git; if review needs AI recording, include a temporary limited key only in ignored private Play Console notes and instruct reviewers to paste it into the app's local BYOK Settings field.
+- 2026-05-06: Count shared-assistant account deletion as release-smoked on the signed release APK when evidence shows the deleted primary user loses Auth access, the partner keeps Auth/app data access, the assistant remains with only the partner in `users`, old shared events are removed, and the partner can create a new event afterward.
 
 ## Next
 

@@ -102,6 +102,7 @@
 - Justin uploaded the `1.0.5+6` AAB to Play Console internal testing, copied `android/app/releasenotes.md` into the release notes, left the release name as `6 (1.0.5)`, and provided a screenshot showing the release is active, available to internal testers, released on 2026-05-06 15:06, and still `Not reviewed`.
 - Updated the private Play Console notes generator so an optional ignored `.qa-secrets/play-reviewer-account.json` `openaiApiKey` field is included only in the private notes, with reviewer instructions to paste it into Settings because BYOK keys are stored locally on-device.
 - Aligned Play reviewer access, App content, submit packet, and handoff docs with the private-notes OpenAI key path: keys stay out of Firebase/git/app bundles, and reviewers paste any temporary key into local BYOK Settings.
+- Validated the shared-assistant account deletion branch on the release APK with disposable verified Firebase Auth users `sharedprimary20260506145235@example.com` and `sharedpartner20260506145235@example.com`: after deleting the primary user from Settings, primary Auth sign-in is rejected, partner Auth still works, assistant `shared-delete-smoke-20260506145235` remains with only the partner in `users`, old shared events are deleted, and the partner can create a new event afterward. Evidence: `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json` and three release APK screenshots.
 
 ### Verification
 - `git status` was clean immediately after the merge.

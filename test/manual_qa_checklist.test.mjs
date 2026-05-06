@@ -42,6 +42,10 @@ test('manual QA checklist covers release-critical flows', async () => {
     'docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json',
     'docs/qa-evidence/2026-05-06-release-apk-event-delete-before.png',
     'docs/qa-evidence/2026-05-06-release-apk-event-delete-after.png',
+    'docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json',
+    'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-before-delete.png',
+    'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-delete-confirm.png',
+    'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-after-delete.png',
     'docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json',
     'docs/qa-evidence/2026-05-06-public-privacy-policy-page.png',
     'docs/qa-evidence/2026-05-06-public-delete-account-page.png',
@@ -59,6 +63,11 @@ test('manual QA checklist covers release-critical flows', async () => {
     'codexdeleteqa20260506075317ad1d03',
     'restAuthSignInRejectedAfterDeletion',
     'ui-delete-smoke-20260506090414',
+    'shared-delete-smoke-20260506145235',
+    'shared-delete-event-20260506145235',
+    'shared-delete-partner-event-20260506145235',
+    'sharedprimary20260506145235@example.com',
+    'sharedpartner20260506145235@example.com',
     'play-reviewer-welcome',
     'current assistant reference',
     'test@era-nova.be',
@@ -194,6 +203,62 @@ test('manual QA checklist covers release-critical flows', async () => {
     'projects/babylog-flutter/databases/(default)/documents/events/play-reviewer-welcome',
   );
   for (const screenshotPath of eventDeleteSmoke.screenshots) {
+    const image = await readFile(screenshotPath);
+    assert.equal(image.toString('ascii', 1, 4), 'PNG');
+    assert.equal(image.readUInt32BE(16), 1080);
+    assert.equal(image.readUInt32BE(20), 2400);
+  }
+
+  const sharedDeletionSmoke = JSON.parse(
+    await readFile(
+      'docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json',
+      'utf8',
+    ),
+  );
+  assert.equal(sharedDeletionSmoke.firebaseProject, 'babylog-flutter');
+  assert.equal(sharedDeletionSmoke.appPackage, 'com.eranova.babylog');
+  assert.equal(
+    sharedDeletionSmoke.assistantId,
+    'shared-delete-smoke-20260506145235',
+  );
+  assert.equal(
+    sharedDeletionSmoke.eventId,
+    'shared-delete-event-20260506145235',
+  );
+  assert.equal(
+    sharedDeletionSmoke.afterEventId,
+    'shared-delete-partner-event-20260506145235',
+  );
+  assert.equal(
+    sharedDeletionSmoke.primary.email,
+    'sharedprimary20260506145235@example.com',
+  );
+  assert.equal(
+    sharedDeletionSmoke.partner.email,
+    'sharedpartner20260506145235@example.com',
+  );
+  assert.match(sharedDeletionSmoke.primary.password, /not committed/);
+  assert.match(sharedDeletionSmoke.partner.password, /not committed/);
+  for (const key of [
+    'primaryAuthSignInRejectedAfterDeletion',
+    'partnerAuthSignInStillWorks',
+    'assistantDocStillExistsForPartner',
+    'assistantUsersOnlyPartnerRemain',
+    'sharedAssistantEventsDeleted',
+    'partnerCanCreateEventAfterPrimaryDeletion',
+  ]) {
+    assert.equal(sharedDeletionSmoke.checks[key], true, `${key} should pass`);
+  }
+  assert.deepEqual(
+    sharedDeletionSmoke.firestore.assistantUsersAfterPrimaryDeletion,
+    ['sharedpartner20260506145235@example.com'],
+  );
+  assert.deepEqual(sharedDeletionSmoke.firestore.eventIdsAfterPrimaryDeletion, []);
+  assert.equal(
+    sharedDeletionSmoke.firestore.partnerCreatedEventPath,
+    'events/shared-delete-partner-event-20260506145235',
+  );
+  for (const screenshotPath of Object.values(sharedDeletionSmoke.screenshots)) {
     const image = await readFile(screenshotPath);
     assert.equal(image.toString('ascii', 1, 4), 'PNG');
     assert.equal(image.readUInt32BE(16), 1080);

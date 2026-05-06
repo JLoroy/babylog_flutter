@@ -71,6 +71,15 @@ Event deletion UI screenshots:
 `docs/qa-evidence/2026-05-06-release-apk-event-delete-before.png` and
 `docs/qa-evidence/2026-05-06-release-apk-event-delete-after.png`.
 
+Shared-assistant account deletion smoke evidence:
+`docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json`
+
+Shared-assistant account deletion screenshots:
+`docs/qa-evidence/2026-05-06-release-apk-shared-assistant-before-delete.png`,
+`docs/qa-evidence/2026-05-06-release-apk-shared-assistant-delete-confirm.png`,
+and
+`docs/qa-evidence/2026-05-06-release-apk-shared-assistant-after-delete.png`.
+
 Public policy page browser smoke evidence:
 `docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json`
 
@@ -89,8 +98,10 @@ The non-secret screenshot manifest is
 
 Disposable verified QA account passwords are stored only in ignored
 `.qa-secrets/current-qa-account.json` and
-`.qa-secrets/deletion-qa-account.json`. The Play reviewer password is stored
-only in ignored `.qa-secrets/play-reviewer-account.json`.
+`.qa-secrets/deletion-qa-account.json`. Shared-assistant deletion smoke
+passwords are stored only in ignored
+`.qa-secrets/shared-deletion-qa-account.json`. The Play reviewer password is
+stored only in ignored `.qa-secrets/play-reviewer-account.json`.
 
 Remaining manual Android QA still must run on this AVD, a real Android device,
 or a Play internal testing install.
@@ -116,9 +127,9 @@ or a Play internal testing install.
 | First recording | Record a synthetic baby-care event and send it. | Screenshot of recording/send flow. | TODO |
 | First event creation | Confirm transcription creates a timeline event. | Screenshot of event and matching Firestore `events` doc. | TODO |
 | Restart persistence | Restart the app and confirm the event remains visible. | Screenshot after restart. | TODO |
-| Shared assistant join | Sign in with a second test account and join the assistant. | Screenshot and Firestore `assistants.users` evidence. | TODO |
+| Shared assistant join | Sign in with a second test account and join the assistant. | Screenshot and Firestore `assistants.users` evidence. | PASS by seeded shared-assistant release smoke: disposable users `sharedprimary20260506145235@example.com` and `sharedpartner20260506145235@example.com` both started in assistant `shared-delete-smoke-20260506145235`; the Settings screenshot shows both synthetic users before deletion, and Firestore verification after deletion shows only the partner remains. Evidence: `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json`. |
 | Delete event | Delete a test event from the timeline. | Screenshot and Firestore evidence that event doc is gone. | PASS locally on AVD `babylog_api35` for an existing synthetic event in the reviewer assistant; evidence in `docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json` confirms event `ui-delete-smoke-20260506090414` was visible before deletion, hidden afterward, absent from the Firestore query, and the reviewer sample event remained. Recorder-created event deletion remains pending until recording/event creation QA is complete. |
-| Delete account | Delete the primary test account from Settings. | Firebase Auth, `users`, `assistants`, `events`, and local BYOK cleanup evidence. | PASS for single-user release APK smoke on AVD `babylog_api35`; evidence in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` confirms the app returned to sign-in, Auth sign-in was rejected afterward, and the Firebase user, assistant, and synthetic event documents were deleted. Shared-assistant deletion and local BYOK cleanup remain covered by tests, not manual device evidence. |
+| Delete account | Delete the primary test account from Settings. | Firebase Auth, `users`, `assistants`, `events`, and local BYOK cleanup evidence. | PASS for single-user release APK smoke on AVD `babylog_api35`; evidence in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` confirms the app returned to sign-in, Auth sign-in was rejected afterward, and the Firebase user, assistant, and synthetic event documents were deleted. PASS for shared-assistant release APK smoke in `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json`: primary Auth sign-in is rejected after deletion, partner Auth sign-in still works, the assistant doc still exists for the partner, assistant `users` contains only the partner, old shared events are deleted, and the partner can create a new event afterward. Local BYOK cleanup is still covered by tests and exercised with a fake key before deletion, but not directly introspected from device secure storage. |
 | Reauthentication edge | Trigger or document `requires-recent-login` behavior. | Screenshot or note explaining reviewer-observed behavior. | TODO |
 | Public deletion page | Open the account deletion page without the app installed. | Browser screenshot with public URL. | PASS from public Firebase Hosting URL in Google Chrome headless; screenshot saved at `docs/qa-evidence/2026-05-06-public-delete-account-page.png` and evidence manifest saved at `docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json`. |
 | Public privacy page | Open the privacy policy page without authentication. | Browser screenshot with public URL. | PASS from public Firebase Hosting URL in Google Chrome headless; screenshot saved at `docs/qa-evidence/2026-05-06-public-privacy-policy-page.png` and evidence manifest saved at `docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json`. |
@@ -133,6 +144,8 @@ or a Play internal testing install.
 - Assistant users after deletion: TODO
 - Event documents before deletion: PASS for account deletion event `delete-smoke-codexdeleteqa20260506075317ad1d03` and UI deletion event `ui-delete-smoke-20260506090414`.
 - Event documents after deletion: PASS in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` and `docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json`; the reviewer sample event `play-reviewer-welcome` remains for Play review.
+- Shared assistant before deletion: `shared-delete-smoke-20260506145235` contained users `sharedprimary20260506145235@example.com` and `sharedpartner20260506145235@example.com`, plus event `shared-delete-event-20260506145235`.
+- Shared assistant after primary deletion: PASS in `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json`; primary Auth sign-in is rejected, partner Auth sign-in succeeds, assistant users are `sharedpartner20260506145235@example.com`, old shared events are gone, and partner-created event `shared-delete-partner-event-20260506145235` proves the remaining member can still write.
 - Disposable account deletion event before deletion: `delete-smoke-codexdeleteqa20260506075317ad1d03`
 - Disposable account deletion event after deletion: PASS in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json`
 
@@ -142,7 +155,9 @@ or a Play internal testing install.
 - Reviewer password storage location:
   `.qa-secrets/play-reviewer-account.json` (ignored; do not commit)
 - Reviewer assistant id: `play-reviewer-assistant`
-- BYOK review path: documented BYOK-only review; no OpenAI test key in repo docs.
+- BYOK review path: documented BYOK-only review; no OpenAI key in repo docs,
+  Firebase, or the app bundle. Optional temporary reviewer keys belong only in
+  ignored private Play Console notes and must be pasted into local Settings.
 - Public privacy policy URL: `https://babylog-flutter.web.app/privacy-policy`
 - Public account deletion URL: `https://babylog-flutter.web.app/delete-account`
 

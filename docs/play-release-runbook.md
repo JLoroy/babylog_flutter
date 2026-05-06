@@ -29,8 +29,9 @@ Official references:
 - Public account deletion URL is live.
 - Reviewer Firebase Auth account exists, is verified, and is linked to a
   synthetic sample assistant.
-- BYOK review path is documented BYOK-only behavior; no OpenAI test key is
-  committed or provided in repo docs.
+- BYOK review path is documented BYOK-only behavior; no OpenAI key is committed
+  or provided in repo docs, Firebase, or the app bundle. Optional temporary
+  reviewer keys belong only in ignored private Play Console notes.
 - `docs/manual-qa-checklist.md` is complete for the internal testing build.
 
 ## Local Preflight

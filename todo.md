@@ -6,11 +6,11 @@ Format: Title / Description / Guidance / How to validate.
 
 ### Complete account deletion
 
-**Description:** The delete-account flow is implemented through `AccountDeletionService`, including Firebase data/auth deletion and assistant-scoped local OpenAI key cleanup. Single-user release APK deletion has real Firebase/Auth/Firestore smoke evidence; shared-assistant deletion and local BYOK cleanup still need broader manual evidence before the checklist is fully closed.
+**Description:** The delete-account flow is implemented through `AccountDeletionService`, including Firebase data/auth deletion and assistant-scoped local OpenAI key cleanup. Single-user and shared-assistant release APK deletion both have real Firebase/Auth/Firestore smoke evidence; local BYOK cleanup is still covered by tests and exercised with a fake key before deletion, but not directly introspected from device secure storage.
 
 **Guidance:** Use a disposable test account and assistant. Confirm deletion removes assistant events, deletes `users/{uid}`, removes the deleting user from shared assistant membership or deletes the assistant doc when no users remain, clears the local BYOK key for that assistant, and deletes the Firebase Auth user. Confirm the app handles `requires-recent-login` by asking the user to sign in again.
 
-**How to validate:** `flutter test` covers the deletion coordinator. Single-user device evidence is recorded in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json`. Manual validation is still required for the shared-assistant branch and local BYOK cleanup, with Firebase Console evidence for Auth, user doc, event docs, and assistant membership.
+**How to validate:** `flutter test` covers the deletion coordinator. Single-user device evidence is recorded in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json`. Shared-assistant device evidence is recorded in `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json`, including primary Auth rejection after deletion, partner Auth preservation, assistant membership update, shared event deletion, and partner event creation after deletion. Direct device secure-storage introspection for BYOK cleanup remains optional hardening.
 
 ### Move OpenAI calls off the client
 
@@ -74,7 +74,7 @@ Format: Title / Description / Guidance / How to validate.
 
 **Description:** Draft Play Console App content answers now live in `docs/play-console-app-content.md`, with dedicated reviewer access notes in `docs/play-reviewer-access.md`, covering restricted app access, no ads, adult parent/guardian target audience, content rating notes, data safety cross-reference, and microphone permission rationale.
 
-**Guidance:** The reviewer Firebase Auth account is `test@era-nova.be`; it is verified, has a locally stored password in ignored `.qa-secrets/play-reviewer-account.json`, and is linked to the synthetic `play-reviewer-assistant` timeline. Use BYOK-only reviewer instructions with no OpenAI test key, then copy final Play Console app-access notes without committing real credentials. Keep listing/screenshots clearly aimed at parents and guardians rather than children.
+**Guidance:** The reviewer Firebase Auth account is `test@era-nova.be`; it is verified, has a locally stored password in ignored `.qa-secrets/play-reviewer-account.json`, and is linked to the synthetic `play-reviewer-assistant` timeline. Use BYOK-only reviewer instructions; include a temporary OpenAI key only in ignored private Play Console notes if AI recording must be reviewed, then copy final Play Console app-access notes without committing real credentials. Keep listing/screenshots clearly aimed at parents and guardians rather than children.
 
 **How to validate:** Run `npm run test:app-content` and `npm run test:play-reviewer-access`. Current local evidence is in `docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json` and `docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png`. Confirm Play Console accepts the App content answers and the reviewer account can access the relevant app flows from the uploaded test build.
 
