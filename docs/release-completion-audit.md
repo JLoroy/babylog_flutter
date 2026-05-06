@@ -1,6 +1,6 @@
 # Babylog Release Completion Audit
 
-Last updated: 2026-05-06
+Last updated: 2026-05-07
 
 Objective under audit:
 Make Babylog a fully released and professional app available on the Play Store
@@ -37,11 +37,11 @@ Not achieved.
 | Flutter analyzer | `flutter analyze --no-fatal-infos` is recorded passing with 84 info-level issues. | Passing locally | Info-level lint debt remains. |
 | Flutter tests | `flutter test` is recorded passing with 10 tests; remote CI run `25422575356` passed tests. | Passing | Expand coverage as release risk changes. |
 | Android debug build | `flutter build apk --debug` is recorded passing locally; remote CI runs `25427451856` and `25428242326` built the debug APK on `main`. | Passing locally and remotely | Keep remote CI green before each rollout. |
-| Android release signing | `keytool` opens the configured keystore/alias; after the shared-assistant join fix, `flutter build appbundle --release` produced `build/app/outputs/bundle/release/app-release.aab` for `1.0.6+7`; SHA-256 `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`; `jarsigner -verify` exits 0. Justin uploaded the previous `1.0.5+6` AAB to Play internal testing and provided a Play Console screenshot showing active release `6 (1.0.5)`, `1 version code`, released on 2026-05-06 15:06, and `Available to internal testers`. Justin later reported in chat that the current AAB appears as version code 7. | New signed AAB built locally; version 7 user-reported uploaded | Capture redacted version 7 Play acceptance evidence, then complete review/production release. |
+| Android release signing | `keytool` opens the configured keystore/alias; after the shared-assistant join fix, `flutter build appbundle --release` produced `build/app/outputs/bundle/release/app-release.aab` for `1.0.6+7`; SHA-256 `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`; `jarsigner -verify` exits 0. Justin uploaded the previous `1.0.5+6` AAB to Play internal testing and provided a Play Console screenshot showing active release `6 (1.0.5)`, `1 version code`, released on 2026-05-06 15:06, and `Available to internal testers`. Justin later reported in chat that version code 7 was accepted and deployed to his phone. Version `1.0.7+8` is built as the next design-refresh candidate; AAB SHA-256 `dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811`; `jarsigner -verify` exits 0. | Version 7 user-reported accepted; version 8 candidate built locally | Capture redacted version 7 Play acceptance evidence, then upload version 8 if design QA passes. |
 | Upload key recovery | `docs/upload-key-recovery.md` exists; `npm run test:upload-key` passes; recovered password is configured only in ignored `android/key.properties`. | Resolved locally | Keep signing secrets out of git and mirror into secure release storage if needed. |
 | Upload key material | `~/Documents/AndroidReleaseKeys/eranova_upload.jks` and PEPK file exist; `android/key.properties` is ignored. | Present and usable | Final Play upload must confirm Play accepts the upload key. |
 | Google Play target API | `android/app/build.gradle.kts` targets SDK 35 and compiles SDK 36; Play Console internal testing accepted release `6 (1.0.5)`. | Implemented and accepted for internal testing | Production review/release still required. |
-| Android release identity | `npm run test:android-release-identity` checks package `com.eranova.babylog`, version `1.0.6+7`, target SDK 35, compile SDK 36, permissions, and listing identity fields. Play Console internal testing previously showed release `6 (1.0.5)`; Justin reported in chat that the current upload now appears as version code 7. | Implemented locally; version 7 user-reported in Console | Capture redacted Play acceptance evidence for version code 7. |
+| Android release identity | `npm run test:android-release-identity` checks package `com.eranova.babylog`, version `1.0.7+8`, target SDK 35, compile SDK 36, permissions, and listing identity fields. Play Console internal testing previously showed release `6 (1.0.5)`; Justin reported in chat that version code 7 was accepted and deployed to his phone. | Version 8 candidate prepared locally | Capture redacted Play acceptance evidence for version code 7 and upload evidence for version code 8 if submitted. |
 | Play policy freshness | `docs/play-policy-freshness.md` records the 2026-05-06 official-doc check for target API 35+, privacy policy, ads, app access, and account deletion requirements; `npm run test:play-policy-freshness` verifies the snapshot and CI wiring. | Reviewed | Re-check immediately before any submission after 2026-08-01 and confirm Play Console accepts the uploaded AAB. |
 | Android launcher brand | `android/app/src/main/AndroidManifest.xml` label is `Babylog`; `npm run test:android-manifest` passes. | Implemented | Needs final artifact check. |
 | Firebase security rules | `firestore.rules`, `database.rules.json`, `npm run test:rules` passing under Java 21; `firebase deploy --only firestore:rules --project babylog-flutter` succeeded after adding a narrow join-only update rule; disposable AVD smoke created/loaded user and assistant data under deployed rules. Account deletion, existing-event UI deletion, and shared-assistant join are smoke-tested on the release APK. | Deployed and smoke-tested for release-critical data branches | Event creation through the recorder and BYOK recording still require app-level smoke evidence. |
@@ -69,7 +69,7 @@ Not achieved.
 | 1000-user metric plan | `docs/growth-metrics.md` exists; `npm run test:growth` passes. | Paused / metric defined | Actual Play Console/Firebase metric evidence intentionally deferred until after release. |
 | Ads/analytics surface | Firebase Analytics and RTDB Flutter dependencies removed; searches recorded clean in `STATUS.md`. | Improved | Final Play SDK/data disclosure must verify uploaded artifact. |
 | OpenAI key handling | Firestore dev/shared key fallback removed; BYOK local secure storage implemented and tested; first-release decision is BYOK-only direct client calls with backend proxy deferred. `docs/qa-evidence/2026-05-06-byok-key-save-smoke.json` confirms the release APK saves a non-secret fake key locally, shows it masked after app restart, and Firestore has `byok: true` with no `apikey` field. | Improved and key-save smoke-tested | Real limited OpenAI key recording/transcription and recorder-created event QA still required. |
-| Production availability on Play Store | Play Console internal testing reached at least release `6 (1.0.5)`, and Justin reported that the current upload appears as version code 7, but no production release or public listing URL exists in this workspace. | Not achieved | Complete review, policy setup, and production release. |
+| Production availability on Play Store | Play Console internal testing reached at least release `6 (1.0.5)`, and Justin reported that version code 7 was accepted and deployed to his phone, but no production release or public listing URL exists in this workspace. | Not achieved | Complete review, policy setup, and production release. |
 | 1000 downloads/users | `docs/growth-metrics.md` defines Play Console installs as primary evidence, but no metric capture exists. | Paused / not achieved | Resume after release and verify at least 1000 Play Console installs/acquisitions. |
 
 ## Current Hard Blockers
@@ -77,8 +77,9 @@ Not achieved.
 - Play Console internal testing evidence exists from Justin's 2026-05-06
   screenshot: release `6 (1.0.5)` is active, available to internal testers, and
   not reviewed. Justin later reported that the current `1.0.6+7` AAB appears as
-  version code 7 and that App access notes were added; redacted committed evidence
-  for version code 7, production release, and live listing evidence still do not
+  version code 7, that App access notes were added, and on 2026-05-07 that the
+  release was accepted and deployed to his phone; redacted committed evidence for
+  version code 7, production release, and live listing evidence still do not
   exist in this workspace.
 - No Play Developer API, Fastlane, Gradle Play Publisher, or service-account
   automation credentials were found in the repo.

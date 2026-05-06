@@ -1,6 +1,6 @@
 # Babylog Play Console Evidence
 
-Last updated: 2026-05-06
+Last updated: 2026-05-07
 
 Status: partial Console capture.
 
@@ -24,7 +24,7 @@ is done.
 
 | Console item | Evidence to capture | Evidence path or URL | Status |
 | --- | --- | --- | --- |
-| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.6+7`, and accepted AAB state. | User reported in chat on 2026-05-06 that the uploaded AAB appears as version code 7. Redacted screenshot/export still needed for committed evidence. | User-reported Accepted for internal testing; redacted evidence pending |
+| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.6+7`, and accepted AAB state. | User reported in chat on 2026-05-06 that the uploaded AAB appears as version code 7. User reported on 2026-05-07 that the release was accepted and deployed to his phone. Redacted screenshot/export still needed for committed evidence. | User-reported Accepted for internal testing and deployed to device; redacted evidence pending |
 | Internal testing release rolled out | Internal testing track screen showing rollout active or available to testers. | User-provided chat screenshot on 2026-05-06: release `6 (1.0.5)` shows `Available to internal testers`, released on 6 May 15:06, review status `Not reviewed`. | Active / not reviewed |
 | Production release available | Production track screen or public listing proving Babylog is available to users. | Pending | Pending |
 | Public Play listing URL | Public Google Play URL for Babylog. | Pending | Pending |

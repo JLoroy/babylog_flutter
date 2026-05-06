@@ -42,7 +42,7 @@ test('release completion audit tracks objective evidence and blockers', async ()
     'Real limited OpenAI key recording/transcription',
     'Play Console internal testing evidence exists',
     'release `6 (1.0.5)` is active',
-    'version code 7 and that App access notes were added',
+    'version code 7, that App access notes were added',
     'redacted committed evidence',
     'not reviewed',
     'production release, and live listing evidence still do not',

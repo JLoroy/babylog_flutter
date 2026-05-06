@@ -1,6 +1,6 @@
 # Babylog Play Console Submit Packet
 
-Last updated: 2026-05-06
+Last updated: 2026-05-07
 
 Status:
 Ready for Play Console copy/paste after the reviewer password is copied from
@@ -15,10 +15,10 @@ access notes file from `.qa-secrets/play-reviewer-account.json`.
 ## Release Artifact
 
 - Existing Play package: `com.eranova.babylog`
-- Release version: `1.0.6+7`
+- Release version: `1.0.7+8`
 - AAB path: `build/app/outputs/bundle/release/app-release.aab`
 - AAB SHA-256:
-  `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`
+  `dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811`
 - Signing verification: `jarsigner -verify` exits 0.
 
 ## Store Listing

@@ -16,6 +16,10 @@ test('Android release notes match the current Play release scope', async () => {
   }
 
   for (const required of [
+    'modern Android design',
+    'smoother timeline cards',
+    'clearer recording feedback',
+    'polished settings',
     'safer account deletion',
     'local-only OpenAI key handling',
     'tested Firebase security rules',

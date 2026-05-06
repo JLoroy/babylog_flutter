@@ -1,6 +1,6 @@
 # Babylog Manual QA Evidence Checklist
 
-Last updated: 2026-05-06
+Last updated: 2026-05-07
 
 Status: partially prefilled release evidence template. Complete the remaining
 result fields on a real Android device or Play internal testing install before
@@ -8,10 +8,10 @@ production release.
 
 ## Test Environment
 
-- App version/build: `1.0.6+7`
+- App version/build: `1.0.7+8`
 - Build artifact: `build/app/outputs/bundle/release/app-release.aab`
 - Build artifact SHA-256:
-  `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`
+  `dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811`
 - Device model: `sdk_gphone64_arm64` on local AVD `babylog_api35`
 - Android version: Android 15 / API 35
 - Firebase project: `babylog-flutter`

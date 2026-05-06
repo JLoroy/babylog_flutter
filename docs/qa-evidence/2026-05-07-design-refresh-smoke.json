@@ -1,0 +1,36 @@
+{
+  "date": "2026-05-07",
+  "timezone": "Europe/Brussels",
+  "appPackage": "com.eranova.babylog",
+  "appVersion": "1.0.7+8",
+  "firebaseProject": "babylog-flutter",
+  "device": {
+    "name": "babylog_api35",
+    "android": "Android 15 / API 35",
+    "serial": "emulator-5554"
+  },
+  "artifacts": {
+    "releaseApk": "build/app/outputs/flutter-apk/app-release.apk",
+    "releaseApkSha256": "62b2db7bd4b29563f7839140e492fcb6e313ef72d8c228c85fdf8f93436b4a29",
+    "releaseAab": "build/app/outputs/bundle/release/app-release.aab",
+    "releaseAabSha256": "dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811"
+  },
+  "checks": {
+    "releaseApkInstalled": true,
+    "appLaunched": true,
+    "processStayedRunning": true,
+    "reviewerTimelineDisplayedAfterUpgrade": true,
+    "settingsSheetOpened": true,
+    "privacyPolicyActionVisible": true,
+    "byokSettingVisible": true,
+    "openaiKeyFieldVisible": true
+  },
+  "screenshots": {
+    "timeline": "docs/qa-evidence/2026-05-07-design-refresh-launch.png",
+    "settingsRedacted": "docs/qa-evidence/2026-05-07-design-refresh-settings-redacted.png"
+  },
+  "redaction": {
+    "settingsRedacted": true,
+    "notes": "Reviewer email text was redacted before committing screenshot evidence."
+  }
+}

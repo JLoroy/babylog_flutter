@@ -1,6 +1,34 @@
 # STATUS — Babylog
 
-**Last updated:** 2026-05-06
+**Last updated:** 2026-05-07
+
+## Update (2026-05-07)
+
+### Current milestone
+- Prepare a version code 8 design-refresh candidate for Play internal testing after Justin reported that `1.0.6+7` was accepted and deployed on his phone.
+
+### What changed
+- Started a focused modern Android redesign while keeping the same Babylog screens, content, recorder flow, Settings actions, and timeline grouping behavior.
+- Added a shared Material 3 theme with Babylog-specific warm surfaces, coral primary actions, honey accents, and calmer form/button defaults.
+- Redesigned the main app shell with a floating assistant header, animated timeline area, and a tactile bottom recording dock.
+- Redesigned timeline cards, date headers, loading/error/empty states, and event menus while preserving date grouping, merge-by-timestamp behavior, scroll-to-bottom behavior, and delete actions.
+- Redesigned the recorder control with clearer idle/recording states, haptic feedback, timer display, and smoother processing transitions.
+- Redesigned Settings as a rounded modal sheet with grouped sections for Assistant, OpenAI, Users, Prompt Settings, and Actions while preserving Save, Back, Join another assistant, BYOK API key, Privacy Policy, coffee link, assistant ID, and Delete Account flows.
+- Bumped the next Play candidate to `1.0.7+8` and drafted release notes that frame this as a design refresh on top of the accepted `1.0.6+7` build.
+- Built signed release artifacts for `1.0.7+8`: AAB SHA-256 `dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811`; APK SHA-256 `62b2db7bd4b29563f7839140e492fcb6e313ef72d8c228c85fdf8f93436b4a29`.
+- Installed the `1.0.7+8` release APK on AVD `babylog_api35`, launched it to the reviewer timeline, opened Settings, and captured non-secret design evidence in `docs/qa-evidence/2026-05-07-design-refresh-smoke.json`, `docs/qa-evidence/2026-05-07-design-refresh-launch.png`, and redacted `docs/qa-evidence/2026-05-07-design-refresh-settings-redacted.png`.
+
+### Validation
+- `flutter analyze --no-fatal-infos` exits successfully; current output is info-level lint only.
+- `flutter test` passes: 10 tests.
+- `flutter build apk --release` passes, producing `build/app/outputs/flutter-apk/app-release.apk` at 55.9 MB.
+- `flutter build appbundle --release` passes, producing `build/app/outputs/bundle/release/app-release.aab` at 47.1 MB.
+- `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0 with the expected self-signed upload-key warnings.
+- AVD visual smoke passes for launch, reviewer timeline display, Settings sheet opening, visible Privacy Policy action, visible BYOK setting, and visible OpenAI key field.
+
+### Next steps
+1. Regenerate Play handoff files for `1.0.7+8`.
+2. Run release/document validators, commit in meaningful slices, push `main`, and watch GitHub Actions.
 
 ## Update (2026-05-05)
 

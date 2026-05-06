@@ -1,6 +1,6 @@
 # Babylog Play Store Listing Draft
 
-Last updated: 2026-05-06
+Last updated: 2026-05-07
 
 Status: draft. This copy follows current Google Play listing limits: app name up
 to 30 characters, short description up to 80 characters, and full description up
@@ -25,7 +25,7 @@ Package name:
 com.eranova.babylog
 
 Release version:
-1.0.6+7
+1.0.7+8
 
 Target API:
 Android 15 / API level 35
@@ -68,14 +68,10 @@ the small but important details of baby care.
 ## Release Notes
 
 en-US:
-Version 1.0.6 fixes shared-assistant joining for internal testing, with tested Firebase security rules, safer account deletion, local-only OpenAI key handling,
-Play policy pages, and Android release signing.
+Version 1.0.7 refreshes Babylog with a modern Android design, smoother timeline cards, clearer recording feedback, and polished settings, while keeping tested Firebase security rules, safer account deletion, local-only OpenAI key handling, Play policy pages, and Android release signing.
 
 fr-FR:
-La version 1.0.6 corrige l'ajout a un assistant partage pour les tests internes,
-avec des règles Firebase testées, une suppression de compte plus sûre, une
-gestion locale des clés OpenAI, des pages de politique Play et une signature
-Android configurée.
+La version 1.0.7 modernise Babylog avec un design Android plus actuel, une timeline plus fluide, un retour d'enregistrement plus clair et des paramètres mieux finis, tout en gardant les règles Firebase testées, une suppression de compte plus sûre, une gestion locale des clés OpenAI, des pages de politique Play et une signature Android configurée.
 
 ## Store Contact Fields
 

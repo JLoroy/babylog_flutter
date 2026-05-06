@@ -89,6 +89,8 @@
 - 2026-05-06: Bump the next Play upload candidate to `1.0.6+7`; current signed AAB SHA-256 is `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`, and current release APK SHA-256 is `62adf39ff32aee776a4b4d1af4fd05f548b6368d1fc9e09fa19f392c5c77fa1d`.
 - 2026-05-06: Count the shared-assistant join UI path as release-smoked on AVD `babylog_api35` for `1.0.6+7` when evidence shows Settings > Join another assistant switches the timeline, refreshed Settings shows both users, and the joiner can write an event.
 - 2026-05-06: Count restart persistence as release-smoked on AVD `babylog_api35` for `1.0.6+7` when reviewer event `play-reviewer-welcome` remains visible after force-stop/relaunch and Firestore still links the reviewer to `play-reviewer-assistant`.
+- 2026-05-07: Treat Justin's report that release `1.0.6+7` was accepted and deployed to his phone as user-reported internal-testing acceptance; still capture redacted Play Console evidence when available.
+- 2026-05-07: Prepare `1.0.7+8` as a design-refresh candidate: keep the existing screens, content, Firestore/OpenAI flows, and timeline behavior, while modernizing the Android UI with Material 3 theming, richer timeline cards, clearer recorder feedback, and a more polished Settings sheet.
 
 ## Next
 
