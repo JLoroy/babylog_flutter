@@ -5,6 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
+const Set<String> _knownEventIconTypes = {
+  'bottle',
+  'hygiene',
+  'medicine',
+  'other',
+  'parameter',
+};
+
+@visibleForTesting
+String eventIconAssetForType(String? type) {
+  final normalizedType = type?.trim();
+  if (normalizedType != null && _knownEventIconTypes.contains(normalizedType)) {
+    return 'assets/$normalizedType.svg';
+  }
+
+  return 'assets/other.svg';
+}
+
 class Timeline extends StatelessWidget {
   Timeline({super.key, required this.assistant});
 
@@ -161,7 +179,7 @@ class EventCard extends StatelessWidget {
                     ),
                     child: Center(
                       child: SvgPicture.asset(
-                        "assets/${event.type}.svg",
+                        eventIconAssetForType(event.type),
                         colorFilter: const ColorFilter.mode(
                           BabylogTheme.primary,
                           BlendMode.srcIn,

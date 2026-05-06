@@ -49,7 +49,7 @@ Expected status today:
 - The current signed release artifact is
   `build/app/outputs/bundle/release/app-release.aab`.
 - Artifact SHA-256 captured on 2026-05-07 for `1.0.7+8`:
-  `dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811`.
+  `5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376`.
 - `npm run prepare:play-handoff` creates the optional non-secret upload folder
   at `dist/play-console-handoff/`.
 

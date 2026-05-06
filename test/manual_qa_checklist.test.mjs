@@ -28,7 +28,7 @@ test('manual QA checklist covers release-critical flows', async () => {
     '## Play Review Inputs',
     '1.0.7+8',
     'build/app/outputs/bundle/release/app-release.aab',
-    'dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811',
+    '5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376',
     'babylog-flutter',
     'flutter devices',
     'Android 15 / API 35',
@@ -60,6 +60,8 @@ test('manual QA checklist covers release-critical flows', async () => {
     'docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json',
     'docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png',
     'docs/qa-evidence/2026-05-06-restart-persistence-smoke.json',
+    'docs/qa-evidence/2026-05-07-recorder-and-note-icon-smoke.json',
+    'docs/qa-evidence/2026-05-07-note-icon-fallback-launch.png',
     'docs/qa-evidence/2026-05-06-release-apk-restart-persistence-before.png',
     'docs/qa-evidence/2026-05-06-release-apk-restart-persistence-after.png',
     '.qa-secrets/current-qa-account.json',
@@ -83,6 +85,8 @@ test('manual QA checklist covers release-critical flows', async () => {
     'joiner20260506151008@example.com',
     '.qa-secrets/join-assistant-qa-account.json',
     'play-reviewer-welcome',
+    'BELL',
+    'Full real-device/internal-test recording remains TODO',
     'Restart persistence event after relaunch',
     'current assistant reference',
     'test@era-nova.be',
@@ -224,6 +228,54 @@ test('manual QA checklist covers release-critical flows', async () => {
     assert.equal(image.readUInt32BE(16), 1080);
     assert.equal(image.readUInt32BE(20), 2400);
   }
+
+  const recorderSmoke = JSON.parse(
+    await readFile(
+      'docs/qa-evidence/2026-05-07-recorder-and-note-icon-smoke.json',
+      'utf8',
+    ),
+  );
+  assert.equal(recorderSmoke.firebaseProject, 'babylog-flutter');
+  assert.equal(recorderSmoke.appPackage, 'com.eranova.babylog');
+  assert.equal(recorderSmoke.appVersion, '1.0.7+8');
+  assert.equal(
+    recorderSmoke.artifactHashes.releaseAabSha256,
+    '5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376',
+  );
+  assert.equal(
+    recorderSmoke.artifactHashes.releaseApkSha256,
+    'd7f5b0d32deefd131c8e8da0e799c0edf8110e429969c7b5fff79c5b2f8a9e2c',
+  );
+  assert.equal(recorderSmoke.reviewer.email, 'test@era-nova.be');
+  assert.match(recorderSmoke.reviewer.password, /not committed/);
+  assert.equal(recorderSmoke.assistantId, 'play-reviewer-assistant');
+  for (const key of [
+    'releaseApkInstalled',
+    'reviewerSessionRestored',
+    'missingKeyMessageObservedBeforeLocalKeyEntry',
+    'temporaryReviewerKeyEnteredLocallyAndSaved',
+    'microphonePermissionGranted',
+    'inAppRecorderReachedWhisperEndpoint',
+    'inAppRecorderUsedTemporaryReviewerKey',
+    'emulatorMicrophoneCapturedOnlyBellTone',
+    'noteIconFallbackRebuildInstalled',
+    'noteTypeTimelineLaunchHasNoMissingAssetLog',
+  ]) {
+    assert.equal(recorderSmoke.checks[key], true, `${key} should pass`);
+  }
+  assert.equal(recorderSmoke.checks.recorderCreatedEventInFirestore, false);
+  assert.equal(recorderSmoke.firestore.eventCountAfterRecorderAttempt, 1);
+  assert.deepEqual(recorderSmoke.firestore.eventIdsAfterRecorderAttempt, [
+    'play-reviewer-welcome',
+  ]);
+  assert.match(recorderSmoke.logEvidence.transcriptionResponseRedacted, /BELL/);
+  assert.match(recorderSmoke.remainingGap, /real-device\/internal-test/);
+  const noteFallbackScreenshot = await readFile(
+    recorderSmoke.screenshots.noteIconFallbackLaunch,
+  );
+  assert.equal(noteFallbackScreenshot.toString('ascii', 1, 4), 'PNG');
+  assert.equal(noteFallbackScreenshot.readUInt32BE(16), 1080);
+  assert.equal(noteFallbackScreenshot.readUInt32BE(20), 2400);
 
   const eventDeleteSmoke = JSON.parse(
     await readFile(

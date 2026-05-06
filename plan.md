@@ -92,6 +92,7 @@
 - 2026-05-07: Treat Justin's report that release `1.0.6+7` was accepted and deployed to his phone as user-reported internal-testing acceptance; still capture redacted Play Console evidence when available.
 - 2026-05-07: Prepare `1.0.7+8` as a design-refresh candidate: keep the existing screens, content, Firestore/OpenAI flows, and timeline behavior, while modernizing the Android UI with Material 3 theming, richer timeline cards, clearer recorder feedback, and a more polished Settings sheet.
 - 2026-05-07: Generate private Play Console reviewer notes from the ignored reviewer secret now that it contains a temporary OpenAI key; keep the key only in ignored local notes and validate only redacted endpoint evidence in git.
+- 2026-05-07: Fall back unknown/legacy event icon types to `assets/other.svg` after release logs showed the reviewer sample `note` event tried to load missing `assets/note.svg`; rebuild the signed v8 artifacts before Play upload.
 
 ## Next
 

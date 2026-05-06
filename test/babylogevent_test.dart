@@ -1,4 +1,5 @@
 import 'package:babylog/datamodel/babylogevent.dart';
+import 'package:babylog/components/event_timeline.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -55,5 +56,12 @@ void main() {
     expect(merged.ids, ['newer', 'older']);
     expect(merged.description, 'wet diaper\nchanged diaper');
     expect(merged.log, laterLog);
+  });
+
+  test('maps unknown event types to the existing fallback icon asset', () {
+    expect(eventIconAssetForType('bottle'), 'assets/bottle.svg');
+    expect(eventIconAssetForType('note'), 'assets/other.svg');
+    expect(eventIconAssetForType('diaper'), 'assets/other.svg');
+    expect(eventIconAssetForType(null), 'assets/other.svg');
   });
 }

@@ -1,0 +1,43 @@
+{
+  "capturedAt": "2026-05-06T23:35:00Z",
+  "firebaseProject": "babylog-flutter",
+  "appPackage": "com.eranova.babylog",
+  "appVersion": "1.0.7+8",
+  "artifactHashes": {
+    "releaseApkSha256": "d7f5b0d32deefd131c8e8da0e799c0edf8110e429969c7b5fff79c5b2f8a9e2c",
+    "releaseAabSha256": "5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376"
+  },
+  "reviewer": {
+    "email": "test@era-nova.be",
+    "password": "stored only in .qa-secrets/play-reviewer-account.json, not committed"
+  },
+  "assistantId": "play-reviewer-assistant",
+  "checks": {
+    "releaseApkInstalled": true,
+    "reviewerSessionRestored": true,
+    "missingKeyMessageObservedBeforeLocalKeyEntry": true,
+    "temporaryReviewerKeyEnteredLocallyAndSaved": true,
+    "microphonePermissionGranted": true,
+    "inAppRecorderReachedWhisperEndpoint": true,
+    "inAppRecorderUsedTemporaryReviewerKey": true,
+    "emulatorMicrophoneCapturedOnlyBellTone": true,
+    "recorderCreatedEventInFirestore": false,
+    "noteIconFallbackRebuildInstalled": true,
+    "noteTypeTimelineLaunchHasNoMissingAssetLog": true
+  },
+  "firestore": {
+    "eventCountAfterRecorderAttempt": 1,
+    "eventIdsAfterRecorderAttempt": [
+      "play-reviewer-welcome"
+    ]
+  },
+  "logEvidence": {
+    "transcriptionResponseRedacted": "{\"text\":\"BELL\",\"usage\":{\"type\":\"duration\",\"seconds\":9}}",
+    "missingAssetBeforeFix": "Unable to load asset: \"assets/note.svg\"",
+    "missingAssetAfterFix": "not observed after installing rebuilt release APK"
+  },
+  "screenshots": {
+    "noteIconFallbackLaunch": "docs/qa-evidence/2026-05-07-note-icon-fallback-launch.png"
+  },
+  "remainingGap": "The signed release app reached the real OpenAI transcription endpoint through the recorder, but the emulator microphone source produced only a bell tone, so a full real-device/internal-test recorder-created event still needs manual validation."
+}

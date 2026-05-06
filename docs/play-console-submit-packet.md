@@ -18,7 +18,7 @@ access notes file from `.qa-secrets/play-reviewer-account.json`.
 - Release version: `1.0.7+8`
 - AAB path: `build/app/outputs/bundle/release/app-release.aab`
 - AAB SHA-256:
-  `dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811`
+  `5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376`
 - Signing verification: `jarsigner -verify` exits 0.
 
 ## Store Listing

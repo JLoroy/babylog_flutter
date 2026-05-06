@@ -9,7 +9,7 @@ test('Play Console submit packet contains final handoff values', async () => {
     'com.eranova.babylog',
     '1.0.7+8',
     'build/app/outputs/bundle/release/app-release.aab',
-    'dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811',
+    '5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376',
     'Babylog',
     'privacy@lenacho.be',
     'https://babylog-flutter.web.app/privacy-policy',

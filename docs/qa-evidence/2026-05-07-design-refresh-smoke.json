@@ -11,9 +11,9 @@
   },
   "artifacts": {
     "releaseApk": "build/app/outputs/flutter-apk/app-release.apk",
-    "releaseApkSha256": "62b2db7bd4b29563f7839140e492fcb6e313ef72d8c228c85fdf8f93436b4a29",
+    "releaseApkSha256": "d7f5b0d32deefd131c8e8da0e799c0edf8110e429969c7b5fff79c5b2f8a9e2c",
     "releaseAab": "build/app/outputs/bundle/release/app-release.aab",
-    "releaseAabSha256": "dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811"
+    "releaseAabSha256": "5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376"
   },
   "checks": {
     "releaseApkInstalled": true,
