@@ -21,6 +21,7 @@
 - Validated the temporary reviewer OpenAI key through direct redacted endpoint smoke with synthetic audio/text: Whisper transcription and `gpt-4o-mini` event interpretation returned HTTP 200 and produced a parsed `bottle` event. Evidence: `docs/qa-evidence/2026-05-07-openai-byok-endpoint-smoke.json`.
 - Fixed timeline icon loading for legacy/unknown event types such as the reviewer sample `note` event by falling back to `assets/other.svg`; rebuilt the v8 APK/AAB afterward and verified the rebuilt release APK launches the reviewer timeline without the previous missing-asset log.
 - Attempted full in-app recorder QA on AVD `babylog_api35`: the signed release app reached Whisper with the local reviewer BYOK key, but the emulator microphone source captured only `BELL`, so no recorder-created Firestore event was produced. Evidence: `docs/qa-evidence/2026-05-07-recorder-and-note-icon-smoke.json`.
+- Added a 253/500-character public App access instruction template to `docs/play-console-submit-packet.md`; the actual reviewer password and temporary OpenAI key still come only from ignored private notes.
 
 ### Validation
 - `flutter analyze --no-fatal-infos` exits successfully; current output is info-level lint only.
@@ -34,6 +35,7 @@
 - Rebuilt `flutter build apk --release` and `flutter build appbundle --release` after the note-icon fallback fix; current signed hashes are APK `d7f5b0d32deefd131c8e8da0e799c0edf8110e429969c7b5fff79c5b2f8a9e2c` and AAB `5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376`.
 - Installed the rebuilt release APK on AVD `babylog_api35`, launched the reviewer timeline, and confirmed recent logs no longer contain `assets/note.svg` or `Unable to load asset`.
 - Full non-emulator Node validation passes: `node --test $(find test -name '*.test.mjs' ! -name 'firestore.rules.test.mjs' | sort)` ran 31 tests successfully.
+- Play handoff note validation passes: `npm run test:play-submit-packet`, `npm run test:play-private-notes`, and `node --test test/play_submit_packet.test.mjs test/play_console_private_notes.test.mjs test/play_console_handoff.test.mjs`.
 - GitHub Actions run `25467216242` for commit `fb74fc3` passed on `main`: Firebase rules completed in 30s, and Analyze/test completed in 7m09s including formatting, analyzer, Flutter tests, Play/docs validators, and Android debug APK build.
 
 ### Next steps

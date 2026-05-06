@@ -94,6 +94,7 @@
 - 2026-05-07: Generate private Play Console reviewer notes from the ignored reviewer secret now that it contains a temporary OpenAI key; keep the key only in ignored local notes and validate only redacted endpoint evidence in git.
 - 2026-05-07: Fall back unknown/legacy event icon types to `assets/other.svg` after release logs showed the reviewer sample `note` event tried to load missing `assets/note.svg`; rebuild the signed v8 artifacts before Play upload.
 - 2026-05-07: Treat commit `fb74fc3` as the current stable v8 upload candidate after GitHub Actions run `25467216242` passed on `main`; next unblocker is Play Console upload/acceptance plus real-device recorder validation.
+- 2026-05-07: Keep real App access credentials and the temporary OpenAI key only in ignored private notes; expose only a 500-character-safe public template in the Play submit packet so Play Console copy/paste is constrained without leaking secrets.
 
 ## Next
 

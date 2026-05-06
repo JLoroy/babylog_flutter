@@ -65,6 +65,21 @@ Reviewer account:
 
 Reviewer notes:
 
+Use the generated ignored private notes as the source of truth for the Play
+Console instructions field because it includes the real reviewer password and
+temporary OpenAI key. The generator validates that the final field is at or
+below 500 characters.
+
+Public template for the 500-character instructions field:
+
+```text
+Login with the reviewer credentials in this field. Use sample data only. Settings > Bring your own API key ON, paste the temporary OpenAI key in this field, Save. Test timeline, record, privacy, deletion. Do not delete account unless review requires it.
+```
+
+Template length without real secrets: 253/500 characters.
+
+For longer reviewer context outside the 500-character field:
+
 ```text
 Install and open Babylog.
 Sign in with the reviewer account provided in Play Console.

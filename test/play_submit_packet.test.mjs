@@ -19,6 +19,10 @@ test('Play Console submit packet contains final handoff values', async () => {
     '.qa-secrets/play-reviewer-account.json',
     'play-reviewer-assistant',
     'Some or all functionality is restricted.',
+    '500-character instructions field',
+    'Template length without real secrets: 253/500 characters.',
+    'Login with the reviewer credentials in this field.',
+    'paste the temporary OpenAI key in this field',
     'BYOK-only',
     'temporary OpenAI API key is provided in the private App access notes',
     'Settings > Bring your own API key',
@@ -38,6 +42,13 @@ test('Play Console submit packet contains final handoff values', async () => {
 
   assert.doesNotMatch(packet, /privacy@eranova\.be/);
   assert.doesNotMatch(packet, /OpenAI API key: sk-/);
+
+  const templateMatch = packet.match(
+    /Public template for the 500-character instructions field:\n\n```text\n(.+)\n```/,
+  );
+  assert.ok(templateMatch);
+  assert.equal(templateMatch[1].length, 253);
+  assert.ok(templateMatch[1].length <= 500);
 });
 
 function escapeRegExp(value) {
