@@ -114,6 +114,8 @@
 - `npm run test:byok-smoke` passes: BYOK smoke evidence is non-secret, release-scoped, verifies all recorded checks, and keeps the real OpenAI recording gap explicit.
 - `npm run test:event-delete-smoke` passes: event deletion UI smoke evidence is non-secret, release-scoped, verifies before/after screenshots, and keeps recorder-created event QA explicit as a remaining gap.
 - `npm run test:public-policy-pages-smoke` passes: public policy page smoke evidence is non-secret, browser-captured, hash-checked, and still keeps Play Console URL field confirmation explicit as a remaining gap.
+- GitHub Actions run `25426969401` is red on `main` only at `flutter build apk --debug`: both attempts failed before app compilation because Gradle could not resolve Flutter's `org.gradle.kotlin.kotlin-dsl:4.5.0` plugin from the Gradle Plugin Portal.
+- Fresh checks on 2026-05-06T09:31Z show the Gradle Plugin Portal artifact URL for `org.gradle.kotlin.kotlin-dsl:4.5.0` still returns HTTP 503; local `flutter build apk --debug` passes because the dependency is cached locally. Avoid stacking unrelated commits until CI can be rerun green or a deliberate CI dependency workaround is chosen.
 - `npm run test:play-screenshots` passes: screenshot plan covers sign-in, Settings/Privacy Policy, shared timeline, recording permission, first event, Delete Account, synthetic data rules, hidden OpenAI keys, and manual QA linkage.
 - `npm run test:public-urls` passes: verified Firebase Hosting privacy-policy and account-deletion URLs are recorded.
 - `npm run test:play-distribution` passes: distribution draft covers free app setup, Parenting category, suggested tags, Belgium/United States initial rollout, no ads, no IAP, and not enrolling in Families.
