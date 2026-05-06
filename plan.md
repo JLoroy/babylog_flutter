@@ -91,6 +91,7 @@
 - 2026-05-06: Count restart persistence as release-smoked on AVD `babylog_api35` for `1.0.6+7` when reviewer event `play-reviewer-welcome` remains visible after force-stop/relaunch and Firestore still links the reviewer to `play-reviewer-assistant`.
 - 2026-05-07: Treat Justin's report that release `1.0.6+7` was accepted and deployed to his phone as user-reported internal-testing acceptance; still capture redacted Play Console evidence when available.
 - 2026-05-07: Prepare `1.0.7+8` as a design-refresh candidate: keep the existing screens, content, Firestore/OpenAI flows, and timeline behavior, while modernizing the Android UI with Material 3 theming, richer timeline cards, clearer recorder feedback, and a more polished Settings sheet.
+- 2026-05-07: Generate private Play Console reviewer notes from the ignored reviewer secret now that it contains a temporary OpenAI key; keep the key only in ignored local notes and validate only redacted endpoint evidence in git.
 
 ## Next
 

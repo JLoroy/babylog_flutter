@@ -1,0 +1,31 @@
+{
+  "capturedAt": "2026-05-06T23:14:21.015Z",
+  "firebaseProject": "babylog-flutter",
+  "appPackage": "com.eranova.babylog",
+  "appVersion": "1.0.7+8",
+  "scope": "direct OpenAI endpoint smoke using ignored reviewer BYOK key; no key material recorded",
+  "syntheticAudio": {
+    "generator": "macOS say plus ffmpeg conversion to m4a",
+    "sha256": "08db7967417921b755317ccc8a72c8e3e2e150a07299d4d4363b1716b2f77389"
+  },
+  "transcription": {
+    "endpoint": "/v1/audio/transcriptions",
+    "model": "whisper-1",
+    "status": 200,
+    "textLength": 56,
+    "containsMilkVolume": true
+  },
+  "interpretation": {
+    "endpoint": "/v1/chat/completions",
+    "model": "gpt-4o-mini",
+    "promptMatchesAppTaxonomy": true,
+    "status": 200,
+    "parsedJson": true,
+    "eventCount": 1,
+    "eventTypes": [
+      "bottle"
+    ],
+    "includesBottleEvent": true
+  },
+  "remainingGap": "This validates the reviewer BYOK key and the same OpenAI endpoint/model family used by Babylog with synthetic audio/text, but it is not a full in-app microphone recorder-created event smoke."
+}

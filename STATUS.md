@@ -17,6 +17,8 @@
 - Bumped the next Play candidate to `1.0.7+8` and drafted release notes that frame this as a design refresh on top of the accepted `1.0.6+7` build.
 - Built signed release artifacts for `1.0.7+8`: AAB SHA-256 `dec7f6d4b94741d019a4a75ea48238eeb8e9c8911ba01a9e6ec71d357243f811`; APK SHA-256 `62b2db7bd4b29563f7839140e492fcb6e313ef72d8c228c85fdf8f93436b4a29`.
 - Installed the `1.0.7+8` release APK on AVD `babylog_api35`, launched it to the reviewer timeline, opened Settings, and captured non-secret design evidence in `docs/qa-evidence/2026-05-07-design-refresh-smoke.json`, `docs/qa-evidence/2026-05-07-design-refresh-launch.png`, and redacted `docs/qa-evidence/2026-05-07-design-refresh-settings-redacted.png`.
+- Generated ignored private Play Console App access notes after confirming the reviewer secret now contains a temporary OpenAI key; the generated notes stay under ignored `dist/play-console-handoff/private/`.
+- Validated the temporary reviewer OpenAI key through direct redacted endpoint smoke with synthetic audio/text: Whisper transcription and `gpt-4o-mini` event interpretation returned HTTP 200 and produced a parsed `bottle` event. Evidence: `docs/qa-evidence/2026-05-07-openai-byok-endpoint-smoke.json`.
 
 ### Validation
 - `flutter analyze --no-fatal-infos` exits successfully; current output is info-level lint only.
@@ -25,13 +27,15 @@
 - `flutter build appbundle --release` passes, producing `build/app/outputs/bundle/release/app-release.aab` at 47.1 MB.
 - `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0 with the expected self-signed upload-key warnings.
 - AVD visual smoke passes for launch, reviewer timeline display, Settings sheet opening, visible Privacy Policy action, visible BYOK setting, and visible OpenAI key field.
-- GitHub Actions run `25465751579` for current tip commit `79fe822` passed on `main`: Firebase rules completed in 33s, and Analyze/test completed in 6m07s including formatting, analyzer, Flutter tests, Play/docs validators, and Android debug APK build.
+- `npm run prepare:play-private-notes` passes and writes ignored private Play Console notes with reviewer credentials plus the temporary OpenAI key.
+- Direct OpenAI BYOK endpoint smoke passes with the ignored reviewer key: `/v1/audio/transcriptions` using `whisper-1` returns HTTP 200, and `/v1/chat/completions` using `gpt-4o-mini` returns HTTP 200 with parsed JSON containing one `bottle` event.
+- GitHub Actions run `25465751579` for commit `79fe822` passed on `main`: Firebase rules completed in 33s, and Analyze/test completed in 6m07s including formatting, analyzer, Flutter tests, Play/docs validators, and Android debug APK build.
 
 ### Next steps
 1. Upload `build/app/outputs/bundle/release/app-release.aab` for version `1.0.7+8` to Play Console internal testing.
 2. Copy the updated release notes from `android/app/releasenotes.md`.
 3. Capture redacted Play Console evidence for version 8 upload/acceptance and any remaining policy/store-listing fields.
-4. Continue manual QA on a real device or internal-test install, especially BYOK recording and recorder-created event flow.
+4. Continue manual QA on a real device or internal-test install, especially the full in-app microphone recording and recorder-created event flow.
 
 ## Update (2026-05-05)
 

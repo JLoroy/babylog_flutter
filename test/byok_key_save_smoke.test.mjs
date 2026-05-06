@@ -36,3 +36,34 @@ test('BYOK key-save smoke evidence is non-secret and release-scoped', async () =
     /real limited OpenAI key is still required/,
   );
 });
+
+test('OpenAI reviewer BYOK endpoint smoke is redacted and app-scoped', async () => {
+  const evidence = JSON.parse(
+    await readFile(
+      'docs/qa-evidence/2026-05-07-openai-byok-endpoint-smoke.json',
+      'utf8',
+    ),
+  );
+
+  assert.equal(evidence.firebaseProject, 'babylog-flutter');
+  assert.equal(evidence.appPackage, 'com.eranova.babylog');
+  assert.equal(evidence.appVersion, '1.0.7+8');
+  assert.match(evidence.scope, /no key material recorded/);
+  assert.doesNotMatch(JSON.stringify(evidence), /sk-/);
+
+  assert.equal(evidence.transcription.endpoint, '/v1/audio/transcriptions');
+  assert.equal(evidence.transcription.model, 'whisper-1');
+  assert.equal(evidence.transcription.status, 200);
+  assert.equal(evidence.transcription.containsMilkVolume, true);
+
+  assert.equal(evidence.interpretation.endpoint, '/v1/chat/completions');
+  assert.equal(evidence.interpretation.model, 'gpt-4o-mini');
+  assert.equal(evidence.interpretation.promptMatchesAppTaxonomy, true);
+  assert.equal(evidence.interpretation.status, 200);
+  assert.equal(evidence.interpretation.parsedJson, true);
+  assert.equal(evidence.interpretation.eventCount, 1);
+  assert.deepEqual(evidence.interpretation.eventTypes, ['bottle']);
+  assert.equal(evidence.interpretation.includesBottleEvent, true);
+
+  assert.match(evidence.remainingGap, /not a full in-app microphone/);
+});
