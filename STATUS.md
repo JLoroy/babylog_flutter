@@ -67,6 +67,7 @@
 - Updated `docs/play-store-listing.md` so account deletion is described as published, not merely prepared for publication.
 - Reviewed the freshly pulled `origin/feature/unbug` tip `63d7761` and found it still cannot be used for the next Play upload because it is `1.0.4+4`, while Play has already used version code 5.
 - Bumped the hardened `main` release identity to `1.0.5+6`, rebuilt the signed release AAB, and updated the Play submit packet, listing, runbook, manual QA checklist, and release audit to reference the new upload candidate.
+- Added a CI guard to `npm run test:android-release-identity` so the Android build number must stay above the highest known Play Console version code, currently 5.
 - Rechecked local Android device/emulator availability: `flutter emulators` now lists `babylog_api35`, and after launch `flutter devices` sees `emulator-5554` as Android 15 / API 35.
 - Installed `build/app/outputs/flutter-apk/app-release.apk` on AVD `babylog_api35`, launched `com.eranova.babylog`, confirmed it stayed running, and saved a non-private sign-in screenshot at `docs/qa-evidence/2026-05-06-release-apk-launch.png`.
 - Reproduced a release APK sign-in crash on the AVD with a verified disposable Firebase Auth user: Firebase Auth succeeded, then stale Firebase Auth/UI generated-code decoding failed with `type 'List<Object?>' is not a subtype of type 'PigeonUserDetails?'`.

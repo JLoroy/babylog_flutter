@@ -76,6 +76,7 @@
 - 2026-05-06: Track Play Console acceptance proof in `docs/play-console-evidence.md`; require redacted screenshots, exports, or public URLs instead of treating handoff files as release evidence.
 - 2026-05-06: Bump the release identity to `1.0.5+6` after Play Console rejected version code 3 and Justin confirmed version code 5 was already used; keep the hardened `main` code instead of rebuilding stale `feature/unbug`.
 - 2026-05-06: Treat `build/app/outputs/bundle/release/app-release.aab` SHA-256 `f8674c6287a0100807709da49cd70327d9457f1c51bb402f3e2bcfad8fed54a0` as the current signed Play upload candidate for `1.0.5+6`.
+- 2026-05-06: Keep a CI guard that the configured Android version code remains greater than the highest known Play Console version code, currently 5.
 
 ## Next
 

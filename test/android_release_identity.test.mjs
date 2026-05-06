@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 const PACKAGE_NAME = 'com.eranova.babylog';
 const APP_NAME = 'Babylog';
 const VERSION = '1.0.5+6';
+const HIGHEST_KNOWN_PLAY_VERSION_CODE = 5;
 
 test('Android release identity is stable for Play Console submission', async () => {
   const [pubspec, buildGradle, manifest, listing] = await Promise.all([
@@ -15,6 +16,11 @@ test('Android release identity is stable for Play Console submission', async () 
   ]);
 
   assert.match(pubspec, new RegExp(`^version:\\s*${escapeRegExp(VERSION)}$`, 'm'));
+  assert.equal(androidVersionCode(VERSION), 6);
+  assert.ok(
+    androidVersionCode(VERSION) > HIGHEST_KNOWN_PLAY_VERSION_CODE,
+    `Android versionCode must be greater than the highest known Play Console version code ${HIGHEST_KNOWN_PLAY_VERSION_CODE}`,
+  );
   assert.match(buildGradle, new RegExp(`namespace\\s*=\\s*"${escapeRegExp(PACKAGE_NAME)}"`));
   assert.match(buildGradle, new RegExp(`applicationId\\s*=\\s*"${escapeRegExp(PACKAGE_NAME)}"`));
   assert.match(buildGradle, /targetSdk\s*=\s*35/);
@@ -29,4 +35,9 @@ test('Android release identity is stable for Play Console submission', async () 
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function androidVersionCode(version) {
+  const [, buildNumber] = version.split('+');
+  return Number.parseInt(buildNumber, 10);
 }
