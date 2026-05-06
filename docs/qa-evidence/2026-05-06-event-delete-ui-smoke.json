@@ -1,0 +1,36 @@
+{
+  "capturedAt": "2026-05-06T09:07:41.419Z",
+  "firebaseProject": "babylog-flutter",
+  "appPackage": "com.eranova.babylog",
+  "appVersion": "1.0.2+3",
+  "reviewer": {
+    "uid": "rsU7yU2TZfPmGUsLw0PXoozLd0C2",
+    "email": "test@era-nova.be",
+    "password": "stored only in .qa-secrets/play-reviewer-account.json, not committed"
+  },
+  "assistantId": "play-reviewer-assistant",
+  "eventId": "ui-delete-smoke-20260506090414",
+  "eventDescription": "Temporary UI delete smoke event. No real child data.",
+  "checks": {
+    "restAuthSignIn": true,
+    "syntheticEventCreatedBeforeUiDelete": true,
+    "releaseApkDisplayedSyntheticEventBeforeDelete": true,
+    "releaseApkDeleteMenuTapped": true,
+    "syntheticEventHiddenAfterUiDelete": true,
+    "reviewerSampleEventPreserved": true,
+    "firestoreQueryAfterUiDeleteFindsNoSyntheticEvent": true
+  },
+  "screenshots": [
+    "docs/qa-evidence/2026-05-06-release-apk-event-delete-before.png",
+    "docs/qa-evidence/2026-05-06-release-apk-event-delete-after.png"
+  ],
+  "note": "This validates deleting an existing synthetic timeline event through the release APK UI. It does not validate recorder-created event creation.",
+  "firestoreVerification": {
+    "queryStatus": 200,
+    "matchingDocumentNames": [],
+    "reviewerSampleQueryStatus": 200,
+    "reviewerSampleDocumentNames": [
+      "projects/babylog-flutter/databases/(default)/documents/events/play-reviewer-welcome"
+    ]
+  }
+}

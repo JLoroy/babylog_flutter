@@ -8,6 +8,7 @@
     "test:app-content": "node --test test/play_console_app_content.test.mjs",
     "test:byok-smoke": "node --test test/byok_key_save_smoke.test.mjs",
     "test:compliance-docs": "node --test test/play_compliance_docs.test.mjs",
+    "test:event-delete-smoke": "node --test test/event_delete_ui_smoke.test.mjs",
     "test:hosting": "node --test test/firebase_hosting_config.test.mjs",
     "test:firestore-indexes": "node --test test/firestore_indexes.test.mjs",
     "test:growth": "node --test test/growth_metrics.test.mjs",

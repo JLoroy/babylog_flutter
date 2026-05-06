@@ -94,6 +94,9 @@ jobs:
       - name: Test BYOK key-save smoke evidence
         run: npm run test:byok-smoke
 
+      - name: Test event deletion UI smoke evidence
+        run: npm run test:event-delete-smoke
+
       - name: Test Play compliance docs
         run: npm run test:compliance-docs
 

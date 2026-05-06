@@ -64,6 +64,13 @@ BYOK key-save/restart smoke evidence:
 BYOK key-save/restart screenshot:
 `docs/qa-evidence/2026-05-06-release-apk-byok-key-hidden-after-restart.png`
 
+Event deletion UI smoke evidence:
+`docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json`
+
+Event deletion UI screenshots:
+`docs/qa-evidence/2026-05-06-release-apk-event-delete-before.png` and
+`docs/qa-evidence/2026-05-06-release-apk-event-delete-after.png`.
+
 Local Play screenshot set captured from the same release APK on AVD:
 `docs/play-assets/screenshots/phone-00-sign-in.png`,
 `docs/play-assets/screenshots/phone-01-shared-timeline.png`,
@@ -103,7 +110,7 @@ or a Play internal testing install.
 | First event creation | Confirm transcription creates a timeline event. | Screenshot of event and matching Firestore `events` doc. | TODO |
 | Restart persistence | Restart the app and confirm the event remains visible. | Screenshot after restart. | TODO |
 | Shared assistant join | Sign in with a second test account and join the assistant. | Screenshot and Firestore `assistants.users` evidence. | TODO |
-| Delete event | Delete a test event from the timeline. | Screenshot and Firestore evidence that event doc is gone. | TODO |
+| Delete event | Delete a test event from the timeline. | Screenshot and Firestore evidence that event doc is gone. | PASS locally on AVD `babylog_api35` for an existing synthetic event in the reviewer assistant; evidence in `docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json` confirms event `ui-delete-smoke-20260506090414` was visible before deletion, hidden afterward, absent from the Firestore query, and the reviewer sample event remained. Recorder-created event deletion remains pending until recording/event creation QA is complete. |
 | Delete account | Delete the primary test account from Settings. | Firebase Auth, `users`, `assistants`, `events`, and local BYOK cleanup evidence. | PASS for single-user release APK smoke on AVD `babylog_api35`; evidence in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` confirms the app returned to sign-in, Auth sign-in was rejected afterward, and the Firebase user, assistant, and synthetic event documents were deleted. Shared-assistant deletion and local BYOK cleanup remain covered by tests, not manual device evidence. |
 | Reauthentication edge | Trigger or document `requires-recent-login` behavior. | Screenshot or note explaining reviewer-observed behavior. | TODO |
 | Public deletion page | Open the account deletion page without the app installed. | Browser screenshot with public URL. | TODO |
@@ -117,7 +124,8 @@ or a Play internal testing install.
 - User document after deletion: TODO
 - Disposable smoke assistant users before deletion: PASS in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`
 - Assistant users after deletion: TODO
-- Event documents before deletion: TODO
+- Event documents before deletion: PASS for account deletion event `delete-smoke-codexdeleteqa20260506075317ad1d03` and UI deletion event `ui-delete-smoke-20260506090414`.
+- Event documents after deletion: PASS in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` and `docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json`; the reviewer sample event `play-reviewer-welcome` remains for Play review.
 - Disposable account deletion event before deletion: `delete-smoke-codexdeleteqa20260506075317ad1d03`
 - Disposable account deletion event after deletion: PASS in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json`
 

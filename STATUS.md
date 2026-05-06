@@ -84,6 +84,8 @@
 - Added `npm run test:release-audit` and wired it into GitHub Actions so the objective-level audit is checked in CI.
 - Validated BYOK key save/restart on the release APK using a non-secret fake key only; evidence at `docs/qa-evidence/2026-05-06-byok-key-save-smoke.json` confirms the key is masked after restart and Firestore has `byok: true` with no `apikey` field.
 - Added `npm run test:byok-smoke` and wired it into GitHub Actions for the BYOK key-save evidence.
+- Validated deleting an existing synthetic timeline event through the release APK UI with reviewer account `test@era-nova.be`; evidence at `docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json` confirms temporary event `ui-delete-smoke-20260506090414` disappeared from the app and Firestore query results while `play-reviewer-welcome` remained.
+- Added `npm run test:event-delete-smoke` and wired it into GitHub Actions for the event deletion UI evidence.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -108,6 +110,7 @@
 - `npm run test:play-reviewer-access` passes: reviewer notes cover Firebase email/password access, `test@era-nova.be`, `play-reviewer-assistant`, BYOK-only behavior, no OpenAI test key, sample-data warning, Privacy Policy, and Delete Account.
 - `npm run test:release-audit` passes: the completion audit still concludes the active objective is not achieved and cites the remaining Play Console, BYOK recorder QA, and 1000-user evidence gaps.
 - `npm run test:byok-smoke` passes: BYOK smoke evidence is non-secret, release-scoped, verifies all recorded checks, and keeps the real OpenAI recording gap explicit.
+- `npm run test:event-delete-smoke` passes: event deletion UI smoke evidence is non-secret, release-scoped, verifies before/after screenshots, and keeps recorder-created event QA explicit as a remaining gap.
 - `npm run test:play-screenshots` passes: screenshot plan covers sign-in, Settings/Privacy Policy, shared timeline, recording permission, first event, Delete Account, synthetic data rules, hidden OpenAI keys, and manual QA linkage.
 - `npm run test:public-urls` passes: verified Firebase Hosting privacy-policy and account-deletion URLs are recorded.
 - `npm run test:play-distribution` passes: distribution draft covers free app setup, Parenting category, suggested tags, Belgium/United States initial rollout, no ads, no IAP, and not enrolling in Families.

@@ -39,6 +39,9 @@ test('manual QA checklist covers release-critical flows', async () => {
     'docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png',
     'docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json',
     'docs/qa-evidence/2026-05-06-account-deletion-smoke.json',
+    'docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json',
+    'docs/qa-evidence/2026-05-06-release-apk-event-delete-before.png',
+    'docs/qa-evidence/2026-05-06-release-apk-event-delete-after.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png',
@@ -52,6 +55,8 @@ test('manual QA checklist covers release-critical flows', async () => {
     'deleteqa20260506075317ad1d03@example.com',
     'codexdeleteqa20260506075317ad1d03',
     'restAuthSignInRejectedAfterDeletion',
+    'ui-delete-smoke-20260506090414',
+    'play-reviewer-welcome',
     'current assistant reference',
     'test@era-nova.be',
     'play-reviewer-assistant',
@@ -153,6 +158,44 @@ test('manual QA checklist covers release-critical flows', async () => {
   assert.equal(reviewerScreenshot.toString('ascii', 1, 4), 'PNG');
   assert.equal(reviewerScreenshot.readUInt32BE(16), 1080);
   assert.equal(reviewerScreenshot.readUInt32BE(20), 2400);
+
+  const eventDeleteSmoke = JSON.parse(
+    await readFile(
+      'docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json',
+      'utf8',
+    ),
+  );
+  assert.equal(eventDeleteSmoke.firebaseProject, 'babylog-flutter');
+  assert.equal(eventDeleteSmoke.appPackage, 'com.eranova.babylog');
+  assert.equal(eventDeleteSmoke.reviewer.email, 'test@era-nova.be');
+  assert.equal(eventDeleteSmoke.assistantId, 'play-reviewer-assistant');
+  assert.equal(eventDeleteSmoke.eventId, 'ui-delete-smoke-20260506090414');
+  assert.match(eventDeleteSmoke.reviewer.password, /not committed/);
+  for (const key of [
+    'restAuthSignIn',
+    'syntheticEventCreatedBeforeUiDelete',
+    'releaseApkDisplayedSyntheticEventBeforeDelete',
+    'releaseApkDeleteMenuTapped',
+    'syntheticEventHiddenAfterUiDelete',
+    'reviewerSampleEventPreserved',
+    'firestoreQueryAfterUiDeleteFindsNoSyntheticEvent',
+  ]) {
+    assert.equal(eventDeleteSmoke.checks[key], true, `${key} should pass`);
+  }
+  assert.deepEqual(
+    eventDeleteSmoke.firestoreVerification.matchingDocumentNames,
+    [],
+  );
+  assert.equal(
+    eventDeleteSmoke.firestoreVerification.reviewerSampleDocumentNames[0],
+    'projects/babylog-flutter/databases/(default)/documents/events/play-reviewer-welcome',
+  );
+  for (const screenshotPath of eventDeleteSmoke.screenshots) {
+    const image = await readFile(screenshotPath);
+    assert.equal(image.toString('ascii', 1, 4), 'PNG');
+    assert.equal(image.readUInt32BE(16), 1080);
+    assert.equal(image.readUInt32BE(20), 2400);
+  }
 });
 
 function escapeRegExp(value) {
