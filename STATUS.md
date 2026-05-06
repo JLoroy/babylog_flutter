@@ -24,7 +24,7 @@
 
 ### Validation
 - `flutter analyze --no-fatal-infos` exits successfully; current output is info-level lint only.
-- `flutter test` passes: 10 tests.
+- `flutter test` passes: 11 tests.
 - `flutter build apk --release` passes, producing `build/app/outputs/flutter-apk/app-release.apk` at 55.9 MB.
 - `flutter build appbundle --release` passes, producing `build/app/outputs/bundle/release/app-release.aab` at 47.1 MB.
 - `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0 with the expected self-signed upload-key warnings.
@@ -34,7 +34,7 @@
 - Rebuilt `flutter build apk --release` and `flutter build appbundle --release` after the note-icon fallback fix; current signed hashes are APK `d7f5b0d32deefd131c8e8da0e799c0edf8110e429969c7b5fff79c5b2f8a9e2c` and AAB `5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376`.
 - Installed the rebuilt release APK on AVD `babylog_api35`, launched the reviewer timeline, and confirmed recent logs no longer contain `assets/note.svg` or `Unable to load asset`.
 - Full non-emulator Node validation passes: `node --test $(find test -name '*.test.mjs' ! -name 'firestore.rules.test.mjs' | sort)` ran 31 tests successfully.
-- GitHub Actions run `25466470090` for commit `12cb6d6` passed on `main`: Firebase rules completed in 27s, and Analyze/test completed in 6m54s including formatting, analyzer, Flutter tests, Play/docs validators, and Android debug APK build.
+- GitHub Actions run `25467216242` for commit `fb74fc3` passed on `main`: Firebase rules completed in 30s, and Analyze/test completed in 7m09s including formatting, analyzer, Flutter tests, Play/docs validators, and Android debug APK build.
 
 ### Next steps
 1. Upload `build/app/outputs/bundle/release/app-release.aab` for version `1.0.7+8` to Play Console internal testing.
