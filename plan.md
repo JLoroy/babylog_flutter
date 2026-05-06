@@ -5,8 +5,74 @@
 - 2026-05-05: Preserve the dirty pre-merge workspace, including untracked files, in stash `pre-main-merge dirty workspace backup` before switching branches.
 - 2026-05-05: Merge `feature/unbug` into local `main` with a merge commit instead of rebasing, preserving branch history.
 - 2026-05-05: Keep `main` clean after the merge by committing this bookkeeping update separately.
+- 2026-05-05: Treat account deletion, client-side OpenAI key handling, Firebase rules, release signing verification, and Play Console compliance as release blockers before any public Play Store launch.
+- 2026-05-05: Do not change production deletion code in this workspace until Flutter/Dart is available or a failing test can be verified elsewhere.
+- 2026-05-05: Add a GitHub Actions Flutter CI gate pinned to Flutter 3.41.9, matching the locally installed release toolchain.
+- 2026-05-05: Update `intl` to allow Flutter 3.41.9 dependency solving because the SDK pins `flutter_localizations` to `intl 0.20.2`.
+- 2026-05-05: Correct the Android Flutter source directory from `..` to `../..` because the Gradle task is configured from `android/app`.
+- 2026-05-05: Increase Gradle JVM heap to 4 GB after Jetifier ran out of heap transforming Flutter engine jars.
+- 2026-05-05: Implement account deletion through a tested service that deletes assistant events, the user document, assistant membership/doc state, and the Firebase Auth user before returning to auth.
+- 2026-05-05: Add repository Firebase configuration with tested Firestore membership rules and default-deny Realtime Database rules.
+- 2026-05-05: Use Java 21 for Firebase emulator rule tests and Java 17 for Android builds.
+- 2026-05-05: Move OpenAI keys to local secure storage only: assistant documents no longer serialize `apikey`, the Firestore dev-key fallback is removed, and OpenAI calls require BYOK.
+- 2026-05-05: Compile Android with SDK 36 for `flutter_secure_storage`, while targeting SDK 35 to satisfy Google Play's Android 15 target requirement.
+- 2026-05-05: Use the Android release key material supplied in `~/Documents/AndroidReleaseKeys`; keep the generated `android/key.properties` ignored and do not commit signing secrets.
+- 2026-05-05: Remove the unused Firebase Analytics Android dependency because the app does not intentionally collect analytics data and the Play Data Safety surface should stay minimal.
+- 2026-05-05: Track Play Console compliance through repo docs: data inventory, privacy-policy draft, account-deletion web copy, and release verification checklist.
+- 2026-05-05: Remove unused Firebase Realtime Database Flutter dependencies; keep RTDB rules default-deny while Firestore remains the active timeline database.
+- 2026-05-05: Declare `http` as a direct dependency because OpenAI transcription and chat code imports it directly.
+- 2026-05-05: Upgrade the Android Kotlin Gradle plugin from 1.9.22 to 2.1.0 to clear Flutter's upcoming Kotlin support warning.
+- 2026-05-05: Add in-app Privacy Policy access in Settings with a widget test; keep public privacy-policy and account-deletion URLs as release blockers.
+- 2026-05-05: Delete assistant-scoped local OpenAI key data during account deletion before deleting the Firebase Auth user.
+- 2026-05-05: Prepare ready-to-host static policy pages under `docs/public/` and add `npm run test:policy`; confirm `privacy@lenacho.be` before publishing.
+- 2026-05-05: Draft the Play Store listing in `docs/play-store-listing.md`, add a listing limit validator, and set the Android launcher label to `Babylog`.
+- 2026-05-05: Draft Play Console App content answers in `docs/play-console-app-content.md`, targeting parents/guardians 18+ with no ads and restricted reviewer access.
+- 2026-05-05: Run Play metadata/policy validators in GitHub Actions alongside Flutter analysis, tests, and debug APK builds.
+- 2026-05-05: Add `docs/release-completion-audit.md` as the objective-level evidence checklist; do not treat local verification as equivalent to Play Store release or 1000 downloads.
+- 2026-05-05: Add `docs/manual-qa-checklist.md` and `npm run test:manual-qa` so release-critical device evidence has a standard capture template.
+- 2026-05-05: Define the 1000-user success metric in `docs/growth-metrics.md`: Play Console installs/acquisitions are primary evidence, Firebase Auth users are supporting evidence.
+- 2026-05-05: Configure Firebase Hosting to publish `docs/public` policy pages and add `npm run test:hosting`; deployment still requires project/credential confirmation.
+- 2026-05-05: Add `.firebaserc` binding to `babylog-flutter` and `docs/firebase-hosting-deploy.md` so policy page deployment has a repeatable runbook.
+- 2026-05-05: Add `docs/play-release-runbook.md` and `npm run test:play-release` to keep Play internal-testing, production rollout, and post-release evidence steps repeatable.
+- 2026-05-05: Add `docs/upload-key-recovery.md` and `npm run test:upload-key` after confirming the only local password candidates do not unlock the supplied JKS.
+- 2026-05-05: Lock Play release identity with `npm run test:android-release-identity`: package `com.eranova.babylog`, version `1.0.2+3`, target SDK 35, compile SDK 36, permissions, and listing identity fields.
+- 2026-05-05: Generate `docs/play-assets/icon-512.png` from the existing source icon and add `npm run test:play-assets` to verify the Play Console app icon artifact.
+- 2026-05-05: Add `docs/play-reviewer-access.md` and `npm run test:play-reviewer-access` so restricted app access and BYOK reviewer instructions are explicit without committing credentials.
+- 2026-05-05: Add `docs/play-screenshots.md` and `npm run test:play-screenshots` to define required sanitized Play Store phone screenshots before final media capture.
+- 2026-05-05: Generate `docs/play-assets/feature-graphic-1024x500.png` as a 24-bit no-alpha PNG and extend `npm run test:play-assets` to verify the Play feature graphic alongside the app icon.
+- 2026-05-05: Add expected Firebase Hosting URLs for privacy policy and account deletion as pending-verification Play Console placeholders; validate them with `npm run test:public-urls`.
+- 2026-05-05: Draft Play distribution settings in `docs/play-distribution.md`: free app, Parenting category, no ads/IAP, not Families-enrolled, and initial Belgium/United States rollout; validate with `npm run test:play-distribution`.
+- 2026-05-06: Treat the 1000-user acquisition target as paused per Justin; keep evidence docs but prioritize release, security, deployment, and Play submission.
+- 2026-05-06: Use Nacho / `privacy@lenacho.be` as the public developer/privacy identity; keep `com.eranova.babylog` as the existing Play package name.
+- 2026-05-06: Recovered Android signing credentials in ignored `android/key.properties`; `keytool` opens the upload keystore and `flutter build appbundle --release` produced a signed AAB.
+- 2026-05-06: Deploy Firebase Hosting for policy/deletion pages to `https://babylog-flutter.web.app`; curl verified both public URLs return HTTP 200 with Nacho/privacy content.
+- 2026-05-06: Preserve existing production Firestore `events` indexes in `firestore.indexes.json` before any broader Firestore deploy; validate with `npm run test:firestore-indexes`.
+- 2026-05-06: Deploy tested Firestore rules with `firebase deploy --only firestore:rules --project babylog-flutter`; require real app smoke testing before production rollout.
+- 2026-05-06: Local release verification is green for Flutter tests, Node policy/release validators, Firebase rules emulator tests, YAML/JSON parsing, and `git diff --check`; `flutter analyze --no-fatal-infos` still reports 84 info-level lint issues but exits successfully.
+- 2026-05-06: Use `test@era-nova.be` as the Play reviewer Firebase Auth account; it is enabled and email-verified, a password reset email has been requested, and Firestore now links it to the synthetic `play-reviewer-assistant` sample timeline.
+- 2026-05-06: Include `npm run test:firestore-indexes` in the Play release runbook preflight so production query indexes remain preserved before upload.
+- 2026-05-06: Treat Firebase Hosting policy/deletion URLs as published, not placeholders, across Play compliance docs; add `npm run test:compliance-docs` to CI and the Play release preflight.
+- 2026-05-06: Prefill the manual QA checklist with non-secret release evidence: version `1.0.2+3`, signed AAB path/SHA-256, Firebase project, reviewer email/assistant id, and published policy/deletion URLs.
+- 2026-05-06: Ship the first Play submission as BYOK-only for OpenAI, with no shared or Play-review OpenAI key; defer a backend proxy until after release unless manual QA shows this blocks review.
+- 2026-05-06: Add a Play Console submit packet with copy/paste values for the AAB, store listing, public URLs, reviewer access, BYOK note, app content, and assets.
+- 2026-05-06: Align `android/app/releasenotes.md` with the current Play listing release notes and validate it with `npm run test:play-release-notes`.
+- 2026-05-06: Update the Play Store listing copy so the account deletion page is described as published, not merely prepared.
+- 2026-05-06: Local Android QA/screenshot capture is blocked in this workspace because `flutter devices` only sees macOS/Chrome and `flutter emulators` finds no Android emulator sources.
 
 ## Next
 
-- Install or expose Flutter on `PATH` before running `flutter test`.
-- Push `main` when ready; local `main` is ahead of `origin/main`.
+- Use `todo.md` as the immediate release backlog and update it as blockers are resolved.
+- Push `main` so GitHub Actions can run the new Flutter CI gate; local `main` is ahead of `origin/main`.
+- Manually verify account deletion against Firebase Auth and Firestore using a test account.
+- Upload `build/app/outputs/bundle/release/app-release.aab` to the existing Babylog Play Console app `com.eranova.babylog`.
+- Confirm Play Console developer/account details can be changed from Era Nova to Nacho / `lenacho.be`.
+- Add/confirm the Firebase Hosting privacy and account deletion URLs in Play Console.
+- Produce final Play Console screenshots and graphic assets; avoid real baby names, emails, and keys in all preview media.
+- Capture final phone screenshots according to `docs/play-screenshots.md` after a release/internal-test build exists.
+- Follow `docs/play-release-runbook.md` after a signed AAB exists; start with internal testing before production.
+- Set the final `test@era-nova.be` password outside git and copy BYOK-only reviewer notes into Play Console without committing secrets.
+- Replace the placeholders in `docs/play-reviewer-access.md` with real Play Console notes after credentials exist; keep secrets out of git.
+- Keep `docs/release-completion-audit.md` updated as objective-level evidence changes.
+- Complete `docs/manual-qa-checklist.md` during internal testing on a real Android device.
+- Capture Play Console install/acquisition evidence and Firebase Auth supporting evidence after production release.
+- Smoke-test deployed Firebase rules with production assistant membership data and the app/internal test account.
