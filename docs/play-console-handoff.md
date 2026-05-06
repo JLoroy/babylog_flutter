@@ -56,6 +56,14 @@ OpenAI key and the in-app BYOK setup steps reviewers should follow. Use the
 private notes only to copy/paste App access credentials into Play Console. Never
 commit, screenshot, or share the private file outside the release process.
 
+To add a temporary reviewer OpenAI key without putting it in shell history as a
+command argument, set `OPENAI_API_KEY` in the environment and run:
+
+```bash
+npm run setup:play-reviewer-openai-key
+npm run prepare:play-private-notes
+```
+
 Run `npm run prepare:play-handoff` first, then `npm run
 prepare:play-private-notes`. Regenerating the non-secret handoff clears the
 `dist/play-console-handoff/` folder, including private generated files.

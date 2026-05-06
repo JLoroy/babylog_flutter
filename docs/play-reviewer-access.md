@@ -60,6 +60,10 @@ First-release reviewer path:
 - Add the key to `.qa-secrets/play-reviewer-account.json` as `openaiApiKey`,
   run `npm run prepare:play-private-notes`, and paste the generated private
   notes into Play Console App access.
+- To avoid putting the key in git-tracked files or command-line arguments, set
+  it as `OPENAI_API_KEY` in the shell and run
+  `npm run setup:play-reviewer-openai-key`, then run
+  `npm run prepare:play-private-notes`.
 - The reviewer must enter the key in Settings because Babylog stores BYOK keys
   locally on-device, not in Firebase.
 - The authenticated non-AI timeline, Settings, Privacy Policy, BYOK setting,

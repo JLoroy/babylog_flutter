@@ -133,6 +133,9 @@ jobs:
       - name: Test Play private notes generator
         run: npm run test:play-private-notes
 
+      - name: Test Play reviewer OpenAI key setup helper
+        run: npm run test:play-reviewer-openai-key
+
       - name: Test Play reviewer access notes
         run: npm run test:play-reviewer-access
 
