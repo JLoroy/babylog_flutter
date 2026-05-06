@@ -33,7 +33,7 @@ plugins {
 
 android {
     namespace = "com.eranova.babylog"
-    compileSdk = 34
+    compileSdk = 35
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -81,8 +81,8 @@ android {
 
     defaultConfig {
         applicationId = "com.eranova.babylog"
-        minSdk = 23
-        targetSdk = 34
+        minSdk = flutter.minSdkVersion
+        targetSdk = 35
         versionCode = flutterVersionCode
         versionName = flutterVersionName
     }
@@ -99,7 +99,7 @@ android {
 }
 
 flutter {
-    source = ".."
+    source = "../.."
 }
 
 dependencies {
