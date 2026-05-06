@@ -52,9 +52,16 @@ Account deletion screenshots:
 `docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png`, and
 `docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png`.
 
+Play reviewer access smoke evidence:
+`docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json`
+
+Play reviewer release APK screenshot:
+`docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png`
+
 Disposable verified QA account passwords are stored only in ignored
 `.qa-secrets/current-qa-account.json` and
-`.qa-secrets/deletion-qa-account.json`.
+`.qa-secrets/deletion-qa-account.json`. The Play reviewer password is stored
+only in ignored `.qa-secrets/play-reviewer-account.json`.
 
 Remaining manual Android QA still must run on this AVD, a real Android device,
 or a Play internal testing install.
@@ -102,7 +109,8 @@ or a Play internal testing install.
 ## Play Review Inputs
 
 - Reviewer email: `test@era-nova.be`
-- Reviewer password storage location: TODO
+- Reviewer password storage location:
+  `.qa-secrets/play-reviewer-account.json` (ignored; do not commit)
 - Reviewer assistant id: `play-reviewer-assistant`
 - BYOK review path: documented BYOK-only review; no OpenAI test key in repo docs.
 - Public privacy policy URL: `https://babylog-flutter.web.app/privacy-policy`

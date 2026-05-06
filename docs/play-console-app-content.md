@@ -131,7 +131,8 @@ used to create a transcription and baby-care timeline events.
 
 ## Remaining Inputs Before Play Submission
 
-- Set the reviewer account's final password outside git.
+- Copy the reviewer account's final password from the local ignored
+  `.qa-secrets/play-reviewer-account.json` file into Play Console.
 - Use the documented BYOK-only review path without providing an OpenAI test key
   in repo or Play notes.
 - Add/confirm the published privacy-policy and account-deletion pages in Play

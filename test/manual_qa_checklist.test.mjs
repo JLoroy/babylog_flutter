@@ -42,8 +42,11 @@ test('manual QA checklist covers release-critical flows', async () => {
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png',
     'docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png',
+    'docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json',
+    'docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png',
     '.qa-secrets/current-qa-account.json',
     '.qa-secrets/deletion-qa-account.json',
+    '.qa-secrets/play-reviewer-account.json',
     'qa202605060729068d@example.com',
     'codexqa20260506072958350d',
     'deleteqa20260506075317ad1d03@example.com',
@@ -143,6 +146,13 @@ test('manual QA checklist covers release-critical flows', async () => {
     assert.equal(image.readUInt32BE(16), 1080);
     assert.equal(image.readUInt32BE(20), 2400);
   }
+
+  const reviewerScreenshot = await readFile(
+    'docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png',
+  );
+  assert.equal(reviewerScreenshot.toString('ascii', 1, 4), 'PNG');
+  assert.equal(reviewerScreenshot.readUInt32BE(16), 1080);
+  assert.equal(reviewerScreenshot.readUInt32BE(20), 2400);
 });
 
 function escapeRegExp(value) {

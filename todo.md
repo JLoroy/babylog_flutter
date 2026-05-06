@@ -74,9 +74,9 @@ Format: Title / Description / Guidance / How to validate.
 
 **Description:** Draft Play Console App content answers now live in `docs/play-console-app-content.md`, with dedicated reviewer access notes in `docs/play-reviewer-access.md`, covering restricted app access, no ads, adult parent/guardian target audience, content rating notes, data safety cross-reference, and microphone permission rationale.
 
-**Guidance:** The reviewer Firebase Auth account is `test@era-nova.be`; it is verified and linked to the synthetic `play-reviewer-assistant` timeline. Set the final password outside git, use BYOK-only reviewer instructions with no OpenAI test key, then copy final Play Console app-access notes without committing real credentials. Keep listing/screenshots clearly aimed at parents and guardians rather than children.
+**Guidance:** The reviewer Firebase Auth account is `test@era-nova.be`; it is verified, has a locally stored password in ignored `.qa-secrets/play-reviewer-account.json`, and is linked to the synthetic `play-reviewer-assistant` timeline. Use BYOK-only reviewer instructions with no OpenAI test key, then copy final Play Console app-access notes without committing real credentials. Keep listing/screenshots clearly aimed at parents and guardians rather than children.
 
-**How to validate:** Run `npm run test:app-content` and `npm run test:play-reviewer-access`. Confirm Play Console accepts the App content answers and the reviewer account can access the relevant app flows from the uploaded test build.
+**How to validate:** Run `npm run test:app-content` and `npm run test:play-reviewer-access`. Current local evidence is in `docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json` and `docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png`. Confirm Play Console accepts the App content answers and the reviewer account can access the relevant app flows from the uploaded test build.
 
 ### Decide the March release feature scope
 

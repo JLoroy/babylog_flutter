@@ -21,10 +21,15 @@ Reviewer account details must be finalized in Firebase Auth before Play
 submission. Keep the actual password in the team password manager, not in git.
 
 - Email: `test@era-nova.be`
-- Password: reset email requested on 2026-05-06; set the final password outside
-  git before Play submission.
+- Password: set on 2026-05-06 and stored only in
+  `.qa-secrets/play-reviewer-account.json`; copy it into Play Console from the
+  local secret file and do not commit it.
 - Assistant id: `play-reviewer-assistant`
 - Account state: existing Firebase Auth account, email verified, enabled.
+- Release APK sign-in evidence:
+  `docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png`
+- Non-secret Auth/Firestore evidence:
+  `docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json`
 
 ## Reviewer Instructions
 
@@ -57,10 +62,11 @@ Do not provide a production or personal OpenAI key in Play Console notes.
 
 ## Evidence To Capture
 
-- Firebase Auth screenshot showing `test@era-nova.be` exists and is verified.
-- Firestore screenshot or export showing the reviewer account has access to the
+- Firebase Auth/Firestore evidence showing `test@era-nova.be` exists, is
+  verified/enabled, can sign in, and has access to the
   `play-reviewer-assistant` sample assistant id.
 - The exact Play Console app access notes submitted, with secrets redacted in
   repo docs.
-- Internal-test confirmation that the reviewer account can sign in, view the
-  timeline, open Privacy Policy, inspect BYOK settings, and reach Delete Account.
+- Release/internal-test confirmation that the reviewer account can sign in and
+  view the timeline is captured; Privacy Policy, BYOK settings, and Delete
+  Account remain to inspect in the final Play/internal-test pass.

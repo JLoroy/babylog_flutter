@@ -16,6 +16,7 @@ test('Play Console submit packet contains final handoff values', async () => {
     'https://babylog-flutter.web.app/delete-account',
     'Nacho',
     'test@era-nova.be',
+    '.qa-secrets/play-reviewer-account.json',
     'play-reviewer-assistant',
     'Some or all functionality is restricted.',
     'BYOK-only',

@@ -76,6 +76,9 @@
 - Imported disposable verified deletion QA user `deleteqa20260506075317ad1d03@example.com`; its password is stored only in ignored `.qa-secrets/deletion-qa-account.json`.
 - Signed into the release APK on AVD `babylog_api35`, let the app create assistant `icM00h2TvBff3LU1P2Nn`, added synthetic event `delete-smoke-codexdeleteqa20260506075317ad1d03`, and deleted the account through Settings > Delete Account > Delete Everything.
 - Captured account-deletion evidence in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` and screenshots under `docs/qa-evidence/2026-05-06-release-apk-account-deletion-*.png`.
+- Set the `test@era-nova.be` Play reviewer password in Firebase Auth; the password is stored only in ignored `.qa-secrets/play-reviewer-account.json`.
+- Captured non-secret reviewer access evidence at `docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json`.
+- Signed into the release APK on AVD `babylog_api35` with `test@era-nova.be` and saved the reviewer sample timeline screenshot at `docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png`.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -128,6 +131,7 @@
 - `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json` records only non-secret smoke evidence and points to the local ignored password store for the disposable QA account.
 - GitHub Actions run `25422575356` passes on `main`: Analyze/test completed in 6m8s and Firebase rules completed in 25s.
 - Account deletion release-APK smoke passes on AVD `babylog_api35`: app returned to sign-in, REST Auth sign-in was rejected afterward, `users/codexdeleteqa20260506075317ad1d03` was deleted, assistant `icM00h2TvBff3LU1P2Nn` was deleted, and event `delete-smoke-codexdeleteqa20260506075317ad1d03` was deleted.
+- Play reviewer access smoke passes: REST Auth sign-in works for `test@era-nova.be`, Firestore user doc points to `play-reviewer-assistant`, assistant membership includes the reviewer email, sample event `play-reviewer-welcome` exists, and release APK sign-in reaches the sample timeline.
 - `git diff --check` passes.
 - `.github/workflows/flutter-ci.yml` parses as valid YAML via Ruby.
 - `npm run test:policy`, `npm run test:public-urls`, `npm run test:play-release`, `npm run test:upload-key`, `npm run test:firestore-indexes`, and `npm run test:hosting` were re-run on 2026-05-06 and pass.

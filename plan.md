@@ -63,6 +63,7 @@
 - 2026-05-06: Keep disposable release-QA Firebase passwords only under ignored `.qa-secrets/`; commit only non-secret smoke evidence and screenshots.
 - 2026-05-06: Treat AVD release sign-in, user document load, current-assistant link creation, assistant document creation, and assistant membership under deployed Firestore rules as smoke-tested with disposable verified Firebase Auth user `qa202605060729068d@example.com`.
 - 2026-05-06: Validate the single-user in-app account deletion path on the release APK with disposable Firebase Auth user `deleteqa20260506075317ad1d03@example.com`; commit only non-secret before/after evidence.
+- 2026-05-06: Set the `test@era-nova.be` Play reviewer password in Firebase Auth, store it only in ignored `.qa-secrets/play-reviewer-account.json`, and validate release APK sign-in to `play-reviewer-assistant`.
 
 ## Next
 
@@ -75,7 +76,7 @@
 - Produce final Play Console screenshots and graphic assets; avoid real baby names, emails, and keys in all preview media.
 - Capture final phone screenshots according to `docs/play-screenshots.md` after a release/internal-test build exists.
 - Follow `docs/play-release-runbook.md` after a signed AAB exists; start with internal testing before production.
-- Set the final `test@era-nova.be` password outside git and copy BYOK-only reviewer notes into Play Console without committing secrets.
+- Copy the final `test@era-nova.be` password from ignored `.qa-secrets/play-reviewer-account.json` into Play Console app-access notes without committing secrets.
 - Replace the placeholders in `docs/play-reviewer-access.md` with real Play Console notes after credentials exist; keep secrets out of git.
 - Keep `docs/release-completion-audit.md` updated as objective-level evidence changes.
 - Complete `docs/manual-qa-checklist.md` during internal testing on a real Android device.

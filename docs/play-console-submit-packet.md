@@ -3,8 +3,8 @@
 Last updated: 2026-05-06
 
 Status:
-Ready for Play Console copy/paste after the reviewer password is set outside
-git and the AAB is uploaded.
+Ready for Play Console copy/paste after the reviewer password is copied from
+the local secret file and the AAB is uploaded.
 
 ## Release Artifact
 
@@ -53,7 +53,8 @@ Recommended Play Console answer:
 Reviewer account:
 
 - Email: `test@era-nova.be`
-- Password: set from the reset email and store outside git.
+- Password: stored only in `.qa-secrets/play-reviewer-account.json`; copy it
+  into Play Console from the local secret file, never from git.
 - Assistant id: `play-reviewer-assistant`
 
 Reviewer notes:
@@ -88,7 +89,7 @@ Please do not delete the reviewer account unless the review specifically needs t
 ## Before Rollout
 
 - Upload the signed AAB to internal testing.
-- Set the final reviewer password outside git.
+- Copy the final reviewer password from `.qa-secrets/play-reviewer-account.json`.
 - Copy the app-access notes into Play Console.
 - Add/confirm the public privacy-policy and account-deletion URLs.
 - Complete `docs/manual-qa-checklist.md` on a real Android/internal-test build.

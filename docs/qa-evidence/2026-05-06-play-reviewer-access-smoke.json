@@ -1,0 +1,27 @@
+{
+  "capturedAt": "2026-05-06T08:13:46.426Z",
+  "firebaseProject": "babylog-flutter",
+  "appPackage": "com.eranova.babylog",
+  "reviewer": {
+    "uid": "rsU7yU2TZfPmGUsLw0PXoozLd0C2",
+    "email": "test@era-nova.be",
+    "password": "stored only in .qa-secrets/play-reviewer-account.json, not committed",
+    "emailVerified": true,
+    "disabled": false
+  },
+  "assistantId": "play-reviewer-assistant",
+  "eventId": "play-reviewer-welcome",
+  "checks": {
+    "restAuthSignIn": true,
+    "releaseApkSignIn": true,
+    "userDocExists": true,
+    "userDocPointsToReviewerAssistant": true,
+    "assistantDocExists": true,
+    "assistantUsersContainsReviewerEmail": true,
+    "sampleEventExists": true,
+    "sampleEventBelongsToReviewerAssistant": true
+  },
+  "screenshots": [
+    "docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png"
+  ]
+}

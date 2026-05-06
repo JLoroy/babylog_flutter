@@ -56,7 +56,7 @@ Not achieved.
 | Play Store graphics | `docs/play-assets/icon-512.png` and `docs/play-assets/feature-graphic-1024x500.png` exist; `npm run test:play-assets` verifies the app icon is 512 x 512 and the feature graphic is a 1024 x 500 no-alpha PNG, both listed in `docs/play-store-listing.md`. | Prepared | Final Play Console upload must accept the graphics. |
 | Play screenshots | `docs/play-screenshots.md` exists; `npm run test:play-screenshots` verifies required sanitized phone screenshot coverage and now records local AVD `babylog_api35`, launch evidence, and signed-in timeline evidence after the Firebase Auth/UI upgrade. | Partially started | Complete event, settings, recording, deletion, and final Play media screenshots from final/internal-test build still required. |
 | App content answers | `docs/play-console-app-content.md` exists; `npm run test:app-content` passes; BYOK-only review path is documented. | Drafted | Final Play Console copy/paste and acceptance still required. |
-| Reviewer access notes | `docs/play-reviewer-access.md` records `test@era-nova.be`, the 2026-05-06 password reset request, assistant id `play-reviewer-assistant`, and BYOK-only reviewer instructions; Firebase Auth export confirmed the account is enabled/email-verified; Firestore REST verification confirmed the user/assistant/event setup; `npm run test:play-reviewer-access` passes. | Partially prepared | Final password, Play Console notes, and internal-test sign-in evidence are still required before Play submission. |
+| Reviewer access notes | `docs/play-reviewer-access.md` records `test@era-nova.be`, assistant id `play-reviewer-assistant`, BYOK-only reviewer instructions, and local ignored password storage; `docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json` confirms REST sign-in and Firestore access; `docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png` confirms release APK sign-in to the sample timeline; `npm run test:play-reviewer-access` passes. | Prepared locally | Copy the password into Play Console app-access notes and confirm the uploaded/internal-test build accepts it. |
 | Play release runbook | `docs/play-release-runbook.md` exists; `npm run test:play-release` passes. | Prepared | Must be followed now that signing is fixed and Play Console access is ready. |
 | Play release notes | `android/app/releasenotes.md` matches the current listing release notes; `npm run test:play-release-notes` passes. | Prepared | Must be accepted or copied into Play Console release notes. |
 | Play Console submit packet | `docs/play-console-submit-packet.md` exists; `npm run test:play-submit-packet` verifies artifact, identity, URLs, reviewer, BYOK, and asset values. | Prepared | Must be copied into Play Console and accepted there. |
@@ -73,9 +73,9 @@ Not achieved.
   evidence exists in this workspace.
 - No Play Developer API, Fastlane, Gradle Play Publisher, or service-account
   automation credentials were found in the repo.
-- Reviewer Firebase Auth account and sample Firestore assistant are prepared,
-  but final password, Play Console notes, and sign-in evidence are not complete
-  yet.
+- Reviewer Firebase Auth account, password, sample Firestore assistant, REST
+  evidence, and release-APK sign-in evidence are prepared locally; Play Console
+  notes still must be copied into the Console without committing secrets.
 - Single-user account deletion has release-APK smoke evidence against real
   Firebase Auth and Firestore data; shared-assistant deletion and local BYOK
   cleanup still need manual or broader integration evidence.
