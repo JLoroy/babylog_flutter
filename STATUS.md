@@ -119,6 +119,7 @@
 - `npm run test:play-console-history` passes: exported Play Console history is reviewed without treating old Era Nova Console settings as current release acceptance.
 - GitHub Actions run `25426969401` failed twice on `main` only at `flutter build apk --debug` before app compilation because Gradle could not resolve Flutter's `org.gradle.kotlin.kotlin-dsl:4.5.0` plugin while the Gradle Plugin Portal artifact URL returned HTTP 503.
 - GitHub Actions run `25427451856` for commit `587f230` passed both Analyze/test and Firebase rules jobs after the transient Gradle Plugin Portal issue cleared during the build window; `main` is green again.
+- GitHub Actions run `25428242326` for commit `8a7bbf9` passed both jobs after adding the Play Console action-history guard: Firebase rules completed in 34s, and Analyze/test completed in 6m7s including the Android debug APK build.
 - `npm run test:play-screenshots` passes: screenshot plan covers sign-in, Settings/Privacy Policy, shared timeline, recording permission, first event, Delete Account, synthetic data rules, hidden OpenAI keys, and manual QA linkage.
 - `npm run test:public-urls` passes: verified Firebase Hosting privacy-policy and account-deletion URLs are recorded.
 - `npm run test:play-distribution` passes: distribution draft covers free app setup, Parenting category, suggested tags, Belgium/United States initial rollout, no ads, no IAP, and not enrolling in Families.
