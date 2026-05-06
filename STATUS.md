@@ -88,6 +88,8 @@
 - Added `npm run test:event-delete-smoke` and wired it into GitHub Actions for the event deletion UI evidence.
 - Captured public Firebase Hosting browser screenshots for privacy policy and account deletion pages with Google Chrome headless; evidence at `docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json` confirms both URLs load without app authentication and contain the expected Nacho/privacy/deletion content.
 - Added `npm run test:public-policy-pages-smoke` and wired it into GitHub Actions for the public policy page browser evidence.
+- Reviewed the exported Play Console action history in `docs/previous_actions.md`; it confirms the existing Babylog Play app, prior internal testing release, old Era Nova contact fields, Parenting category, and no-ads declaration, but it does not prove the current Nacho/privacy URL/reviewer/AAB fields are accepted.
+- Added `docs/play-console-action-history.md` and `npm run test:play-console-history`, and corrected the Firebase Hosting runbook so Play Console URL fields remain explicitly unconfirmed until Console screenshots or exports exist.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -114,6 +116,7 @@
 - `npm run test:byok-smoke` passes: BYOK smoke evidence is non-secret, release-scoped, verifies all recorded checks, and keeps the real OpenAI recording gap explicit.
 - `npm run test:event-delete-smoke` passes: event deletion UI smoke evidence is non-secret, release-scoped, verifies before/after screenshots, and keeps recorder-created event QA explicit as a remaining gap.
 - `npm run test:public-policy-pages-smoke` passes: public policy page smoke evidence is non-secret, browser-captured, hash-checked, and still keeps Play Console URL field confirmation explicit as a remaining gap.
+- `npm run test:play-console-history` passes: exported Play Console history is reviewed without treating old Era Nova Console settings as current release acceptance.
 - GitHub Actions run `25426969401` failed twice on `main` only at `flutter build apk --debug` before app compilation because Gradle could not resolve Flutter's `org.gradle.kotlin.kotlin-dsl:4.5.0` plugin while the Gradle Plugin Portal artifact URL returned HTTP 503.
 - GitHub Actions run `25427451856` for commit `587f230` passed both Analyze/test and Firebase rules jobs after the transient Gradle Plugin Portal issue cleared during the build window; `main` is green again.
 - `npm run test:play-screenshots` passes: screenshot plan covers sign-in, Settings/Privacy Policy, shared timeline, recording permission, first event, Delete Account, synthetic data rules, hidden OpenAI keys, and manual QA linkage.

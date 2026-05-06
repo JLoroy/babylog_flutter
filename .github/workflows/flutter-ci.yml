@@ -118,6 +118,9 @@ jobs:
       - name: Test Play Store assets
         run: npm run test:play-assets
 
+      - name: Test Play Console action history review
+        run: npm run test:play-console-history
+
       - name: Test Play reviewer access notes
         run: npm run test:play-reviewer-access
 

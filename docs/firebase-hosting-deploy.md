@@ -44,9 +44,10 @@ Deployment verified: 2026-05-06.
 - Account deletion URL returned HTTP 200 and contained
   `privacy@lenacho.be`, `Babylog account deletion request`, and
   `without reinstalling the app`.
-- Browser screenshots are still useful for Play evidence, but curl verification
-  confirms both URLs load without authentication.
-- Play Console fields updated with both URLs.
+- Browser screenshots in `docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json`
+  confirm both URLs load without authentication.
+- Play Console fields still need confirmation with Console evidence after the
+  URLs are copied into the relevant privacy policy and account deletion fields.
 
 Expected pages:
 

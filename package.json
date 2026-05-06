@@ -15,6 +15,7 @@
     "test:listing": "node --test test/play_store_listing.test.mjs",
     "test:play-distribution": "node --test test/play_distribution.test.mjs",
     "test:play-assets": "node --test test/play_store_assets.test.mjs",
+    "test:play-console-history": "node --test test/play_console_action_history.test.mjs",
     "test:play-reviewer-access": "node --test test/play_reviewer_access.test.mjs",
     "test:play-screenshots": "node --test test/play_screenshots.test.mjs",
     "test:play-submit-packet": "node --test test/play_submit_packet.test.mjs",
