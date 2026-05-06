@@ -1,0 +1,67 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null && request.auth.token.email is string;
+    }
+
+    function requesterEmail() {
+      return request.auth.token.email;
+    }
+
+    function isSelf(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function assistantPath(assistantId) {
+      return /databases/$(database)/documents/assistants/$(assistantId);
+    }
+
+    function assistantExists(assistantId) {
+      return exists(assistantPath(assistantId));
+    }
+
+    function assistantUsers(assistantId) {
+      return get(assistantPath(assistantId)).data.users;
+    }
+
+    function isAssistantMember(assistantId) {
+      return signedIn()
+        && assistantId is string
+        && assistantExists(assistantId)
+        && assistantUsers(assistantId) is list
+        && requesterEmail() in assistantUsers(assistantId);
+    }
+
+    match /users/{userId} {
+      allow create: if isSelf(userId)
+        && (!('email' in request.resource.data)
+          || request.resource.data.email == requesterEmail());
+      allow read, update, delete: if isSelf(userId);
+    }
+
+    match /assistants/{assistantId} {
+      allow create: if signedIn()
+        && request.resource.data.users is list
+        && requesterEmail() in request.resource.data.users;
+      allow read, update, delete: if isAssistantMember(assistantId);
+    }
+
+    match /events/{eventId} {
+      allow create: if signedIn()
+        && request.resource.data.assistant is string
+        && isAssistantMember(request.resource.data.assistant)
+        && request.resource.data.by == requesterEmail();
+      allow read, delete: if resource.data.assistant is string
+        && isAssistantMember(resource.data.assistant);
+      allow update: if resource.data.assistant is string
+        && request.resource.data.assistant == resource.data.assistant
+        && isAssistantMember(resource.data.assistant);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
