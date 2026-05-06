@@ -7,14 +7,14 @@ class SettingsPage extends StatefulWidget {
     super.key,
     required this.currentAssistant,
     required this.saveAssistant,
-    required this.joinAssistant, 
-    required this.deleteAccount, 
+    required this.joinAssistant,
+    required this.deleteAccount,
   });
 
   final BabylogAssistant currentAssistant;
   final Function(BabylogAssistant newAssistant) saveAssistant;
-  final Function(String newAssistantId) joinAssistant; 
-  final Function(BuildContext context) deleteAccount; 
+  final Function(String newAssistantId) joinAssistant;
+  final Future<void> Function(BuildContext context) deleteAccount;
   // This method should update your Firestore doc and reset the app as needed.
 
   @override
@@ -42,7 +42,8 @@ class _SettingsPageState extends State<SettingsPage> {
   ];
 
   // For "Join another assistant" dialog
-  final TextEditingController _joinAssistantController = TextEditingController();
+  final TextEditingController _joinAssistantController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -72,7 +73,7 @@ class _SettingsPageState extends State<SettingsPage> {
     if (widget.currentAssistant.promptsettings != null) {
       widget.currentAssistant.promptsettings!.forEach((key, value) {
         _promptControllers.add({
-          'key': TextEditingController(text: key),     // read-only
+          'key': TextEditingController(text: key), // read-only
           'value': TextEditingController(text: value), // editable
         });
       });
@@ -98,9 +99,8 @@ class _SettingsPageState extends State<SettingsPage> {
   /// Builds the updated BabylogAssistant object
   BabylogAssistant _buildUpdatedAssistant() {
     // Collect users (no add/remove, just read them)
-    final updatedUsers = _usersControllers
-        .map((controller) => controller.text.trim())
-        .toList();
+    final updatedUsers =
+        _usersControllers.map((controller) => controller.text.trim()).toList();
 
     // Collect prompt settings (only value can be updated)
     final Map<String, String> updatedPrompts = {};
@@ -183,7 +183,6 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-
   // Open the coffee link
   Future<void> _openCoffeeLink() async {
     const coffeeUrl = 'https://justin.loroy.be';
@@ -195,6 +194,31 @@ class _SettingsPageState extends State<SettingsPage> {
         SnackBar(content: Text("Could not launch $coffeeUrl")),
       );
     }
+  }
+
+  void _showPrivacyPolicy() {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: const Text("Privacy Policy"),
+          content: const SingleChildScrollView(
+            child: Text(
+              "Babylog uses Firebase Authentication to create and manage your account, and Cloud Firestore to store your shared baby timeline events.\n\n"
+              "If you record audio, Babylog sends the recording to OpenAI for transcription and uses OpenAI to turn the transcription into timeline events. Your OpenAI API key is stored only on this device when bring-your-own-key is enabled.\n\n"
+              "Babylog does not sell your data and does not intentionally include ads or analytics tracking. You can delete your account from Settings. Account deletion removes your Firebase account, your Babylog user profile, your current assistant timeline events, and your assistant membership where applicable.\n\n"
+              "A public privacy policy and account deletion request page must be published before the Play Store release.",
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text("Close"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -360,30 +384,30 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 20),
 
                 // Back and Save Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Back"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      widget.saveAssistant(_buildUpdatedAssistant());
-                    },
-                    child: const Text("Save"),
-                  ),
-                ],
-              ),
-const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("Back"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        widget.saveAssistant(_buildUpdatedAssistant());
+                      },
+                      child: const Text("Save"),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30),
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    widget.currentAssistant.assistantId != null 
-                        ? 'Assistant ID: ${widget.currentAssistant.assistantId}' 
+                    widget.currentAssistant.assistantId != null
+                        ? 'Assistant ID: ${widget.currentAssistant.assistantId}'
                         : 'No ID',
                     style: const TextStyle(
                       fontStyle: FontStyle.italic,
@@ -391,41 +415,40 @@ const SizedBox(height: 30),
                     ),
                   ),
                 ),
-              const SizedBox(height: 30),
+                const SizedBox(height: 30),
 
-              
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red, // Use your own color if needed
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red, // Use your own color if needed
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) {
+                        return AlertDialog(
+                          title: const Text("Delete all data?"),
+                          content: const Text(
+                            "Are you sure you want to permanently delete your account? All other users of your assistant will lose all events.",
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(ctx).pop(),
+                              child: const Text("Cancel"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () async {
+                                Navigator.of(ctx).pop();
+                                await widget.deleteAccount(context);
+                              },
+                              child: const Text("Delete Everything"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: const Text("Delete Account"),
                 ),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (ctx) {
-                      return AlertDialog(
-                        title: const Text("Delete all data?"),
-                        content: const Text(
-                          "Are you sure you want to permanently delete your account? All other users of your assistant will lose all events.",
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.of(ctx).pop(),
-                            child: const Text("Cancel"),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(ctx).pop();
-                              widget.deleteAccount(context);
-                            },
-                            child: const Text("Delete Everything"),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: const Text("Delete Account"),
-              ),
 
                 const SizedBox(height: 30),
 
@@ -433,6 +456,13 @@ const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: _openCoffeeLink,
                   child: const Text("Pay the developer a coffee"),
+                ),
+
+                const SizedBox(height: 12),
+
+                TextButton(
+                  onPressed: _showPrivacyPolicy,
+                  child: const Text("Privacy Policy"),
                 ),
 
                 const SizedBox(height: 30),

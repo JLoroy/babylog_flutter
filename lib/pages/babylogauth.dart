@@ -1,4 +1,3 @@
-import 'package:babylog/pages/babylogapp.dart';
 import 'package:babylog/pages/assistantManager.dart';
 import 'package:babylog/pages/verifyScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -63,7 +62,8 @@ class AuthGateApp extends StatelessWidget {
             ],
           );
         },
-        '/app': (context) => AssistantManager(backToAuth: () => backToAuth(context)),
+        '/app': (context) =>
+            AssistantManager(backToAuth: () => backToAuth(context)),
         '/forgot-password': (context) {
           final arguments = ModalRoute.of(context)?.settings.arguments
               as Map<String, dynamic>?;

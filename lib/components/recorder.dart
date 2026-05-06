@@ -22,7 +22,6 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
   StreamSubscription<RecordState>? _recordSub;
   RecordState _recordState = RecordState.stop;
   StreamSubscription<Amplitude>? _amplitudeSub;
-  Amplitude? _amplitude;
 
   @override
   void initState() {
@@ -32,35 +31,35 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
 
     _amplitudeSub = _audioRecorder
         .onAmplitudeChanged(const Duration(milliseconds: 300))
-        .listen((amp) => setState(() => _amplitude = amp));
+        .listen((_) {});
 
     super.initState();
   }
 
   Future<void> _start() async {
-  try {
-    if (await _audioRecorder.hasPermission()) {
-      final dir = await getTemporaryDirectory();
-      final filename = 'babylog_recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
-      final String path = pth.join(dir.path, filename);
-      
-      await _audioRecorder.start(
-        const RecordConfig(
-          encoder: AudioEncoder.aacLc,
-          // Add other settings as needed
-        ),
-        path: path
-      );
-      
-      _recordDuration = 0;
-      _startTimer();
-    }
-  } catch (e) {
-    if (kDebugMode) {
-      print(e);
+    try {
+      if (await _audioRecorder.hasPermission()) {
+        final dir = await getTemporaryDirectory();
+        final filename =
+            'babylog_recording_${DateTime.now().millisecondsSinceEpoch}.m4a';
+        final String path = pth.join(dir.path, filename);
+
+        await _audioRecorder.start(
+            const RecordConfig(
+              encoder: AudioEncoder.aacLc,
+              // Add other settings as needed
+            ),
+            path: path);
+
+        _recordDuration = 0;
+        _startTimer();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
-}
 
   Future<void> _stop() async {
     _timer?.cancel();
@@ -86,20 +85,20 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                _buildRecordStopControl(),
-                //const SizedBox(width: 20),
-                //_buildPauseResumeControl(),
-                //const SizedBox(width: 20),
-                //_buildText(),
-              ],
-            )
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            _buildRecordStopControl(),
+            //const SizedBox(width: 20),
+            //_buildPauseResumeControl(),
+            //const SizedBox(width: 20),
+            //_buildText(),
           ],
-        );
+        )
+      ],
+    );
   }
 
   @override
@@ -119,11 +118,11 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
       icon = const Icon(Icons.stop, color: Colors.red, size: 30);
       color = Colors.red.withOpacity(0.1);
     } else {
-      final theme = Theme.of(context);
       // icon = Icon(Icons.mic, color: theme.primaryColor, size: 30);
       // color = theme.primaryColor.withOpacity(0.1);
       //icon = Icon(Icons.mic, color: Color.fromARGB(255, 246, 124, 124), size: 30);
-      icon = SvgPicture.asset("assets/micro.svg", color:Color.fromARGB(255, 246, 124, 124), fit: BoxFit.scaleDown);
+      icon = SvgPicture.asset("assets/micro.svg",
+          color: Color.fromARGB(255, 246, 124, 124), fit: BoxFit.scaleDown);
       color = Color(0xFFFCF7F3);
     }
 
@@ -140,6 +139,7 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
     );
   }
 
+  // ignore: unused_element
   Widget _buildPauseResumeControl() {
     if (_recordState == RecordState.stop) {
       return const SizedBox.shrink();
@@ -170,6 +170,7 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
     );
   }
 
+  // ignore: unused_element
   Widget _buildText() {
     if (_recordState != RecordState.stop) {
       return _buildTimer();
@@ -205,4 +206,3 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
     });
   }
 }
-

@@ -67,7 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '328975985379',
     projectId: 'babylog-flutter',
     storageBucket: 'babylog-flutter.appspot.com',
-    iosClientId: '328975985379-hulnd0s42f0hj38t005mivjt5unta8ju.apps.googleusercontent.com',
+    iosClientId:
+        '328975985379-hulnd0s42f0hj38t005mivjt5unta8ju.apps.googleusercontent.com',
     iosBundleId: 'com.example.babylog',
   );
 
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '328975985379',
     projectId: 'babylog-flutter',
     storageBucket: 'babylog-flutter.appspot.com',
-    iosClientId: '328975985379-6vc6nlk5lpe661tn9pr0rd4hc9t6adp2.apps.googleusercontent.com',
+    iosClientId:
+        '328975985379-6vc6nlk5lpe661tn9pr0rd4hc9t6adp2.apps.googleusercontent.com',
     iosBundleId: 'com.example.babylog.RunnerTests',
   );
 }

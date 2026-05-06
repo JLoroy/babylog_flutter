@@ -9,40 +9,37 @@ class BabylogEvent {
   final String? type;
   final Timestamp? log;
 
-
   BabylogEvent({
     required this.ids,
-    required this.when, 
+    required this.when,
     required this.description,
     required this.by,
     required this.assistant,
     required this.type,
     required this.log,
-    });
+  });
 
   BabylogEvent.fromJson(String id, Map<String, Object?> json)
-    : this(
-        ids: [id],
-        when: json['when']! as Timestamp,        
-        description: json['description']! as String,
-        by: json['by']! as String,
-        assistant: json['assistant']! as String,
-        type: json['type']! as String,
-        log: json['log']! as Timestamp
-      );
-
+      : this(
+            ids: [id],
+            when: json['when']! as Timestamp,
+            description: json['description']! as String,
+            by: json['by']! as String,
+            assistant: json['assistant']! as String,
+            type: json['type']! as String,
+            log: json['log']! as Timestamp);
 
   Map<String, Object?> toJson() {
     return {
-      'when': when,      
+      'when': when,
       'description': description,
       'by': by,
       'assistant': assistant,
-      'type': type,      
+      'type': type,
       'log': log,
     };
   }
-  
+
   factory BabylogEvent.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
     SnapshotOptions? options,
@@ -75,7 +72,8 @@ class BabylogEvent {
       throw ArgumentError('Cannot merge empty list');
     }
 
-    events.sort((a, b) => b.log!.compareTo(a.log!));  // Sort by log, latest first
+    events
+        .sort((a, b) => b.log!.compareTo(a.log!)); // Sort by log, latest first
 
     return BabylogEvent(
       //append the list of ids

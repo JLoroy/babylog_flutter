@@ -1,4 +1,5 @@
 import 'package:babylog/pages/babylogapp.dart';
+import 'package:babylog/services/openai_api_key.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import '../datamodel/babylogassistant.dart';
 
 class AssistantManager extends StatefulWidget {
   const AssistantManager({
-    super.key, 
+    super.key,
     required this.backToAuth,
   });
   final Function() backToAuth;
@@ -18,6 +19,7 @@ class AssistantManager extends StatefulWidget {
 
 class _AssistantManagerState extends State<AssistantManager> {
   FirebaseAuth? _auth;
+  final OpenAiApiKeyStore _apiKeyStore = OpenAiApiKeyStore();
   FirebaseAuth get auth {
     return _auth ?? FirebaseAuth.instance;
   }
@@ -35,10 +37,9 @@ class _AssistantManagerState extends State<AssistantManager> {
 
         // Check if the assistant document actually exists
         if (assistantDoc.exists) {
-          var ass =  BabylogAssistant.fromFirestore(assistantDoc, null);
+          var ass = BabylogAssistant.fromFirestore(assistantDoc, null);
           await ass.fetchEvents();
-          return ass;
-
+          return _withLocalApiKey(ass);
         } else {
           // If the assistant document does not exist, create a new one
           return createAssistant(user, userDoc, users);
@@ -55,29 +56,45 @@ class _AssistantManagerState extends State<AssistantManager> {
     }
   }
 
-  Future<BabylogAssistant?> createAssistant(User user, DocumentSnapshot userDoc, CollectionReference users) async {
+  Future<BabylogAssistant?> createAssistant(
+      User user, DocumentSnapshot userDoc, CollectionReference users) async {
     // Create new assistant
-    DocumentReference assistantRef = await FirebaseFirestore.instance.collection('assistants').add(
-      BabylogAssistant(
-        assistantId: "notimportant",
-        name: "Baby", 
-        language: "fr", 
-        byok: false,
-        apikey: "", 
-        usage: 100,
-        users: [user.email!], 
-        promptsettings: {"bottle_ml":"120", "baby_name":"Basile", "medicine":"gaviscon, fer, vitamineD, anticholique"},
-      ).toFirestore()
-    );
+    DocumentReference assistantRef = await FirebaseFirestore.instance
+        .collection('assistants')
+        .add(BabylogAssistant(
+          assistantId: "notimportant",
+          name: "Baby",
+          language: "fr",
+          byok: false,
+          apikey: "",
+          usage: 100,
+          users: [user.email!],
+          promptsettings: {
+            "bottle_ml": "120",
+            "baby_name": "Basile",
+            "medicine": "gaviscon, fer, vitamineD, anticholique"
+          },
+        ).toFirestore());
     // Update user document with new assistant
     await users.doc(user.uid).update({'current_assistant': assistantRef});
     // Reload assistant
     return loadOrCreateAssistant(user);
   }
 
+  Future<BabylogAssistant> _withLocalApiKey(BabylogAssistant assistant) async {
+    final localApiKey = await _apiKeyStore.readApiKey(assistant.assistantId);
+    return assistant.copyWith(apikey: localApiKey ?? '');
+  }
+
   void saveAssistant(BabylogAssistant newAssistant) async {
+    await _apiKeyStore.saveApiKey(
+      newAssistant.assistantId,
+      newAssistant.byok == true ? newAssistant.apikey ?? '' : '',
+    );
     // Get a reference to the assistant's document in Firestore.
-    DocumentReference assistantRef = FirebaseFirestore.instance.collection('assistants').doc(newAssistant.assistantId);
+    DocumentReference assistantRef = FirebaseFirestore.instance
+        .collection('assistants')
+        .doc(newAssistant.assistantId);
     await assistantRef.update(newAssistant.toFirestore());
     setState(() {});
   }
@@ -91,9 +108,10 @@ class _AssistantManagerState extends State<AssistantManager> {
     DocumentSnapshot assistantDoc = await assistantRef.get();
     if (assistantDoc.exists) {
       // 3) Update the user to store the *reference* (not the string!)
-      CollectionReference users = FirebaseFirestore.instance.collection('users');
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
       await users.doc(auth.currentUser!.uid).update({
-        'current_assistant': assistantRef, 
+        'current_assistant': assistantRef,
       });
 
       // 4) Add the user to the assistant’s users[] array
@@ -111,8 +129,11 @@ class _AssistantManagerState extends State<AssistantManager> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<BabylogAssistant?>(
-      future: auth.currentUser != null ? loadOrCreateAssistant(auth.currentUser!) : null,
-      builder: (BuildContext context, AsyncSnapshot<BabylogAssistant?> snapshot) {
+      future: auth.currentUser != null
+          ? loadOrCreateAssistant(auth.currentUser!)
+          : null,
+      builder:
+          (BuildContext context, AsyncSnapshot<BabylogAssistant?> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             backgroundColor: Color(0xFFFCF7F3),
@@ -122,14 +143,12 @@ class _AssistantManagerState extends State<AssistantManager> {
           return Text('Error: ${snapshot.error}');
         } else {
           return BabylogApp(
-            assistant: snapshot.data!,
-            saveAssistant: saveAssistant,
-            joinAssistant: joinAssistant,
-            backToAuth: widget.backToAuth
-            );
+              assistant: snapshot.data!,
+              saveAssistant: saveAssistant,
+              joinAssistant: joinAssistant,
+              backToAuth: widget.backToAuth);
         }
       },
     );
   }
 }
-

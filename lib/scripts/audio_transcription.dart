@@ -1,24 +1,29 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:babylog/datamodel/babylogassistant.dart';
+import 'package:babylog/services/openai_api_key.dart';
 import 'package:http/http.dart' as httpeuh;
 
 import 'chatbot.dart';
 
-Future<void> transcribeAudio(
-  BabylogAssistant assistant,
-  String filename,
-  Function(String) _changeText,
-  Function() resetRecord
-) async {
+Future<void> transcribeAudio(BabylogAssistant assistant, String filename,
+    Function(String) _changeText, Function() resetRecord) async {
+  final String apiKey;
+  try {
+    apiKey = openAiApiKeyForAssistant(assistant);
+  } on MissingOpenAiApiKeyException {
+    _changeText('Add your OpenAI API key in settings before recording.');
+    resetRecord();
+    return;
+  }
+
   var request = httpeuh.MultipartRequest(
     'POST',
     Uri.parse('https://api.openai.com/v1/audio/transcriptions'),
   );
 
   request.headers.addAll({
-    'Authorization': 'Bearer ${assistant.byok! ? assistant.apikey : assistant.devapikey}',
+    'Authorization': 'Bearer $apiKey',
   });
 
   request.files.add(
@@ -54,7 +59,7 @@ Future<void> transcribeAudio(
       print('Error parsing error response: $decodedJson');
       error = decodedJson;
     }
-    
+
     // Error: could be wrong API key, invalid file, etc.
     _changeText('Failed to transcribe audio $error');
     resetRecord();

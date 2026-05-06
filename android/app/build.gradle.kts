@@ -33,7 +33,7 @@ plugins {
 
 android {
     namespace = "com.eranova.babylog"
-    compileSdk = 34
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -81,8 +81,8 @@ android {
 
     defaultConfig {
         applicationId = "com.eranova.babylog"
-        minSdk = 23
-        targetSdk = 34
+        minSdk = flutter.minSdkVersion
+        targetSdk = 35
         versionCode = flutterVersionCode
         versionName = flutterVersionName
     }
@@ -99,12 +99,11 @@ android {
 }
 
 flutter {
-    source = ".."
+    source = "../.."
 }
 
 dependencies {
     val kotlinVersion = rootProject.extra.get("kotlinVersion") as String
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
     implementation(platform("com.google.firebase:firebase-bom:32.1.1"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
 }

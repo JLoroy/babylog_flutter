@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:babylog/datamodel/babylogassistant.dart';
 import 'package:babylog/datamodel/babylogevent.dart';
+import 'package:babylog/services/openai_api_key.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -28,8 +27,9 @@ FirebaseAuth? _auth;
 FirebaseAuth get auth {
   return _auth ?? FirebaseAuth.instance;
 }
-  
-String systemPrompt = """Ton role est d'extraire les evenements important d'un texte donne par l'utilisateur. Les evenements peuvent etre du type:
+
+String systemPrompt =
+    """Ton role est d'extraire les evenements important d'un texte donne par l'utilisateur. Les evenements peuvent etre du type:
                     - un bebe a bu du lait. Il est important de savoir combien il a bu. (en ml). Les biberons font 120ml en general. 
                     - un bebe a fait un caca. 
                     - un bebe a pris un medicament (du fer, du gaviscon, des vitamines D)
@@ -51,19 +51,19 @@ String logEvent(BabylogAssistant assistant, List<Event> events) {
     //var description = utf8.decode(latin1.encode(descriptionRaw));
     //var type = utf8.decode(latin1.encode(typeRaw));
 
-    resultText += "${DateFormat('dd/MM HH:mm').format(event.when)} | ${event.description}\n";
+    resultText +=
+        "${DateFormat('dd/MM HH:mm').format(event.when)} | ${event.description}\n";
 
-    assistant.addEvent(
-      BabylogEvent(
+    assistant.addEvent(BabylogEvent(
         ids: [],
         when: Timestamp.fromDate(event.when),
         description: event.description,
-        by: auth.currentUser?.uid != null ? auth.currentUser!.email! : "anonymous",
+        by: auth.currentUser?.uid != null
+            ? auth.currentUser!.email!
+            : "anonymous",
         assistant: "${assistant.assistantId}",
         type: event.type,
-        log: Timestamp.fromDate(DateTime.now())
-      )
-    );
+        log: Timestamp.fromDate(DateTime.now())));
   }
   if (assistant.byok == false) {
     assistant.decrementUsage();
@@ -72,7 +72,8 @@ String logEvent(BabylogAssistant assistant, List<Event> events) {
   return resultText;
 }
 
-Future<List<Event>> getEventsFromText(String userInput, BabylogAssistant assistant) async {
+Future<List<Event>> getEventsFromText(
+    String userInput, BabylogAssistant assistant) async {
   final url = Uri.parse('https://api.openai.com/v1/chat/completions');
   final body = json.encode({
     'model': 'gpt-4o-mini',
@@ -113,7 +114,7 @@ Future<List<Event>> getEventsFromText(String userInput, BabylogAssistant assista
     url,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${assistant.byok! ? assistant.apikey : assistant.devapikey}',
+      'Authorization': 'Bearer ${openAiApiKeyForAssistant(assistant)}',
     },
     body: body,
   );
@@ -142,12 +143,13 @@ Future<List<Event>> getEventsFromText(String userInput, BabylogAssistant assista
       throw Exception('Invalid response format from OpenAI.');
     }
   } else {
-    throw Exception('Failed to load data from OpenAI. Status code: ${response.statusCode}');
+    throw Exception(
+        'Failed to load data from OpenAI. Status code: ${response.statusCode}');
   }
 }
 
-
-void interpret(BabylogAssistant assistant, String userInput, Function(String) _changeText, Function() resetRecord) async {
+void interpret(BabylogAssistant assistant, String userInput,
+    Function(String) _changeText, Function() resetRecord) async {
   try {
     final events = await getEventsFromText(userInput, assistant);
     final text = logEvent(assistant, events);
