@@ -20,7 +20,9 @@ test('Play Console submit packet contains final handoff values', async () => {
     'play-reviewer-assistant',
     'Some or all functionality is restricted.',
     'BYOK-only',
-    "reviewer's own OpenAI API key",
+    'temporary OpenAI API key is provided in the private App access notes',
+    'Settings > Bring your own API key',
+    'locally on-device',
     'docs/play-assets/icon-512.png',
     'docs/play-assets/feature-graphic-1024x500.png',
     'docs/play-assets/screenshots/phone-00-sign-in.png',
@@ -35,7 +37,7 @@ test('Play Console submit packet contains final handoff values', async () => {
   }
 
   assert.doesNotMatch(packet, /privacy@eranova\.be/);
-  assert.doesNotMatch(packet, /OpenAI test key/);
+  assert.doesNotMatch(packet, /OpenAI API key: sk-/);
 });
 
 function escapeRegExp(value) {

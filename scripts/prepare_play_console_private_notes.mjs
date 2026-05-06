@@ -25,11 +25,32 @@ for (const field of ['email', 'password', 'assistantId']) {
   }
 }
 
+const openAiApiKey = optionalString(reviewer.openaiApiKey);
+const openAiKeySection = openAiApiKey
+  ? `Temporary OpenAI API key for AI recording review:
+OpenAI API key: ${openAiApiKey}
+
+AI recording setup:
+1. Sign in with the reviewer account above.
+2. Open Settings.
+3. Enable "Bring your own API key".
+4. Paste the OpenAI API key above into the OpenAI API Key field.
+5. Save the settings.
+6. Return to the timeline, tap record, allow microphone access if prompted,
+   and record a short synthetic baby-care event only.
+`
+  : `AI recording setup:
+No OpenAI API key is present in the local reviewer secret. If Play review needs
+to test AI recording, add a temporary limited key to the ignored reviewer secret
+as "openaiApiKey", regenerate this file, and paste it into Play Console App
+access notes.
+`;
+
 const notes = `Babylog Play Console App Access Notes
 
-WARNING: This file contains the reviewer account password. It is generated
-under ignored dist/ output for copy/paste into Play Console only. Do not commit
-or share it outside the release process.
+WARNING: This file contains private reviewer credentials${openAiApiKey ? ' and an OpenAI API key' : ''}. It is
+generated under ignored dist/ output for copy/paste into Play Console only. Do
+not commit or share it outside the release process.
 
 Access type:
 Some or all functionality is restricted.
@@ -47,9 +68,13 @@ Open Settings to inspect the Privacy Policy entry, BYOK OpenAI key setting,
 assistant id, and Delete Account flow.
 
 Babylog is BYOK-only for OpenAI. It does not ship or fetch a shared OpenAI API
-key. AI recording requires the reviewer's own OpenAI API key. The authenticated
-non-AI timeline, Settings, Privacy Policy, BYOK setting, and Delete Account
-flows are available with the reviewer account.
+key. The OpenAI key must be entered in Settings on the review device because
+Babylog stores BYOK keys locally on-device, not in Firebase.
+
+${openAiKeySection}
+The authenticated timeline, Settings, Privacy Policy, BYOK setting, AI recording
+after local key entry, and Delete Account flows are available with the reviewer
+account.
 
 Please do not delete the reviewer account unless the review specifically needs
 to validate deletion.
@@ -66,4 +91,8 @@ function resolveFromRoot(value, flag) {
   }
 
   return value.startsWith('/') ? value : join(root, value);
+}
+
+function optionalString(value) {
+  return typeof value === 'string' && value.trim() !== '' ? value.trim() : null;
 }

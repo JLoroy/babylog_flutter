@@ -54,12 +54,21 @@ shared production OpenAI API key from Firestore.
 
 First-release reviewer path:
 
-- Do not provide an OpenAI test key in Play Console notes.
-- Document that AI recording requires the reviewer's own OpenAI API key.
+- If Play review should test AI recording, provide a temporary limited OpenAI
+  API key only through ignored private Play Console notes, never in committed
+  docs.
+- Add the key to `.qa-secrets/play-reviewer-account.json` as `openaiApiKey`,
+  run `npm run prepare:play-private-notes`, and paste the generated private
+  notes into Play Console App access.
+- The reviewer must enter the key in Settings because Babylog stores BYOK keys
+  locally on-device, not in Firebase.
 - The authenticated non-AI timeline, Settings, Privacy Policy, BYOK setting,
-  and Delete Account flows are available with the reviewer account.
+  AI recording after local key entry, and Delete Account flows are available
+  with the reviewer account.
 
-Do not provide a production or personal OpenAI key in Play Console notes.
+Do not commit, screenshot, or share the OpenAI key outside the private Play
+Console reviewer notes. Prefer a temporary limited key that can be revoked after
+review.
 
 ## Evidence To Capture
 

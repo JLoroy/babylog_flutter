@@ -61,7 +61,7 @@
 - Searched the repo for Play Developer API, Fastlane, Gradle Play Publisher, and service-account automation credentials; none were found.
 - Updated the Play compliance/privacy/deletion drafts to use Nacho, `privacy@lenacho.be`, and the verified Firebase Hosting policy/deletion URLs; added `npm run test:compliance-docs`.
 - Prefilled `docs/manual-qa-checklist.md` with the known release version, signed AAB path/SHA-256, Firebase project, reviewer email/assistant id, and public policy/deletion URLs.
-- Documented the first-release OpenAI architecture as BYOK-only direct client calls: no shared OpenAI key, no OpenAI test key in repo/Play notes, backend proxy deferred unless manual QA or review blocks release.
+- Documented the first-release OpenAI architecture as BYOK-only direct client calls: no shared OpenAI key in repo, Firestore, or the app bundle; optional temporary reviewer keys belong only in ignored private Play notes; backend proxy deferred unless manual QA or review blocks release.
 - Added `docs/play-console-submit-packet.md` and `npm run test:play-submit-packet` as a compact Play Console handoff with exact copy/paste values.
 - Updated `android/app/releasenotes.md` to match the current Play listing release notes and added `npm run test:play-release-notes`.
 - Updated `docs/play-store-listing.md` so account deletion is described as published, not merely prepared for publication.
@@ -100,6 +100,8 @@
 - Generated the ignored private Play Console App access notes at `dist/play-console-handoff/private/play-console-app-access-notes.txt`; the file is local-only and must not be committed or screenshotted without redacting the reviewer password.
 - Added `docs/play-console-evidence.md` and `npm run test:play-console-evidence` to define the redacted Play Console acceptance evidence that must be captured after upload, policy setup, listing/media acceptance, internal testing, production release, and later install metrics.
 - Justin uploaded the `1.0.5+6` AAB to Play Console internal testing, copied `android/app/releasenotes.md` into the release notes, left the release name as `6 (1.0.5)`, and provided a screenshot showing the release is active, available to internal testers, released on 2026-05-06 15:06, and still `Not reviewed`.
+- Updated the private Play Console notes generator so an optional ignored `.qa-secrets/play-reviewer-account.json` `openaiApiKey` field is included only in the private notes, with reviewer instructions to paste it into Settings because BYOK keys are stored locally on-device.
+- Aligned Play reviewer access, App content, submit packet, and handoff docs with the private-notes OpenAI key path: keys stay out of Firebase/git/app bundles, and reviewers paste any temporary key into local BYOK Settings.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -121,7 +123,7 @@
 - `npm run test:android-manifest` passes: Android launcher label is `Babylog`.
 - `npm run test:android-release-identity` passes: package name is `com.eranova.babylog`, release version is `1.0.5+6`, target SDK is 35, compile SDK is 36, required permissions are present, and listing identity fields match the app config.
 - `npm run test:play-assets` passes: `docs/play-assets/icon-512.png` is a 512 x 512 PNG, `docs/play-assets/feature-graphic-1024x500.png` is a 1024 x 500 no-alpha PNG, and both are referenced from the Play Store listing draft.
-- `npm run test:play-reviewer-access` passes: reviewer notes cover Firebase email/password access, `test@era-nova.be`, `play-reviewer-assistant`, BYOK-only behavior, no OpenAI test key, sample-data warning, Privacy Policy, and Delete Account.
+- `npm run test:play-reviewer-access` passes: reviewer notes cover Firebase email/password access, `test@era-nova.be`, `play-reviewer-assistant`, BYOK-only behavior, optional private-notes OpenAI key handling, sample-data warning, Privacy Policy, and Delete Account.
 - `npm run test:release-audit` passes: the completion audit still concludes the active objective is not achieved and cites the remaining Play Console, BYOK recorder QA, and 1000-user evidence gaps.
 - `npm run test:byok-smoke` passes: BYOK smoke evidence is non-secret, release-scoped, verifies all recorded checks, and keeps the real OpenAI recording gap explicit.
 - `npm run test:event-delete-smoke` passes: event deletion UI smoke evidence is non-secret, release-scoped, verifies before/after screenshots, and keeps recorder-created event QA explicit as a remaining gap.
@@ -131,6 +133,8 @@
 - `npm run test:play-handoff` passes: the generated Play handoff bundle contains the expected AAB/media/copy files, preserves the signed AAB SHA-256, and keeps secrets out of the generated manifest and README.
 - `npm run test:play-private-notes` passes: the private App access notes generator is tested with a fake reviewer secret and points output at ignored `dist/play-console-handoff/private/play-console-app-access-notes.txt`.
 - `npm run test:play-console-evidence` passes: the Console evidence template covers the required acceptance proof items and redaction rules without embedding secrets.
+- 2026-05-06 local npm script sweep passed through all non-emulator Play/docs/policy validators plus `npm run test:upload-key`; it stopped at `npm run test:rules` because the local machine currently has OpenJDK 17 only and the installed Firebase CLI requires Java 21+ for emulator tests.
+- `git diff --check` passes for the private reviewer OpenAI notes slice.
 - GitHub Actions run `25426969401` failed twice on `main` only at `flutter build apk --debug` before app compilation because Gradle could not resolve Flutter's `org.gradle.kotlin.kotlin-dsl:4.5.0` plugin while the Gradle Plugin Portal artifact URL returned HTTP 503.
 - GitHub Actions run `25427451856` for commit `587f230` passed both Analyze/test and Firebase rules jobs after the transient Gradle Plugin Portal issue cleared during the build window; `main` is green again.
 - GitHub Actions run `25428242326` for commit `8a7bbf9` passed both jobs after adding the Play Console action-history guard: Firebase rules completed in 34s, and Analyze/test completed in 6m7s including the Android debug APK build.

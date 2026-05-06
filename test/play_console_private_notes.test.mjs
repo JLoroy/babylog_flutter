@@ -21,6 +21,7 @@ test('private Play Console notes are generated only from a local reviewer secret
           email: 'test@era-nova.be',
           password: 'fake-reviewer-password-for-test-only',
           assistantId: 'play-reviewer-assistant',
+          openaiApiKey: 'sk-test-openai-key-for-private-notes-only',
         },
         null,
         2,
@@ -38,11 +39,14 @@ test('private Play Console notes are generated only from a local reviewer secret
     const notes = await readFile(outPath, 'utf8');
 
     for (const required of [
-      'WARNING: This file contains the reviewer account password.',
+      'WARNING: This file contains private reviewer credentials and an OpenAI API key.',
       'Some or all functionality is restricted.',
       'Email: test@era-nova.be',
       'Password: fake-reviewer-password-for-test-only',
       'Assistant id: play-reviewer-assistant',
+      'OpenAI API key: sk-test-openai-key-for-private-notes-only',
+      'Enable "Bring your own API key".',
+      'Babylog stores BYOK keys locally on-device, not in Firebase.',
       "Babylog is BYOK-only for OpenAI.",
       "Please do not delete the reviewer account",
     ]) {
@@ -62,7 +66,7 @@ test('private Play Console notes are generated only from a local reviewer secret
       'Run `npm run prepare:play-handoff` first',
       'dist/play-console-handoff/private/play-console-app-access-notes.txt',
       'contains the reviewer password',
-      'Do not commit',
+      'Never',
     ]) {
       assert.match(docs, new RegExp(escapeRegExp(required)));
     }

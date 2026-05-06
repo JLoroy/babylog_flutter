@@ -72,7 +72,7 @@ Use only the play-reviewer-assistant sample timeline. Do not enter real child da
 Open Settings to inspect the Privacy Policy entry, BYOK OpenAI key setting, assistant id, and Delete Account flow.
 
 Babylog is BYOK-only for OpenAI. It does not ship or fetch a shared OpenAI API key.
-AI recording requires the reviewer's own OpenAI API key. The authenticated non-AI timeline, Settings, Privacy Policy, BYOK setting, and Delete Account flows are available with the reviewer account.
+If a temporary OpenAI API key is provided in the private App access notes, enter it in Settings > Bring your own API key before testing AI recording. Babylog stores BYOK keys locally on-device, not in Firebase. The authenticated timeline, Settings, Privacy Policy, BYOK setting, AI recording after local key entry, and Delete Account flows are available with the reviewer account.
 Please do not delete the reviewer account unless the review specifically needs to validate deletion.
 ```
 

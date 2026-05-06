@@ -50,9 +50,11 @@ dist/play-console-handoff/private/play-console-app-access-notes.txt
 ```
 
 This private file contains the reviewer password from
-`.qa-secrets/play-reviewer-account.json`. Use it only to copy/paste App access
-credentials into Play Console. Do not commit, screenshot, or share the private
-file outside the release process.
+`.qa-secrets/play-reviewer-account.json`. If that ignored secret also contains
+an `openaiApiKey` field, the generated private notes include the temporary
+OpenAI key and the in-app BYOK setup steps reviewers should follow. Use the
+private notes only to copy/paste App access credentials into Play Console. Never
+commit, screenshot, or share the private file outside the release process.
 
 Run `npm run prepare:play-handoff` first, then `npm run
 prepare:play-private-notes`. Regenerating the non-secret handoff clears the

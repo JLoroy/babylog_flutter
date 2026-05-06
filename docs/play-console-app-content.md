@@ -44,10 +44,13 @@ Reviewer account:
 - Password: reset email requested on 2026-05-06; set the final password outside
   git before Play submission.
 - Assistant id: `play-reviewer-assistant`
-- OpenAI BYOK test key: none. Document that AI recording requires the
-  reviewer's own OpenAI API key, and that non-AI authenticated timeline,
-  Settings, Privacy Policy, BYOK setting, and Delete Account flows are available
-  with the reviewer account.
+- OpenAI key: if Play review should test AI recording, provide a temporary
+  limited OpenAI key only through ignored private notes generated from the local
+  reviewer secret. Babylog is BYOK-only and stores the key locally on-device,
+  so the reviewer must paste it into Settings before testing AI recording. The
+  authenticated timeline, Settings, Privacy Policy, BYOK setting, AI recording
+  after local key entry, and Delete Account flows are available with the
+  reviewer account.
 
 ## Ads Declaration
 
@@ -133,8 +136,9 @@ used to create a transcription and baby-care timeline events.
 
 - Copy the reviewer account's final password from the local ignored
   `.qa-secrets/play-reviewer-account.json` file into Play Console.
-- Use the documented BYOK-only review path without providing an OpenAI test key
-  in repo or Play notes.
+- Use the documented BYOK-only review path. If AI recording must be reviewed,
+  include a temporary limited OpenAI key only in ignored private Play Console
+  notes, never in committed docs, Firestore, or the app bundle.
 - Add/confirm the published privacy-policy and account-deletion pages in Play
   Console.
 - Confirm screenshots and listing text consistently target parents/guardians,

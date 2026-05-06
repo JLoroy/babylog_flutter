@@ -53,7 +53,7 @@
 - 2026-05-06: Include `npm run test:firestore-indexes` in the Play release runbook preflight so production query indexes remain preserved before upload.
 - 2026-05-06: Treat Firebase Hosting policy/deletion URLs as published, not placeholders, across Play compliance docs; add `npm run test:compliance-docs` to CI and the Play release preflight.
 - 2026-05-06: Prefill the manual QA checklist with non-secret release evidence: version `1.0.2+3`, signed AAB path/SHA-256, Firebase project, reviewer email/assistant id, and published policy/deletion URLs.
-- 2026-05-06: Ship the first Play submission as BYOK-only for OpenAI, with no shared or Play-review OpenAI key; defer a backend proxy until after release unless manual QA shows this blocks review.
+- 2026-05-06: Ship the first Play submission as BYOK-only for OpenAI, with no shared key in repo, Firestore, or the app bundle; allow only optional temporary reviewer keys in ignored private Play notes, and defer a backend proxy until after release unless manual QA shows this blocks review.
 - 2026-05-06: Add a Play Console submit packet with copy/paste values for the AAB, store listing, public URLs, reviewer access, BYOK note, app content, and assets.
 - 2026-05-06: Align `android/app/releasenotes.md` with the current Play listing release notes and validate it with `npm run test:play-release-notes`.
 - 2026-05-06: Update the Play Store listing copy so the account deletion page is described as published, not merely prepared.
@@ -79,6 +79,7 @@
 - 2026-05-06: Keep a CI guard that the configured Android version code remains greater than the highest known Play Console version code, currently 5.
 - 2026-05-06: Include the Play release identity in the generated handoff manifest and README so the upload folder visibly confirms package `com.eranova.babylog`, version `1.0.5+6`, and version code 6.
 - 2026-05-06: Treat Justin's Play Console screenshot as partial Console evidence: internal testing release `6 (1.0.5)` is active and available to internal testers, but review is still `Not reviewed` and production release remains open.
+- 2026-05-06: Keep OpenAI reviewer keys out of Firebase and git; if review needs AI recording, include a temporary limited key only in ignored private Play Console notes and instruct reviewers to paste it into the app's local BYOK Settings field.
 
 ## Next
 
