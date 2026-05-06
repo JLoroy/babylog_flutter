@@ -1,0 +1,34 @@
+{
+  "capturedAt": "2026-05-06T08:00:16.076Z",
+  "firebaseProject": "babylog-flutter",
+  "appPackage": "com.eranova.babylog",
+  "avd": "babylog_api35",
+  "qaUser": {
+    "uid": "codexdeleteqa20260506075317ad1d03",
+    "email": "deleteqa20260506075317ad1d03@example.com",
+    "password": "stored only in .qa-secrets/deletion-qa-account.json, not committed"
+  },
+  "assistantId": "icM00h2TvBff3LU1P2Nn",
+  "eventId": "delete-smoke-codexdeleteqa20260506075317ad1d03",
+  "beforeDeletion": {
+    "restAuthSignIn": true,
+    "userDocExists": true,
+    "currentAssistantReferenceExists": true,
+    "assistantDocExists": true,
+    "assistantUsersContainsQaEmail": true,
+    "syntheticEventCreated": true
+  },
+  "deletedAt": "2026-05-06T08:02:30.479Z",
+  "afterDeletion": {
+    "appReturnedToSignInScreen": true,
+    "restAuthSignInRejectedAfterDeletion": true,
+    "userDocDeleted": true,
+    "assistantDocDeleted": true,
+    "syntheticEventDeleted": true
+  },
+  "screenshots": {
+    "before": "docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png",
+    "confirmDialog": "docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png",
+    "after": "docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png"
+  }
+}

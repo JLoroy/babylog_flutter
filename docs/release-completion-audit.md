@@ -44,7 +44,7 @@ Not achieved.
 | Android release identity | `npm run test:android-release-identity` checks package `com.eranova.babylog`, version `1.0.2+3`, target SDK 35, compile SDK 36, permissions, and listing identity fields. | Implemented | Final AAB upload must confirm Play accepts the artifact. |
 | Android launcher brand | `android/app/src/main/AndroidManifest.xml` label is `Babylog`; `npm run test:android-manifest` passes. | Implemented | Needs final artifact check. |
 | Firebase security rules | `firestore.rules`, `database.rules.json`, `npm run test:rules` passing; `firebase deploy --only firestore:rules --project babylog-flutter` succeeded; disposable AVD smoke created/loaded user and assistant data under deployed rules. | Deployed and partially smoke-tested | Account deletion, event write/delete, sharing, and BYOK recording still require app-level smoke evidence. |
-| Account deletion implementation | `AccountDeletionService` and focused tests cover event/user/assistant/auth/local-key deletion order. | Implemented in code | Manual device/Firebase Console validation still required. |
+| Account deletion implementation | `AccountDeletionService` and focused tests cover event/user/assistant/auth/local-key deletion order; `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` confirms release APK single-user deletion returned to sign-in and removed Firebase Auth access, `users/{uid}`, assistant doc, and a synthetic event. | Implemented and partially device-validated | Shared-assistant deletion and local BYOK cleanup remain test-covered but not manually device-verified. |
 | In-app privacy policy access | Settings exposes Privacy Policy; widget test passes. | Implemented | Must align with published policy URL/content before submission. |
 | Public privacy policy | `https://babylog-flutter.web.app/privacy-policy` returned HTTP 200 and contains Nacho/privacy/Firebase/OpenAI content; `npm run test:policy` passes. | Published | Add URL to Play Console if not already updated. |
 | Public account deletion resource | `https://babylog-flutter.web.app/delete-account` returned HTTP 200 and contains deletion request instructions; `npm run test:policy` passes. | Published | Add URL to Play Console if not already updated. |
@@ -60,7 +60,7 @@ Not achieved.
 | Play release runbook | `docs/play-release-runbook.md` exists; `npm run test:play-release` passes. | Prepared | Must be followed now that signing is fixed and Play Console access is ready. |
 | Play release notes | `android/app/releasenotes.md` matches the current listing release notes; `npm run test:play-release-notes` passes. | Prepared | Must be accepted or copied into Play Console release notes. |
 | Play Console submit packet | `docs/play-console-submit-packet.md` exists; `npm run test:play-submit-packet` verifies artifact, identity, URLs, reviewer, BYOK, and asset values. | Prepared | Must be copied into Play Console and accepted there. |
-| Manual QA evidence | `docs/manual-qa-checklist.md` exists, is prefilled with known release artifact/reviewer/public URL details, records local AVD `babylog_api35`, release APK install success, launch screenshot, disposable verified sign-in, timeline screenshot, and Firestore smoke JSON; `npm run test:manual-qa` passes. | Partially started | Account deletion, BYOK recording, event creation/deletion, sharing, restart persistence, and final reviewer credentials still require manual evidence. |
+| Manual QA evidence | `docs/manual-qa-checklist.md` exists, is prefilled with known release artifact/reviewer/public URL details, records local AVD `babylog_api35`, release APK install success, launch screenshot, disposable verified sign-in, timeline screenshot, Firestore smoke JSON, and account deletion smoke JSON/screenshots; `npm run test:manual-qa` passes. | Partially started | BYOK recording, event creation through the recorder, event deletion through the UI, sharing, restart persistence, and final reviewer credentials still require manual evidence. |
 | 1000-user metric plan | `docs/growth-metrics.md` exists; `npm run test:growth` passes. | Paused / metric defined | Actual Play Console/Firebase metric evidence intentionally deferred until after release. |
 | Ads/analytics surface | Firebase Analytics and RTDB Flutter dependencies removed; searches recorded clean in `STATUS.md`. | Improved | Final Play SDK/data disclosure must verify uploaded artifact. |
 | OpenAI key handling | Firestore dev/shared key fallback removed; BYOK local secure storage implemented and tested; first-release decision is BYOK-only direct client calls with backend proxy deferred. | Improved | Manual BYOK key save/restart/recording QA still required. |
@@ -76,8 +76,9 @@ Not achieved.
 - Reviewer Firebase Auth account and sample Firestore assistant are prepared,
   but final password, Play Console notes, and sign-in evidence are not complete
   yet.
-- Account deletion has not been manually validated against real Firebase Auth
-  and Firestore data.
+- Single-user account deletion has release-APK smoke evidence against real
+  Firebase Auth and Firestore data; shared-assistant deletion and local BYOK
+  cleanup still need manual or broader integration evidence.
 - Local AVD `babylog_api35` is available and can install/launch the release APK,
   but signed-in manual QA and final Play screenshots are not complete.
 - Firebase rules are deployed and partially smoke-tested for disposable
@@ -99,7 +100,8 @@ evidence for all of the following:
 - Published privacy-policy and account-deletion URLs configured in Play Console.
 - App content, Data safety, content rating, target audience, and ads
   declarations accepted in Play Console.
-- Manual account deletion validation evidence from Firebase Auth and Firestore.
+- Manual account deletion validation evidence from Firebase Auth and Firestore,
+  including any shared-assistant case required for the final Play risk decision.
 - Completed manual QA evidence from `docs/manual-qa-checklist.md`.
 - Production Firebase rules deployed and smoke-tested with the app/internal test
   account after deployment.

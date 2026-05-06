@@ -6,11 +6,11 @@ Format: Title / Description / Guidance / How to validate.
 
 ### Complete account deletion
 
-**Description:** The delete-account flow is now implemented through `AccountDeletionService`, including Firebase data/auth deletion and assistant-scoped local OpenAI key cleanup, but it still needs real Firebase/device verification before it can be considered Play Store-ready.
+**Description:** The delete-account flow is implemented through `AccountDeletionService`, including Firebase data/auth deletion and assistant-scoped local OpenAI key cleanup. Single-user release APK deletion has real Firebase/Auth/Firestore smoke evidence; shared-assistant deletion and local BYOK cleanup still need broader manual evidence before the checklist is fully closed.
 
 **Guidance:** Use a disposable test account and assistant. Confirm deletion removes assistant events, deletes `users/{uid}`, removes the deleting user from shared assistant membership or deletes the assistant doc when no users remain, clears the local BYOK key for that assistant, and deletes the Firebase Auth user. Confirm the app handles `requires-recent-login` by asking the user to sign in again.
 
-**How to validate:** `flutter test` covers the deletion coordinator. Manual validation is still required on a device or emulator with Firebase Console evidence for Auth, user doc, event docs, and assistant membership.
+**How to validate:** `flutter test` covers the deletion coordinator. Single-user device evidence is recorded in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json`. Manual validation is still required for the shared-assistant branch and local BYOK cleanup, with Firebase Console evidence for Auth, user doc, event docs, and assistant membership.
 
 ### Move OpenAI calls off the client
 

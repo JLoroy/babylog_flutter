@@ -38,9 +38,17 @@ test('manual QA checklist covers release-critical flows', async () => {
     'docs/qa-evidence/2026-05-06-release-apk-launch.png',
     'docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png',
     'docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json',
+    'docs/qa-evidence/2026-05-06-account-deletion-smoke.json',
+    'docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png',
+    'docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png',
+    'docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png',
     '.qa-secrets/current-qa-account.json',
+    '.qa-secrets/deletion-qa-account.json',
     'qa202605060729068d@example.com',
     'codexqa20260506072958350d',
+    'deleteqa20260506075317ad1d03@example.com',
+    'codexdeleteqa20260506075317ad1d03',
+    'restAuthSignInRejectedAfterDeletion',
     'current assistant reference',
     'test@era-nova.be',
     'play-reviewer-assistant',
@@ -92,6 +100,49 @@ test('manual QA checklist covers release-critical flows', async () => {
     smoke.screenshots[0],
     'docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png',
   );
+
+  const deletionSmoke = JSON.parse(
+    await readFile(
+      'docs/qa-evidence/2026-05-06-account-deletion-smoke.json',
+      'utf8',
+    ),
+  );
+  assert.equal(deletionSmoke.firebaseProject, 'babylog-flutter');
+  assert.equal(deletionSmoke.appPackage, 'com.eranova.babylog');
+  assert.equal(
+    deletionSmoke.qaUser.email,
+    'deleteqa20260506075317ad1d03@example.com',
+  );
+  assert.equal(
+    deletionSmoke.qaUser.uid,
+    'codexdeleteqa20260506075317ad1d03',
+  );
+  assert.match(deletionSmoke.qaUser.password, /not committed/);
+  for (const key of [
+    'restAuthSignIn',
+    'userDocExists',
+    'currentAssistantReferenceExists',
+    'assistantDocExists',
+    'assistantUsersContainsQaEmail',
+    'syntheticEventCreated',
+  ]) {
+    assert.equal(deletionSmoke.beforeDeletion[key], true, `${key} should pass`);
+  }
+  for (const key of [
+    'appReturnedToSignInScreen',
+    'restAuthSignInRejectedAfterDeletion',
+    'userDocDeleted',
+    'assistantDocDeleted',
+    'syntheticEventDeleted',
+  ]) {
+    assert.equal(deletionSmoke.afterDeletion[key], true, `${key} should pass`);
+  }
+  for (const screenshotPath of Object.values(deletionSmoke.screenshots)) {
+    const image = await readFile(screenshotPath);
+    assert.equal(image.toString('ascii', 1, 4), 'PNG');
+    assert.equal(image.readUInt32BE(16), 1080);
+    assert.equal(image.readUInt32BE(20), 2400);
+  }
 });
 
 function escapeRegExp(value) {

@@ -20,6 +20,11 @@ After the Firebase Auth/UI upgrade, the release APK also signed in with a
 disposable verified QA user and reached the timeline. Sanitized local evidence:
 `docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png`.
 
+Account deletion release APK smoke screenshots were also captured:
+`docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png`,
+`docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png`, and
+`docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png`.
+
 Final full screenshot coverage still requires completing the signed-in flows on
 this AVD, a real Android device, or a Play internal testing install.
 
@@ -42,7 +47,7 @@ this AVD, a real Android device, or a Play internal testing install.
 | Shared timeline | Timeline with synthetic baby-care events and no real names. | Restart persistence / Shared assistant join | Partial local AVD evidence: timeline shell loads for disposable QA user, but full event/restart/shared-account screenshot set remains TODO. |
 | Recording permission | Microphone permission or post-permission recording state. | Recording permission | TODO |
 | First event | Synthetic event created from recording/transcription. | First recording / First event creation | TODO |
-| Delete Account | Settings delete-account entry or confirmation flow without deleting reviewer account. | Delete account | TODO |
+| Delete Account | Settings delete-account entry or confirmation flow without deleting reviewer account. | Delete account | Partial local AVD evidence: release APK account-deletion before/confirm/after screenshots captured with a disposable account. Final Play media should use non-sensitive reviewer-safe screenshots. |
 
 ## Optional Screenshots
 

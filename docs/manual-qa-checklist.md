@@ -39,8 +39,22 @@ Non-secret Firestore smoke evidence:
 
 This smoke confirms REST Auth sign-in, user document load, current assistant reference creation, assistant document creation, and assistant membership for the disposable QA account under the deployed Firestore rules.
 
-The disposable verified QA account password is stored only in ignored
-`.qa-secrets/current-qa-account.json`.
+Account deletion smoke evidence for disposable QA user
+`deleteqa20260506075317ad1d03@example.com`
+(`codexdeleteqa20260506075317ad1d03`):
+`docs/qa-evidence/2026-05-06-account-deletion-smoke.json`
+
+The deletion smoke includes `restAuthSignInRejectedAfterDeletion`, user doc
+deletion, assistant doc deletion, and synthetic event deletion checks.
+
+Account deletion screenshots:
+`docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png`,
+`docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png`, and
+`docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png`.
+
+Disposable verified QA account passwords are stored only in ignored
+`.qa-secrets/current-qa-account.json` and
+`.qa-secrets/deletion-qa-account.json`.
 
 Remaining manual Android QA still must run on this AVD, a real Android device,
 or a Play internal testing install.
@@ -68,7 +82,7 @@ or a Play internal testing install.
 | Restart persistence | Restart the app and confirm the event remains visible. | Screenshot after restart. | TODO |
 | Shared assistant join | Sign in with a second test account and join the assistant. | Screenshot and Firestore `assistants.users` evidence. | TODO |
 | Delete event | Delete a test event from the timeline. | Screenshot and Firestore evidence that event doc is gone. | TODO |
-| Delete account | Delete the primary test account from Settings. | Firebase Auth, `users`, `assistants`, `events`, and local BYOK cleanup evidence. | TODO |
+| Delete account | Delete the primary test account from Settings. | Firebase Auth, `users`, `assistants`, `events`, and local BYOK cleanup evidence. | PASS for single-user release APK smoke on AVD `babylog_api35`; evidence in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` confirms the app returned to sign-in, Auth sign-in was rejected afterward, and the Firebase user, assistant, and synthetic event documents were deleted. Shared-assistant deletion and local BYOK cleanup remain covered by tests, not manual device evidence. |
 | Reauthentication edge | Trigger or document `requires-recent-login` behavior. | Screenshot or note explaining reviewer-observed behavior. | TODO |
 | Public deletion page | Open the account deletion page without the app installed. | Browser screenshot with public URL. | TODO |
 | Public privacy page | Open the privacy policy page without authentication. | Browser screenshot with public URL. | TODO |
@@ -82,7 +96,8 @@ or a Play internal testing install.
 - Disposable smoke assistant users before deletion: PASS in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`
 - Assistant users after deletion: TODO
 - Event documents before deletion: TODO
-- Event documents after deletion: TODO
+- Disposable account deletion event before deletion: `delete-smoke-codexdeleteqa20260506075317ad1d03`
+- Disposable account deletion event after deletion: PASS in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json`
 
 ## Play Review Inputs
 

@@ -62,6 +62,7 @@
 - 2026-05-06: Release APK sign-in exposed a Firebase Auth/UI Pigeon codec crash; upgrade Firebase packages to `firebase_core 4.7.0`, `firebase_auth 6.4.0`, `firebase_ui_auth 3.0.1`, `cloud_firestore 6.3.0`, and `firebase_ui_firestore 2.0.1`.
 - 2026-05-06: Keep disposable release-QA Firebase passwords only under ignored `.qa-secrets/`; commit only non-secret smoke evidence and screenshots.
 - 2026-05-06: Treat AVD release sign-in, user document load, current-assistant link creation, assistant document creation, and assistant membership under deployed Firestore rules as smoke-tested with disposable verified Firebase Auth user `qa202605060729068d@example.com`.
+- 2026-05-06: Validate the single-user in-app account deletion path on the release APK with disposable Firebase Auth user `deleteqa20260506075317ad1d03@example.com`; commit only non-secret before/after evidence.
 
 ## Next
 
@@ -80,4 +81,4 @@
 - Complete `docs/manual-qa-checklist.md` during internal testing on a real Android device.
 - Capture Play Console install/acquisition evidence and Firebase Auth supporting evidence after production release.
 - Smoke-test deployed Firebase rules with production assistant membership data and the app/internal test account.
-- Complete full manual QA beyond the disposable AVD sign-in/assistant smoke: account deletion, BYOK recording, event creation, restart persistence, sharing, and final Play screenshots.
+- Complete full manual QA beyond the disposable AVD sign-in/assistant/deletion smoke: BYOK recording, event creation through the recorder, restart persistence, sharing, and final Play screenshots.

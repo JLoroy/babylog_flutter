@@ -20,8 +20,12 @@ test('Play screenshot plan covers required sanitized phone screenshots', async (
     'Android 15 / API 35',
     'docs/qa-evidence/2026-05-06-release-apk-launch.png',
     'docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png',
+    'docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png',
+    'docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png',
+    'docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png',
     'Firebase Auth/UI upgrade',
     'timeline shell loads',
+    'Account deletion release APK smoke screenshots',
   ]) {
     assert.match(plan, new RegExp(escapeRegExp(required)));
   }
@@ -39,6 +43,17 @@ test('Play screenshot plan covers required sanitized phone screenshots', async (
   assert.equal(timelineScreenshot.toString('ascii', 1, 4), 'PNG');
   assert.equal(timelineScreenshot.readUInt32BE(16), 1080);
   assert.equal(timelineScreenshot.readUInt32BE(20), 2400);
+
+  for (const screenshotPath of [
+    'docs/qa-evidence/2026-05-06-release-apk-account-deletion-before.png',
+    'docs/qa-evidence/2026-05-06-release-apk-account-deletion-confirm.png',
+    'docs/qa-evidence/2026-05-06-release-apk-account-deletion-after.png',
+  ]) {
+    const image = await readFile(screenshotPath);
+    assert.equal(image.toString('ascii', 1, 4), 'PNG');
+    assert.equal(image.readUInt32BE(16), 1080);
+    assert.equal(image.readUInt32BE(20), 2400);
+  }
 });
 
 function escapeRegExp(value) {

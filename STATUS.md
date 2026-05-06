@@ -73,6 +73,9 @@
 - Rebuilt the release APK after the Firebase upgrade, signed in on AVD `babylog_api35`, reached the Babylog timeline, and saved sanitized evidence at `docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png`.
 - Captured non-secret Firestore smoke evidence at `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`: REST sign-in, user doc, current assistant reference, assistant doc, and assistant membership all passed under deployed Firestore rules.
 - Pushed commit `a7dce7e` (`Fix release Firebase auth flow`) to `main`; GitHub Actions run `25422575356` passed both Analyze/test and Firebase rules jobs.
+- Imported disposable verified deletion QA user `deleteqa20260506075317ad1d03@example.com`; its password is stored only in ignored `.qa-secrets/deletion-qa-account.json`.
+- Signed into the release APK on AVD `babylog_api35`, let the app create assistant `icM00h2TvBff3LU1P2Nn`, added synthetic event `delete-smoke-codexdeleteqa20260506075317ad1d03`, and deleted the account through Settings > Delete Account > Delete Everything.
+- Captured account-deletion evidence in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` and screenshots under `docs/qa-evidence/2026-05-06-release-apk-account-deletion-*.png`.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -124,6 +127,7 @@
 - `docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png` is a sanitized 1080 x 2400 PNG showing the signed-in timeline.
 - `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json` records only non-secret smoke evidence and points to the local ignored password store for the disposable QA account.
 - GitHub Actions run `25422575356` passes on `main`: Analyze/test completed in 6m8s and Firebase rules completed in 25s.
+- Account deletion release-APK smoke passes on AVD `babylog_api35`: app returned to sign-in, REST Auth sign-in was rejected afterward, `users/codexdeleteqa20260506075317ad1d03` was deleted, assistant `icM00h2TvBff3LU1P2Nn` was deleted, and event `delete-smoke-codexdeleteqa20260506075317ad1d03` was deleted.
 - `git diff --check` passes.
 - `.github/workflows/flutter-ci.yml` parses as valid YAML via Ruby.
 - `npm run test:policy`, `npm run test:public-urls`, `npm run test:play-release`, `npm run test:upload-key`, `npm run test:firestore-indexes`, and `npm run test:hosting` were re-run on 2026-05-06 and pass.
