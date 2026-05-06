@@ -16,10 +16,15 @@ screens are accepted for the uploaded AAB.
   https://support.google.com/googleplay/android-developer/answer/13327111
 - OpenAI platform data controls:
   https://platform.openai.com/docs/guides/your-data/
+- Play policy freshness snapshot:
+  `docs/play-policy-freshness.md`
 
 ## Current implementation evidence
 
 - Android package: `com.eranova.babylog`
+- Current Play target API submission floor checked on 2026-05-06:
+  Android 15 / API level 35 or higher for new apps and app updates. Babylog is
+  configured with `targetSdk = 35` and `compileSdk = 36`.
 - Public developer identity: Nacho.
 - Privacy contact: privacy@lenacho.be.
 - Public privacy policy URL:

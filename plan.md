@@ -70,6 +70,7 @@
 - 2026-05-06: Validate release APK event deletion through the timeline UI using a temporary synthetic reviewer-assistant event; count it as existing-event delete smoke evidence, not recorder-created event coverage.
 - 2026-05-06: Capture public Firebase Hosting privacy-policy and account-deletion page screenshots from Google Chrome headless as browser evidence; Play Console field confirmation remains separate.
 - 2026-05-06: Treat the exported Play Console action history as evidence that Babylog already exists in Play Console, not as evidence that current Nacho/privacy URL/reviewer/AAB fields have been accepted.
+- 2026-05-06: Official Play target API docs still require Android 15 / API 35 or higher for new apps and updates; keep Babylog at `targetSdk = 35` for the current submission, and re-check the policy before any submission after 2026-08-01.
 
 ## Next
 
@@ -91,3 +92,4 @@
 - Smoke-test deployed Firebase rules with production assistant membership data and the app/internal test account.
 - Complete full manual QA beyond the disposable AVD sign-in/assistant/deletion smoke: BYOK recording, event creation through the recorder, restart persistence, sharing, and final Play screenshots.
 - Capture Play Console screenshots or exports after updating contact email, website, privacy policy URL, account deletion URL, app access notes, media, and release artifact.
+- Re-check `docs/play-policy-freshness.md` against official Play docs before upload if submission slips past 2026-08-01.

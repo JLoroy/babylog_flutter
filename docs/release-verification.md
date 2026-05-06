@@ -21,6 +21,7 @@ npm run test:listing
 npm run test:play-distribution
 npm run test:play-assets
 npm run test:play-reviewer-access
+npm run test:play-policy-freshness
 npm run test:play-screenshots
 npm run test:public-urls
 npm run test:manual-qa

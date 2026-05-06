@@ -90,6 +90,7 @@
 - Added `npm run test:public-policy-pages-smoke` and wired it into GitHub Actions for the public policy page browser evidence.
 - Reviewed the exported Play Console action history in `docs/previous_actions.md`; it confirms the existing Babylog Play app, prior internal testing release, old Era Nova contact fields, Parenting category, and no-ads declaration, but it does not prove the current Nacho/privacy URL/reviewer/AAB fields are accepted.
 - Added `docs/play-console-action-history.md` and `npm run test:play-console-history`, and corrected the Firebase Hosting runbook so Play Console URL fields remain explicitly unconfirmed until Console screenshots or exports exist.
+- Checked official Play target API, app review, and account deletion docs on 2026-05-06; added `docs/play-policy-freshness.md` and `npm run test:play-policy-freshness` so current API 35/privacy/app-access/deletion assumptions are tracked as a dated policy snapshot.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -117,6 +118,7 @@
 - `npm run test:event-delete-smoke` passes: event deletion UI smoke evidence is non-secret, release-scoped, verifies before/after screenshots, and keeps recorder-created event QA explicit as a remaining gap.
 - `npm run test:public-policy-pages-smoke` passes: public policy page smoke evidence is non-secret, browser-captured, hash-checked, and still keeps Play Console URL field confirmation explicit as a remaining gap.
 - `npm run test:play-console-history` passes: exported Play Console history is reviewed without treating old Era Nova Console settings as current release acceptance.
+- `npm run test:play-policy-freshness` passes: the dated Play policy snapshot is present, points to official docs, verifies `targetSdk = 35` / `compileSdk = 36`, and remains explicit that Console acceptance is still required.
 - GitHub Actions run `25426969401` failed twice on `main` only at `flutter build apk --debug` before app compilation because Gradle could not resolve Flutter's `org.gradle.kotlin.kotlin-dsl:4.5.0` plugin while the Gradle Plugin Portal artifact URL returned HTTP 503.
 - GitHub Actions run `25427451856` for commit `587f230` passed both Analyze/test and Firebase rules jobs after the transient Gradle Plugin Portal issue cleared during the build window; `main` is green again.
 - GitHub Actions run `25428242326` for commit `8a7bbf9` passed both jobs after adding the Play Console action-history guard: Firebase rules completed in 34s, and Analyze/test completed in 6m7s including the Android debug APK build.
