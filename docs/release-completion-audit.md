@@ -1,0 +1,106 @@
+# Babylog Release Completion Audit
+
+Last updated: 2026-05-06
+
+Objective under audit:
+Make Babylog a fully released and professional app available on the Play Store
+and downloaded by at least 1000 users.
+
+Current user direction:
+The 1000-user/download target is paused while release, security, deployment,
+and Play submission are prioritized.
+
+Current audit result:
+Not achieved.
+
+## Success Criteria
+
+1. The Android app is production-ready and professional enough for public users.
+2. A signed Android App Bundle is built with the intended upload key.
+3. The app is submitted to and available on Google Play.
+4. Play Console policy, store listing, App content, Data safety, privacy policy,
+   and account deletion requirements are complete and accurate.
+5. Firebase/Auth/Firestore behavior is safe for production.
+6. Users can create accounts, use the core timeline/recording flow, and delete
+   their accounts/data.
+7. The app has at least 1000 verified downloads/users. This criterion is paused
+   by current user direction, but remains tracked for the original objective.
+
+## Prompt-To-Artifact Checklist
+
+| Requirement | Evidence inspected | Status | Gap |
+| --- | --- | --- | --- |
+| Track decisions in `plan.md` | `plan.md` contains release decisions through Play metadata/policy CI checks and the Play release runbook. | In progress | Continue updating for every material decision. |
+| Track progress in `STATUS.md` | `STATUS.md` has current milestone, changes, verification, and blockers. | In progress | Continue updating after each work chunk. |
+| Professional release gate | `docs/release-verification.md`, `docs/play-release-runbook.md`, `.github/workflows/flutter-ci.yml`, local tests. | Partially complete | Remote GitHub Actions run not yet verified after push. |
+| Flutter formatting | `dart format --set-exit-if-changed lib test` is recorded passing in `STATUS.md`. | Passing locally | Needs clean remote CI confirmation. |
+| Flutter analyzer | `flutter analyze --no-fatal-infos` is recorded passing with 84 info-level issues. | Passing locally | Info-level lint debt remains. |
+| Flutter tests | `flutter test` is recorded passing with 10 tests. | Passing locally | Needs clean remote CI confirmation. |
+| Android debug build | `flutter build apk --debug` is recorded passing. | Passing locally | Needs clean remote CI confirmation. |
+| Android release signing | `keytool` opens the configured keystore/alias; `flutter build appbundle --release` produced `build/app/outputs/bundle/release/app-release.aab`; SHA-256 `ac9b27ec22bb4d6c963a2c38eb3b274f9c539ea508b566fccab8d3f4ba8b226b`; `jarsigner -verify` exits 0. | Signed AAB built | Upload to Play Console still required. |
+| Upload key recovery | `docs/upload-key-recovery.md` exists; `npm run test:upload-key` passes; recovered password is configured only in ignored `android/key.properties`. | Resolved locally | Keep signing secrets out of git and mirror into secure release storage if needed. |
+| Upload key material | `~/Documents/AndroidReleaseKeys/eranova_upload.jks` and PEPK file exist; `android/key.properties` is ignored. | Present and usable | Final Play upload must confirm Play accepts the upload key. |
+| Google Play target API | `android/app/build.gradle.kts` targets SDK 35 and compiles SDK 36. | Implemented | Final AAB upload must confirm Play accepts it. |
+| Android release identity | `npm run test:android-release-identity` checks package `com.eranova.babylog`, version `1.0.2+3`, target SDK 35, compile SDK 36, permissions, and listing identity fields. | Implemented | Final AAB upload must confirm Play accepts the artifact. |
+| Android launcher brand | `android/app/src/main/AndroidManifest.xml` label is `Babylog`; `npm run test:android-manifest` passes. | Implemented | Needs final artifact check. |
+| Firebase security rules | `firestore.rules`, `database.rules.json`, `npm run test:rules` passing; `firebase deploy --only firestore:rules --project babylog-flutter` succeeded. | Deployed | App-level smoke testing against real Firebase data still required. |
+| Account deletion implementation | `AccountDeletionService` and focused tests cover event/user/assistant/auth/local-key deletion order. | Implemented in code | Manual device/Firebase Console validation still required. |
+| In-app privacy policy access | Settings exposes Privacy Policy; widget test passes. | Implemented | Must align with published policy URL/content before submission. |
+| Public privacy policy | `https://babylog-flutter.web.app/privacy-policy` returned HTTP 200 and contains Nacho/privacy/Firebase/OpenAI content; `npm run test:policy` passes. | Published | Add URL to Play Console if not already updated. |
+| Public account deletion resource | `https://babylog-flutter.web.app/delete-account` returned HTTP 200 and contains deletion request instructions; `npm run test:policy` passes. | Published | Add URL to Play Console if not already updated. |
+| Static page hosting config | `firebase deploy --only hosting` succeeded for `babylog-flutter`; `npm run test:hosting` passes. | Deployed | Browser screenshots can still be captured for manual evidence. |
+| Public URLs | `docs/play-store-listing.md` and `docs/firebase-hosting-deploy.md` contain verified Firebase Hosting URLs; `npm run test:public-urls` passes. | Verified | Play Console fields still need confirmation. |
+| Data safety inventory | `docs/play-console-compliance.md` exists and `npm run test:compliance-docs` verifies current Nacho/privacy identity and public policy/deletion URLs. | Drafted | Final Play Console SDK/data disclosure review still required. |
+| Store listing | `docs/play-store-listing.md` exists; `npm run test:listing` passes and verifies published policy/deletion URL references. | Drafted | Screenshots and final Play Console entry still required. |
+| Play distribution | `docs/play-distribution.md` exists; `npm run test:play-distribution` passes. | Drafted | Final Play Console pricing/category/country settings still required. |
+| Play Store graphics | `docs/play-assets/icon-512.png` and `docs/play-assets/feature-graphic-1024x500.png` exist; `npm run test:play-assets` verifies the app icon is 512 x 512 and the feature graphic is a 1024 x 500 no-alpha PNG, both listed in `docs/play-store-listing.md`. | Prepared | Final Play Console upload must accept the graphics. |
+| Play screenshots | `docs/play-screenshots.md` exists; `npm run test:play-screenshots` verifies required sanitized phone screenshot coverage and records that local `flutter devices` only sees macOS/Chrome with no Android emulator sources. | Template prepared | Actual screenshots from final/internal-test build still required on a real Android device, new AVD, or Play internal testing install. |
+| App content answers | `docs/play-console-app-content.md` exists; `npm run test:app-content` passes; BYOK-only review path is documented. | Drafted | Final Play Console copy/paste and acceptance still required. |
+| Reviewer access notes | `docs/play-reviewer-access.md` records `test@era-nova.be`, the 2026-05-06 password reset request, assistant id `play-reviewer-assistant`, and BYOK-only reviewer instructions; Firebase Auth export confirmed the account is enabled/email-verified; Firestore REST verification confirmed the user/assistant/event setup; `npm run test:play-reviewer-access` passes. | Partially prepared | Final password, Play Console notes, and internal-test sign-in evidence are still required before Play submission. |
+| Play release runbook | `docs/play-release-runbook.md` exists; `npm run test:play-release` passes. | Prepared | Must be followed now that signing is fixed and Play Console access is ready. |
+| Play release notes | `android/app/releasenotes.md` matches the current listing release notes; `npm run test:play-release-notes` passes. | Prepared | Must be accepted or copied into Play Console release notes. |
+| Play Console submit packet | `docs/play-console-submit-packet.md` exists; `npm run test:play-submit-packet` verifies artifact, identity, URLs, reviewer, BYOK, and asset values. | Prepared | Must be copied into Play Console and accepted there. |
+| Manual QA evidence | `docs/manual-qa-checklist.md` exists, is prefilled with known release artifact/reviewer/public URL details, records the local no-Android-device/no-emulator check, and `npm run test:manual-qa` passes. | Template prepared | Real device/internal-test evidence still required, now including deployed Firestore rules smoke testing. |
+| 1000-user metric plan | `docs/growth-metrics.md` exists; `npm run test:growth` passes. | Paused / metric defined | Actual Play Console/Firebase metric evidence intentionally deferred until after release. |
+| Ads/analytics surface | Firebase Analytics and RTDB Flutter dependencies removed; searches recorded clean in `STATUS.md`. | Improved | Final Play SDK/data disclosure must verify uploaded artifact. |
+| OpenAI key handling | Firestore dev/shared key fallback removed; BYOK local secure storage implemented and tested; first-release decision is BYOK-only direct client calls with backend proxy deferred. | Improved | Manual BYOK key save/restart/recording QA still required. |
+| Production availability on Play Store | Signed AAB exists locally, but no Play Console upload evidence or public listing URL exists in this workspace. | Not achieved | Upload the AAB, complete review, and finish production release. |
+| 1000 downloads/users | `docs/growth-metrics.md` defines Play Console installs as primary evidence, but no metric capture exists. | Paused / not achieved | Resume after release and verify at least 1000 Play Console installs/acquisitions. |
+
+## Current Hard Blockers
+
+- No Play Console internal test, review, production release, or live listing
+  evidence exists in this workspace.
+- No Play Developer API, Fastlane, Gradle Play Publisher, or service-account
+  automation credentials were found in the repo.
+- Reviewer Firebase Auth account and sample Firestore assistant are prepared,
+  but final password, Play Console notes, and sign-in evidence are not complete
+  yet.
+- Account deletion has not been manually validated against real Firebase Auth
+  and Firestore data.
+- No local Android device or emulator is available for manual QA/screenshot
+  capture in this workspace.
+- Firebase rules are deployed, but have not been app-level smoke-tested against
+  real Firebase data after deployment.
+- BYOK-only direct OpenAI architecture is the first-release decision, but it
+  still needs real-device/internal-test BYOK recording validation.
+- The 1000-user/download target is paused by user direction; no Play Console or
+  Firebase evidence shows 1000 downloads/users yet.
+
+## Completion Rule
+
+Do not mark the active objective complete until the audit can cite concrete
+evidence for all of the following:
+
+- A signed release `.aab` built with the intended upload key.
+- The `.aab` uploaded to Play Console and accepted for the chosen track.
+- Public Google Play listing URL showing Babylog available to users.
+- Published privacy-policy and account-deletion URLs configured in Play Console.
+- App content, Data safety, content rating, target audience, and ads
+  declarations accepted in Play Console.
+- Manual account deletion validation evidence from Firebase Auth and Firestore.
+- Completed manual QA evidence from `docs/manual-qa-checklist.md`.
+- Production Firebase rules deployed and smoke-tested with the app/internal test
+  account after deployment.
+- If/when the paused growth target resumes, a Play Console/Firebase metric
+  showing at least 1000 downloads/users.

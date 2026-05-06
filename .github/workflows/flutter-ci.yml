@@ -1,0 +1,143 @@
+name: Flutter CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: flutter-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  firebase-rules:
+    name: Firebase rules
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "25"
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Test Firestore rules
+        run: npm run test:rules
+
+  verify:
+    name: Analyze and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "25"
+          cache: npm
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: "3.41.9"
+          cache: true
+
+      - name: Show Flutter version
+        run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: dart format --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+
+      - name: Test
+        run: flutter test
+
+      - name: Test Android manifest metadata
+        run: npm run test:android-manifest
+
+      - name: Test Android release identity
+        run: npm run test:android-release-identity
+
+      - name: Test Play Console app content draft
+        run: npm run test:app-content
+
+      - name: Test Play compliance docs
+        run: npm run test:compliance-docs
+
+      - name: Test growth metrics plan
+        run: npm run test:growth
+
+      - name: Test Firebase Hosting config
+        run: npm run test:hosting
+
+      - name: Test Firestore indexes
+        run: npm run test:firestore-indexes
+
+      - name: Test Play Store listing draft
+        run: npm run test:listing
+
+      - name: Test Play distribution draft
+        run: npm run test:play-distribution
+
+      - name: Test Play Store assets
+        run: npm run test:play-assets
+
+      - name: Test Play reviewer access notes
+        run: npm run test:play-reviewer-access
+
+      - name: Test Play screenshot plan
+        run: npm run test:play-screenshots
+
+      - name: Test Play submit packet
+        run: npm run test:play-submit-packet
+
+      - name: Test public URL placeholders
+        run: npm run test:public-urls
+
+      - name: Test manual QA checklist
+        run: npm run test:manual-qa
+
+      - name: Test policy pages
+        run: npm run test:policy
+
+      - name: Test Play release runbook
+        run: npm run test:play-release
+
+      - name: Test Play release notes
+        run: npm run test:play-release-notes
+
+      - name: Test upload key recovery runbook
+        run: npm run test:upload-key
+
+      - name: Build Android debug APK
+        run: flutter build apk --debug

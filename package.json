@@ -1,0 +1,31 @@
+{
+  "name": "babylog-firebase-rules",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:android-manifest": "node --test test/android_manifest.test.mjs",
+    "test:android-release-identity": "node --test test/android_release_identity.test.mjs",
+    "test:app-content": "node --test test/play_console_app_content.test.mjs",
+    "test:compliance-docs": "node --test test/play_compliance_docs.test.mjs",
+    "test:hosting": "node --test test/firebase_hosting_config.test.mjs",
+    "test:firestore-indexes": "node --test test/firestore_indexes.test.mjs",
+    "test:growth": "node --test test/growth_metrics.test.mjs",
+    "test:listing": "node --test test/play_store_listing.test.mjs",
+    "test:play-distribution": "node --test test/play_distribution.test.mjs",
+    "test:play-assets": "node --test test/play_store_assets.test.mjs",
+    "test:play-reviewer-access": "node --test test/play_reviewer_access.test.mjs",
+    "test:play-screenshots": "node --test test/play_screenshots.test.mjs",
+    "test:play-submit-packet": "node --test test/play_submit_packet.test.mjs",
+    "test:public-urls": "node --test test/public_urls.test.mjs",
+    "test:manual-qa": "node --test test/manual_qa_checklist.test.mjs",
+    "test:policy": "node --test test/policy_pages.test.mjs",
+    "test:play-release": "node --test test/play_release_runbook.test.mjs",
+    "test:play-release-notes": "node --test test/play_release_notes.test.mjs",
+    "test:rules": "firebase emulators:exec --only firestore \"node --test test/firestore.rules.test.mjs\"",
+    "test:upload-key": "node --test test/upload_key_recovery.test.mjs"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.0",
+    "firebase": "^12.6.0"
+  }
+}

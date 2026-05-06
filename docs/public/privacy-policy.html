@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Babylog Privacy Policy</title>
+    <style>
+      body {
+        color: #202124;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 32px 20px;
+      }
+
+      main {
+        margin: 0 auto;
+        max-width: 760px;
+      }
+
+      h1,
+      h2 {
+        line-height: 1.2;
+      }
+
+      a {
+        color: #0b57d0;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Babylog Privacy Policy</h1>
+      <p>Last updated: May 5, 2026</p>
+      <p>
+        Babylog helps parents record baby-related events on a shared timeline.
+        This policy explains what information Babylog collects, why it is used,
+        how it is shared, and how users can request account deletion.
+      </p>
+      <p>
+        Developer: Nacho<br>
+        Privacy contact: <a href="mailto:privacy@lenacho.be">privacy@lenacho.be</a>
+      </p>
+
+      <h2>Information Babylog Collects</h2>
+      <p>
+        Babylog collects account information, including email address and
+        Firebase user identifier, to create and manage user accounts.
+      </p>
+      <p>
+        Babylog stores timeline content that users create, including baby event
+        descriptions, event types, timestamps, author information, and the shared
+        assistant or timeline identifier.
+      </p>
+      <p>
+        If a user records audio, Babylog temporarily records audio on the device
+        so it can be sent for transcription. The transcription and interpreted
+        event content may include personal or sensitive information that the user
+        speaks into the app.
+      </p>
+      <p>
+        If a user enables bring-your-own-key OpenAI access, Babylog stores the
+        OpenAI API key locally on the device using secure storage. Babylog does
+        not store this key in Firestore, and account deletion clears the locally
+        stored key for the current assistant.
+      </p>
+
+      <h2>How Babylog Uses Information</h2>
+      <p>
+        Babylog uses account information to sign users in, keep shared timelines
+        available across devices, and manage shared assistant membership.
+      </p>
+      <p>
+        Babylog uses timeline content to display baby events to authenticated
+        users who belong to the same shared assistant or timeline.
+      </p>
+      <p>
+        Babylog uses audio and transcription content to convert speech into
+        structured timeline events.
+      </p>
+
+      <h2>Service Providers</h2>
+      <p>
+        Babylog uses Google Firebase for authentication and Cloud Firestore
+        database storage.
+      </p>
+      <p>
+        Babylog uses the OpenAI API to transcribe audio and interpret text into
+        structured events when AI features are used. OpenAI API data controls
+        are governed by the API account settings and OpenAI's platform policies.
+      </p>
+
+      <h2>Data Sharing</h2>
+      <p>
+        Babylog does not sell user data. Babylog shares data with service
+        providers only as needed to provide core app functionality, including
+        Firebase account/database services and OpenAI transcription or
+        interpretation services.
+      </p>
+      <p>
+        Users who join the same Babylog assistant or timeline can see shared
+        timeline events associated with that assistant.
+      </p>
+
+      <h2>Data Security</h2>
+      <p>
+        Babylog uses Firebase and OpenAI over encrypted network connections.
+        Firestore security rules are designed to restrict assistant and event
+        access to authenticated members of the relevant assistant. OpenAI API
+        keys are stored on the user's device using local secure storage and are
+        not written to Firestore.
+      </p>
+
+      <h2>Retention and Account Deletion</h2>
+      <p>
+        Users can request account deletion in the app from Settings. The current
+        implementation deletes the Firebase Auth user, the user's Firestore
+        profile, assistant events for the current assistant, assistant membership
+        or the assistant document when no users remain, and the locally stored
+        OpenAI key for that assistant.
+      </p>
+      <p>
+        Users can also request deletion without reinstalling the app by following
+        the instructions on the
+        <a href="./delete-account.html">Delete your Babylog account and data</a>
+        page.
+      </p>
+      <p>
+        Some data may be retained when required for security, fraud prevention,
+        legal, or operational reasons. OpenAI processing retention is controlled
+        by the OpenAI API account and OpenAI's data controls.
+      </p>
+
+      <h2>Children's Privacy</h2>
+      <p>
+        Babylog is intended for parents or guardians to record baby care events.
+        The app may contain information about children if users choose to enter
+        or speak it. Users should avoid entering unnecessary sensitive
+        information.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        For privacy questions or deletion requests, contact
+        <a href="mailto:privacy@lenacho.be">privacy@lenacho.be</a>.
+      </p>
+    </main>
+  </body>
+</html>
