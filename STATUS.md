@@ -92,6 +92,7 @@
 - Added `docs/play-console-action-history.md` and `npm run test:play-console-history`, and corrected the Firebase Hosting runbook so Play Console URL fields remain explicitly unconfirmed until Console screenshots or exports exist.
 - Checked official Play target API, app review, and account deletion docs on 2026-05-06; added `docs/play-policy-freshness.md` and `npm run test:play-policy-freshness` so current API 35/privacy/app-access/deletion assumptions are tracked as a dated policy snapshot.
 - Added `scripts/prepare_play_console_handoff.mjs`, `docs/play-console-handoff.md`, and `npm run test:play-handoff` to generate and verify a non-secret `dist/play-console-handoff/` folder with the signed AAB, Play graphics, screenshots, and copy sources for Console upload.
+- Added `scripts/prepare_play_console_private_notes.mjs` and `npm run test:play-private-notes` to generate ignored private Play Console App access notes from `.qa-secrets/play-reviewer-account.json` without committing reviewer credentials.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -121,6 +122,7 @@
 - `npm run test:play-console-history` passes: exported Play Console history is reviewed without treating old Era Nova Console settings as current release acceptance.
 - `npm run test:play-policy-freshness` passes: the dated Play policy snapshot is present, points to official docs, verifies `targetSdk = 35` / `compileSdk = 36`, and remains explicit that Console acceptance is still required.
 - `npm run test:play-handoff` passes: the generated Play handoff bundle contains the expected AAB/media/copy files, preserves the signed AAB SHA-256, and keeps secrets out of the generated manifest and README.
+- `npm run test:play-private-notes` passes: the private App access notes generator is tested with a fake reviewer secret and points output at ignored `dist/play-console-handoff/private/play-console-app-access-notes.txt`.
 - GitHub Actions run `25426969401` failed twice on `main` only at `flutter build apk --debug` before app compilation because Gradle could not resolve Flutter's `org.gradle.kotlin.kotlin-dsl:4.5.0` plugin while the Gradle Plugin Portal artifact URL returned HTTP 503.
 - GitHub Actions run `25427451856` for commit `587f230` passed both Analyze/test and Firebase rules jobs after the transient Gradle Plugin Portal issue cleared during the build window; `main` is green again.
 - GitHub Actions run `25428242326` for commit `8a7bbf9` passed both jobs after adding the Play Console action-history guard: Firebase rules completed in 34s, and Analyze/test completed in 6m7s including the Android debug APK build.

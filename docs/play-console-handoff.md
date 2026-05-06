@@ -33,6 +33,30 @@ The generated folder includes:
 - `manifest.json` with source paths, byte sizes, and SHA-256 hashes
 - `README.md` with Console upload notes
 
+## Private App Access Notes
+
+After generating the non-secret handoff, create the private Play Console App
+access notes from the ignored reviewer secret:
+
+```bash
+npm run prepare:play-private-notes
+```
+
+Default output:
+
+```text
+dist/play-console-handoff/private/play-console-app-access-notes.txt
+```
+
+This private file contains the reviewer password from
+`.qa-secrets/play-reviewer-account.json`. Use it only to copy/paste App access
+credentials into Play Console. Do not commit, screenshot, or share the private
+file outside the release process.
+
+Run `npm run prepare:play-handoff` first, then `npm run
+prepare:play-private-notes`. Regenerating the non-secret handoff clears the
+`dist/play-console-handoff/` folder, including private generated files.
+
 ## Secret Handling
 
 The handoff intentionally excludes:
@@ -45,15 +69,19 @@ The handoff intentionally excludes:
 Copy the reviewer password separately from ignored
 `.qa-secrets/play-reviewer-account.json` into Play Console App access notes.
 
+Alternatively, generate the private notes file above and paste from that ignored
+output.
+
 ## Verification
 
 ```bash
 npm run test:play-handoff
+npm run test:play-private-notes
 ```
 
-This test regenerates the bundle in a temporary directory, verifies the expected
-files and hashes, and checks that secret-like values are absent from the
-generated manifest and README.
+These tests regenerate the bundle and private notes in temporary directories,
+verify the expected files and copy, and check that secret-like values are absent
+from the generated non-secret manifest and README.
 
 ## Remaining Console Evidence
 

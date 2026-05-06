@@ -112,6 +112,8 @@ Use:
 
 Secrets are intentionally excluded. Copy the reviewer password separately from
 \`.qa-secrets/play-reviewer-account.json\` into Play Console App access notes.
+To generate an ignored private App access notes file for copy/paste, run
+\`npm run prepare:play-private-notes\`.
 
 The handoff is not Play Console acceptance evidence. Capture Console screenshots
 or exports after upload and update \`docs/release-completion-audit.md\`.

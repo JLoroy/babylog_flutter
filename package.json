@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "prepare:play-handoff": "node scripts/prepare_play_console_handoff.mjs",
+    "prepare:play-private-notes": "node scripts/prepare_play_console_private_notes.mjs",
     "test:android-manifest": "node --test test/android_manifest.test.mjs",
     "test:android-release-identity": "node --test test/android_release_identity.test.mjs",
     "test:app-content": "node --test test/play_console_app_content.test.mjs",
@@ -19,6 +20,7 @@
     "test:play-console-history": "node --test test/play_console_action_history.test.mjs",
     "test:play-handoff": "node --test test/play_console_handoff.test.mjs",
     "test:play-policy-freshness": "node --test test/play_policy_freshness.test.mjs",
+    "test:play-private-notes": "node --test test/play_console_private_notes.test.mjs",
     "test:play-reviewer-access": "node --test test/play_reviewer_access.test.mjs",
     "test:play-screenshots": "node --test test/play_screenshots.test.mjs",
     "test:play-submit-packet": "node --test test/play_submit_packet.test.mjs",
