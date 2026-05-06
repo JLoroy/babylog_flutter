@@ -1,5 +1,6 @@
 import { execFile } from 'node:child_process';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
@@ -9,10 +10,21 @@ import assert from 'node:assert/strict';
 const execFileAsync = promisify(execFile);
 
 test('Play Console handoff bundle contains expected non-secret release files', async () => {
-  const outDir = await mkdtemp(join(tmpdir(), 'babylog-play-handoff-'));
+  const tempRoot = await mkdtemp(join(tmpdir(), 'babylog-play-handoff-'));
+  const outDir = join(tempRoot, 'out');
 
   try {
-    await execFileAsync('node', ['scripts/prepare_play_console_handoff.mjs', '--out', outDir]);
+    const fixtureAab = join(tempRoot, 'fixture-app-release.aab');
+    const fixtureAabContent = Buffer.from('non-secret test app bundle fixture\n');
+    await writeFile(fixtureAab, fixtureAabContent);
+
+    await execFileAsync('node', [
+      'scripts/prepare_play_console_handoff.mjs',
+      '--out',
+      outDir,
+      '--aab',
+      fixtureAab,
+    ]);
 
     const [manifestRaw, readme, handoffDoc] = await Promise.all([
       readFile(join(outDir, 'manifest.json'), 'utf8'),
@@ -45,9 +57,9 @@ test('Play Console handoff bundle contains expected non-secret release files', a
     const aab = manifest.files.find((file) => file.target === 'release/app-release.aab');
     assert.equal(
       aab.sha256,
-      '11ccb6bd27a564f9772725b8ef10fdd1762c55cb1e2a38abffa7d78d1572f283',
+      createHash('sha256').update(fixtureAabContent).digest('hex'),
     );
-    assert.ok(aab.bytes > 40_000_000);
+    assert.equal(aab.bytes, fixtureAabContent.byteLength);
 
     for (const text of [manifestRaw, readme]) {
       assert.doesNotMatch(text, /access_token|refresh_token|id_token|ya29|1\/\/|sk-[A-Za-z0-9]/);
@@ -57,6 +69,7 @@ test('Play Console handoff bundle contains expected non-secret release files', a
     for (const required of [
       'npm run prepare:play-handoff',
       'dist/play-console-handoff/',
+      '--aab /absolute/or/relative/path.aab',
       'manifest.json',
       '.qa-secrets/play-reviewer-account.json',
       'does not prove Play Console accepted',
@@ -64,7 +77,7 @@ test('Play Console handoff bundle contains expected non-secret release files', a
       assert.match(handoffDoc, new RegExp(escapeRegExp(required)));
     }
   } finally {
-    await rm(outDir, { recursive: true, force: true });
+    await rm(tempRoot, { recursive: true, force: true });
   }
 });
 

@@ -18,6 +18,10 @@ Default output:
 dist/play-console-handoff/
 ```
 
+The script uses `build/app/outputs/bundle/release/app-release.aab` by default.
+For tests or one-off verification, pass `--aab /absolute/or/relative/path.aab`
+to package a specific bundle path.
+
 The generated folder includes:
 
 - Signed AAB: `release/app-release.aab`

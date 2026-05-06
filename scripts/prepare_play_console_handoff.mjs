@@ -8,11 +8,16 @@ const defaultOutput = join(root, 'dist/play-console-handoff');
 
 const args = process.argv.slice(2);
 const outputArgIndex = args.indexOf('--out');
+const aabArgIndex = args.indexOf('--aab');
 const outputDir =
   outputArgIndex === -1 ? defaultOutput : resolveFromRoot(args[outputArgIndex + 1]);
+const aabSource =
+  aabArgIndex === -1
+    ? 'build/app/outputs/bundle/release/app-release.aab'
+    : resolveFromRoot(args[aabArgIndex + 1]);
 
 const files = [
-  ['signed-aab', 'build/app/outputs/bundle/release/app-release.aab', 'release/app-release.aab'],
+  ['signed-aab', aabSource, 'release/app-release.aab'],
   ['app-icon', 'docs/play-assets/icon-512.png', 'assets/icon-512.png'],
   [
     'feature-graphic',
@@ -60,7 +65,7 @@ const manifest = {
 };
 
 for (const [role, source, target] of files) {
-  const sourcePath = join(root, source);
+  const sourcePath = source.startsWith('/') ? source : join(root, source);
   const targetPath = join(outputDir, target);
   const buffer = await readFile(sourcePath);
 
