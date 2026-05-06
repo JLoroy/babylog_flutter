@@ -26,10 +26,13 @@
 - `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0 with the expected self-signed upload-key warnings.
 - AVD visual smoke passes for launch, reviewer timeline display, Settings sheet opening, visible Privacy Policy action, visible BYOK setting, and visible OpenAI key field.
 - GitHub Actions run `25465179981` for commit `0c64741` passed on `main`: Firebase rules completed in 25s, and Analyze/test completed in 6m29s including formatting, analyzer, Flutter tests, Play/docs validators, and Android debug APK build.
+- GitHub Actions run `25465432676` for current tip commit `7d208b0` passed on `main`: Firebase rules completed in 40s, and Analyze/test completed in 6m21s including formatting, analyzer, Flutter tests, Play/docs validators, and Android debug APK build.
 
 ### Next steps
-1. Regenerate Play handoff files for `1.0.7+8`.
-2. Run release/document validators, commit in meaningful slices, push `main`, and watch GitHub Actions.
+1. Upload `build/app/outputs/bundle/release/app-release.aab` for version `1.0.7+8` to Play Console internal testing.
+2. Copy the updated release notes from `android/app/releasenotes.md`.
+3. Capture redacted Play Console evidence for version 8 upload/acceptance and any remaining policy/store-listing fields.
+4. Continue manual QA on a real device or internal-test install, especially BYOK recording and recorder-created event flow.
 
 ## Update (2026-05-05)
 
