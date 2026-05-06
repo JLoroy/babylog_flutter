@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:babylog/theme/babylog_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:record/record.dart';
 import 'package:path_provider/path_provider.dart';
@@ -87,16 +89,17 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            _buildRecordStopControl(),
-            //const SizedBox(width: 20),
-            //_buildPauseResumeControl(),
-            //const SizedBox(width: 20),
-            //_buildText(),
-          ],
-        )
+        _buildRecordStopControl(),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 180),
+          child: _recordState == RecordState.stop
+              ? const SizedBox(key: ValueKey('idle'), height: 18)
+              : Padding(
+                  key: const ValueKey('timer'),
+                  padding: const EdgeInsets.only(top: 6),
+                  child: _buildTimer(),
+                ),
+        ),
       ],
     );
   }
@@ -113,27 +116,57 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
   Widget _buildRecordStopControl() {
     late Widget icon;
     late Color color;
+    final isRecording = _recordState != RecordState.stop;
 
-    if (_recordState != RecordState.stop) {
-      icon = const Icon(Icons.stop, color: Colors.red, size: 30);
-      color = Colors.red.withOpacity(0.1);
+    if (isRecording) {
+      icon = const Icon(Icons.stop_rounded, color: Colors.white, size: 32);
+      color = BabylogTheme.primary;
     } else {
-      // icon = Icon(Icons.mic, color: theme.primaryColor, size: 30);
-      // color = theme.primaryColor.withOpacity(0.1);
-      //icon = Icon(Icons.mic, color: Color.fromARGB(255, 246, 124, 124), size: 30);
-      icon = SvgPicture.asset("assets/micro.svg",
-          color: Color.fromARGB(255, 246, 124, 124), fit: BoxFit.scaleDown);
-      color = Color(0xFFFCF7F3);
+      icon = SvgPicture.asset(
+        "assets/micro.svg",
+        colorFilter: const ColorFilter.mode(
+          BabylogTheme.primary,
+          BlendMode.srcIn,
+        ),
+        fit: BoxFit.scaleDown,
+      );
+      color = Colors.white;
     }
 
-    return ClipOval(
-      child: Material(
-        color: color,
-        child: InkWell(
-          child: SizedBox(width: 56, height: 56, child: icon),
-          onTap: () {
-            (_recordState != RecordState.stop) ? _stop() : _start();
-          },
+    return TweenAnimationBuilder<double>(
+      tween:
+          Tween(begin: isRecording ? 1.0 : 0.94, end: isRecording ? 1.08 : 1),
+      duration: const Duration(milliseconds: 520),
+      curve: Curves.easeOutCubic,
+      builder: (context, scale, child) {
+        return Transform.scale(scale: scale, child: child);
+      },
+      child: Container(
+        width: 68,
+        height: 68,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
+          boxShadow: [
+            BoxShadow(
+              color: BabylogTheme.primary
+                  .withValues(alpha: isRecording ? 0.34 : 0.20),
+              blurRadius: isRecording ? 24 : 18,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          shape: const CircleBorder(),
+          child: InkWell(
+            customBorder: const CircleBorder(),
+            child: Center(child: SizedBox(width: 34, height: 34, child: icon)),
+            onTap: () {
+              HapticFeedback.selectionClick();
+              isRecording ? _stop() : _start();
+            },
+          ),
         ),
       ),
     );
@@ -150,11 +183,11 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
 
     if (_recordState == RecordState.record) {
       icon = const Icon(Icons.pause, color: Colors.red, size: 30);
-      color = Colors.red.withOpacity(0.1);
+      color = Colors.red.withValues(alpha: 0.1);
     } else {
       final theme = Theme.of(context);
       icon = const Icon(Icons.play_arrow, color: Colors.red, size: 30);
-      color = theme.primaryColor.withOpacity(0.1);
+      color = theme.primaryColor.withValues(alpha: 0.1);
     }
 
     return ClipOval(
@@ -184,8 +217,12 @@ class _AudioRecorderState extends State<AudioRecorderWidget> {
     final String seconds = _formatNumber(_recordDuration % 60);
 
     return Text(
-      '$minutes : $seconds',
-      style: const TextStyle(color: Colors.red),
+      '$minutes:$seconds',
+      style: const TextStyle(
+        color: BabylogTheme.primaryDark,
+        fontWeight: FontWeight.w900,
+        fontSize: 12,
+      ),
     );
   }
 

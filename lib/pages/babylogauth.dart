@@ -1,5 +1,6 @@
 import 'package:babylog/pages/assistantManager.dart';
 import 'package:babylog/pages/verifyScreen.dart';
+import 'package:babylog/theme/babylog_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class AuthGateApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: BabylogTheme.light(),
       initialRoute: initialRoute,
       routes: {
         '/auth': (context) {

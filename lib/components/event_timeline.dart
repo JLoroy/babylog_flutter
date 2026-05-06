@@ -1,5 +1,6 @@
 import 'package:babylog/datamodel/babylogassistant.dart';
 import 'package:babylog/datamodel/babylogevent.dart';
+import 'package:babylog/theme/babylog_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -28,11 +29,17 @@ class Timeline extends StatelessWidget {
       builder:
           (BuildContext context, AsyncSnapshot<List<BabylogEvent>> snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong');
+          return const _TimelineMessage(
+            icon: Icons.cloud_off_rounded,
+            title: 'Something went wrong',
+            body: 'Your timeline could not be loaded right now.',
+          );
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading...");
+          return const Center(
+            child: CircularProgressIndicator(color: BabylogTheme.primary),
+          );
         }
 
         var events = snapshot.data;
@@ -65,6 +72,7 @@ class Timeline extends StatelessWidget {
           }
           var timeline = ListView.builder(
             controller: _scrollController,
+            padding: const EdgeInsets.fromLTRB(14, 8, 18, 18),
             itemCount: entriesByDate.keys.length,
             itemBuilder: (context, index) {
               var date = entriesByDate.keys.elementAt(index);
@@ -79,10 +87,9 @@ class Timeline extends StatelessWidget {
               dayEvents.insert(
                   0,
                   TimelineItem(
-                      item: Text(
-                    formattedDate,
-                    style: TextStyle(fontSize: 18, color: Color(0xFFFF6B6B)),
-                  )));
+                    item: _DatePill(label: formattedDate),
+                    isHeader: true,
+                  ));
               return Column(children: dayEvents);
             },
           );
@@ -90,31 +97,13 @@ class Timeline extends StatelessWidget {
               .addPostFrameCallback((_) => _runsAfterBuild());
           return timeline;
         } else {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Welcome!",
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Log your first event with the record button below",
-                  style: TextStyle(fontSize: 16, color: Colors.black54),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "or enter your preferences in the settings.",
-                  style: TextStyle(fontSize: 16, color: Colors.black54),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+          return const Padding(
+            padding: EdgeInsets.all(24),
+            child: _TimelineMessage(
+              icon: Icons.mic_rounded,
+              title: 'Welcome!',
+              body:
+                  'Log your first event with the record button below or enter your preferences in the settings.',
             ),
           );
         }
@@ -131,80 +120,107 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: MediaQuery.of(context).size.width - 80,
+    final theme = Theme.of(context);
+
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.96, end: 1),
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeOutCubic,
+      builder: (context, scale, child) {
+        return Transform.scale(
+            scale: scale, alignment: Alignment.centerLeft, child: child);
+      },
+      child: Container(
+        width: double.infinity,
+        constraints: const BoxConstraints(minHeight: 92),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: const [
+          color: Colors.white.withValues(alpha: 0.96),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: const Color(0xFFFFECE5)),
+          boxShadow: [
             BoxShadow(
-                blurRadius: 3,
-                offset: Offset(1, 4),
-                color: Color.fromARGB(89, 195, 168, 146))
+              blurRadius: 24,
+              offset: const Offset(0, 10),
+              color: BabylogTheme.primaryDark.withValues(alpha: 0.08),
+            ),
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          child: Column(children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          padding: const EdgeInsets.fromLTRB(16, 14, 8, 14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Row(
                 children: [
                   Container(
+                    width: 42,
+                    height: 42,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 1,
-                            color: Color.fromARGB(255, 238, 234, 230),
-                            spreadRadius: 1)
-                      ],
+                      color: Color(0xFFFFE8DF),
                     ),
-                    child: CircleAvatar(
-                      backgroundColor: Color(0xFFFCF7F3),
-                      radius: 15,
-                      child: SvgPicture.asset("assets/${event.type}.svg",
-                          color: Colors.red, width: 24, height: 24),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        "assets/${event.type}.svg",
+                        colorFilter: const ColorFilter.mode(
+                          BabylogTheme.primary,
+                          BlendMode.srcIn,
+                        ),
+                        width: 24,
+                        height: 24,
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                        DateFormat('HH:mm').format(event.when!.toDate()),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Color(0xFF354683))),
+                  const SizedBox(width: 12),
+                  Text(
+                    DateFormat('HH:mm').format(event.when!.toDate()),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: BabylogTheme.ink,
+                      fontSize: 18,
+                    ),
+                  ),
+                  const Spacer(),
+                  PopupMenuButton<int>(
+                    icon: const Icon(Icons.more_vert_rounded),
+                    tooltip: 'Event menu',
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    itemBuilder: (context) => const [
+                      PopupMenuItem(
+                        value: 1,
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete_outline_rounded),
+                            SizedBox(width: 12),
+                            Text("Delete"),
+                          ],
+                        ),
+                      ),
+                    ],
+                    onSelected: (value) {
+                      if (value == 1) {
+                        assistant.deleteEvent(event);
+                      }
+                    },
                   ),
                 ],
               ),
-              PopupMenuButton<int>(
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: 1,
-                    child: Text("Delete"),
-                  ),
-                ],
-                onSelected: (value) {
-                  if (value == 1) {
-                    // Delete the event
-                    assistant.deleteEvent(event);
-                  }
-                },
-              ),
-            ]),
-            Row(children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: Text(
-                  event.description ?? "",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w200, fontSize: 12),
-                  overflow: TextOverflow.ellipsis,
+              const SizedBox(height: 10),
+              Text(
+                event.description ?? "",
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: BabylogTheme.ink,
+                  fontWeight: FontWeight.w500,
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
               ),
-            ]),
-          ]),
-        ));
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -212,28 +228,131 @@ class TimelineItem extends StatelessWidget {
   const TimelineItem({
     super.key,
     required this.item,
+    this.isHeader = false,
   });
 
   final Widget item;
+  final bool isHeader;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.fromLTRB(0, isHeader ? 14 : 7, 0, isHeader ? 7 : 7),
       child: Row(
+        crossAxisAlignment:
+            isHeader ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.fromLTRB(8.0, 0, 10, 0),
+          SizedBox(
+            width: 36,
             child: Column(
               children: [
-                CircleAvatar(
-                    backgroundColor: Color.fromARGB(255, 249, 137, 137),
-                    radius: 4),
+                Container(
+                  width: isHeader ? 12 : 10,
+                  height: isHeader ? 12 : 10,
+                  margin: EdgeInsets.only(top: isHeader ? 0 : 22),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isHeader ? BabylogTheme.honey : BabylogTheme.primary,
+                    boxShadow: [
+                      BoxShadow(
+                        color: (isHeader
+                                ? BabylogTheme.honey
+                                : BabylogTheme.primary)
+                            .withValues(alpha: 0.25),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-          item
+          Expanded(child: item),
         ],
+      ),
+    );
+  }
+}
+
+class _DatePill extends StatelessWidget {
+  const _DatePill({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFE7CB),
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.8)),
+        ),
+        child: Text(
+          label,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: BabylogTheme.primaryDark,
+                fontWeight: FontWeight.w900,
+              ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TimelineMessage extends StatelessWidget {
+  const _TimelineMessage({
+    required this.icon,
+    required this.title,
+    required this.body,
+  });
+
+  final IconData icon;
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Center(
+      child: Container(
+        width: double.infinity,
+        constraints: const BoxConstraints(maxWidth: 360),
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.88),
+          borderRadius: BorderRadius.circular(28),
+          border: Border.all(color: Colors.white),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 58,
+              height: 58,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(0xFFFFE8DF),
+              ),
+              child: Icon(icon, color: BabylogTheme.primary),
+            ),
+            const SizedBox(height: 14),
+            Text(title, style: theme.textTheme.titleLarge),
+            const SizedBox(height: 8),
+            Text(
+              body,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: BabylogTheme.muted,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
