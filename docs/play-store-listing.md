@@ -25,7 +25,7 @@ Package name:
 com.eranova.babylog
 
 Release version:
-1.0.5+6
+1.0.6+7
 
 Target API:
 Android 15 / API level 35
@@ -69,13 +69,14 @@ the small but important details of baby care.
 
 en-US:
 Babylog now includes safer account deletion, local-only OpenAI key handling,
-tested Firebase security rules, Play policy pages, and Android release signing
-configuration.
+tested Firebase security rules, Play policy pages, Android release signing, and
+a fixed shared-assistant join flow for internal testing.
 
 fr-FR:
 Babylog ajoute une suppression de compte plus sûre, une gestion locale des clés
 OpenAI, des règles Firebase testées, des pages de politique Play et une
-configuration de signature Android.
+configuration de signature Android, avec une correction du partage d'assistant
+pour les tests internes.
 
 ## Store Contact Fields
 

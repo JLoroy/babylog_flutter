@@ -34,6 +34,17 @@ service cloud.firestore {
         && requesterEmail() in assistantUsers(assistantId);
     }
 
+    function isJoiningAssistant() {
+      return signedIn()
+        && resource.data.users is list
+        && request.resource.data.users is list
+        && !(requesterEmail() in resource.data.users)
+        && requesterEmail() in request.resource.data.users
+        && request.resource.data.users.hasAll(resource.data.users)
+        && request.resource.data.users.size() == resource.data.users.size() + 1
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['users']);
+    }
+
     match /users/{userId} {
       allow create: if isSelf(userId)
         && (!('email' in request.resource.data)
@@ -45,7 +56,8 @@ service cloud.firestore {
       allow create: if signedIn()
         && request.resource.data.users is list
         && requesterEmail() in request.resource.data.users;
-      allow read, update, delete: if isAssistantMember(assistantId);
+      allow read, delete: if isAssistantMember(assistantId);
+      allow update: if isAssistantMember(assistantId) || isJoiningAssistant();
     }
 
     match /events/{eventId} {

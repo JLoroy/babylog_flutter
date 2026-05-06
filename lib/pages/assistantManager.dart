@@ -100,30 +100,23 @@ class _AssistantManagerState extends State<AssistantManager> {
   }
 
   void joinAssistant(String newAssistantId) async {
-    // 1) Build a doc reference from the string ID
     DocumentReference assistantRef =
         FirebaseFirestore.instance.collection('assistants').doc(newAssistantId);
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final currentUser = auth.currentUser;
 
-    // 2) Verify the assistant doc actually exists
-    DocumentSnapshot assistantDoc = await assistantRef.get();
-    if (assistantDoc.exists) {
-      // 3) Update the user to store the *reference* (not the string!)
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
-      await users.doc(auth.currentUser!.uid).update({
-        'current_assistant': assistantRef,
-      });
-
-      // 4) Add the user to the assistant’s users[] array
-      //    (since you already know the doc is good).
-      BabylogAssistant assistant =
-          BabylogAssistant.fromFirestore(assistantDoc, null);
-      assistant.users!.add(auth.currentUser!.email!);
-      await assistantRef.update(assistant.toFirestore());
-
-      // 5) Refresh your UI or re-initialize the app
-      setState(() {});
+    if (currentUser?.email == null) {
+      return;
     }
+
+    await assistantRef.update({
+      'users': FieldValue.arrayUnion([currentUser!.email!]),
+    });
+    await users.doc(currentUser.uid).update({
+      'current_assistant': assistantRef,
+    });
+
+    setState(() {});
   }
 
   @override

@@ -66,7 +66,7 @@
 - Updated `android/app/releasenotes.md` to match the current Play listing release notes and added `npm run test:play-release-notes`.
 - Updated `docs/play-store-listing.md` so account deletion is described as published, not merely prepared for publication.
 - Reviewed the freshly pulled `origin/feature/unbug` tip `63d7761` and found it still cannot be used for the next Play upload because it is `1.0.4+4`, while Play has already used version code 5.
-- Bumped the hardened `main` release identity to `1.0.5+6`, rebuilt the signed release AAB, and updated the Play submit packet, listing, runbook, manual QA checklist, and release audit to reference the new upload candidate.
+- Bumped the hardened `main` release identity to `1.0.5+6`, rebuilt the signed release AAB, and updated the Play submit packet, listing, runbook, manual QA checklist, and release audit to reference the then-current upload candidate.
 - Added a CI guard to `npm run test:android-release-identity` so the Android build number must stay above the highest known Play Console version code, currently 5.
 - Updated the generated Play Console handoff manifest and README to include package `com.eranova.babylog`, version `1.0.5+6`, version name `1.0.5`, and version code 6 next to the file hashes.
 - Rechecked local Android device/emulator availability: `flutter emulators` now lists `babylog_api35`, and after launch `flutter devices` sees `emulator-5554` as Android 15 / API 35.
@@ -103,6 +103,11 @@
 - Updated the private Play Console notes generator so an optional ignored `.qa-secrets/play-reviewer-account.json` `openaiApiKey` field is included only in the private notes, with reviewer instructions to paste it into Settings because BYOK keys are stored locally on-device.
 - Aligned Play reviewer access, App content, submit packet, and handoff docs with the private-notes OpenAI key path: keys stay out of Firebase/git/app bundles, and reviewers paste any temporary key into local BYOK Settings.
 - Validated the shared-assistant account deletion branch on the release APK with disposable verified Firebase Auth users `sharedprimary20260506145235@example.com` and `sharedpartner20260506145235@example.com`: after deleting the primary user from Settings, primary Auth sign-in is rejected, partner Auth still works, assistant `shared-delete-smoke-20260506145235` remains with only the partner in `users`, old shared events are deleted, and the partner can create a new event afterward. Evidence: `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json` and three release APK screenshots.
+- Found and fixed a real release blocker in the shared-assistant join path: the old app tried to read the target assistant before membership, which live hardened Firestore rules denied.
+- Updated `firestore.rules` so a non-member can only join by adding their own signed-in email to `assistants/{id}.users`; non-member reads and unrelated assistant writes remain denied. Deployed the updated rules to `babylog-flutter`.
+- Updated `AssistantManager.joinAssistant` to claim membership with `FieldValue.arrayUnion` before updating the user's `current_assistant`, avoiding the denied pre-join read.
+- Bumped the next Play upload candidate to `1.0.6+7`, rebuilt the signed release APK and AAB, and updated the submit packet, listing, runbook, manual QA checklist, and release audit. AAB SHA-256: `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`; APK SHA-256: `62adf39ff32aee776a4b4d1af4fd05f548b6368d1fc9e09fa19f392c5c77fa1d`.
+- Validated the shared-assistant join UI path on AVD `babylog_api35` with release APK `1.0.6+7`: joiner `joiner20260506151008@example.com` used Settings > Join another assistant for assistant `join-ui-smoke-20260506151008`, the timeline switched to owner event `join-ui-owner-event-20260506151008`, refreshed Settings showed both synthetic users, and Firestore confirmed joiner-created event `join-ui-joiner-event-20260506151008`. Evidence: `docs/qa-evidence/2026-05-06-join-assistant-ui-smoke.json` plus four screenshots.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -122,7 +127,7 @@
 - `npm run test:play-release` passes: Play release runbook covers upload, internal testing, production release, monitoring, and 1000-install evidence.
 - `npm run test:upload-key` passes: upload-key recovery runbook covers password recovery, Play App Signing reset, new upload key generation, and signed AAB retry steps.
 - `npm run test:android-manifest` passes: Android launcher label is `Babylog`.
-- `npm run test:android-release-identity` passes: package name is `com.eranova.babylog`, release version is `1.0.5+6`, target SDK is 35, compile SDK is 36, required permissions are present, and listing identity fields match the app config.
+- `npm run test:android-release-identity` passes: package name is `com.eranova.babylog`, release version is `1.0.6+7`, target SDK is 35, compile SDK is 36, required permissions are present, and listing identity fields match the app config.
 - `npm run test:play-assets` passes: `docs/play-assets/icon-512.png` is a 512 x 512 PNG, `docs/play-assets/feature-graphic-1024x500.png` is a 1024 x 500 no-alpha PNG, and both are referenced from the Play Store listing draft.
 - `npm run test:play-reviewer-access` passes: reviewer notes cover Firebase email/password access, `test@era-nova.be`, `play-reviewer-assistant`, BYOK-only behavior, optional private-notes OpenAI key handling, sample-data warning, Privacy Policy, and Delete Account.
 - `npm run test:release-audit` passes: the completion audit still concludes the active objective is not achieved and cites the remaining Play Console, BYOK recorder QA, and 1000-user evidence gaps.
@@ -133,6 +138,11 @@
 - `npm run test:play-policy-freshness` passes: the dated Play policy snapshot is present, points to official docs, verifies `targetSdk = 35` / `compileSdk = 36`, and remains explicit that Console acceptance is still required.
 - `npm run test:play-handoff` passes: the generated Play handoff bundle contains the expected AAB/media/copy files, preserves the signed AAB SHA-256, and keeps secrets out of the generated manifest and README.
 - `npm run test:play-private-notes` passes: the private App access notes generator is tested with a fake reviewer secret and points output at ignored `dist/play-console-handoff/private/play-console-app-access-notes.txt`.
+- `npm run test:rules` passes under Homebrew OpenJDK 21: Firestore rules still deny non-member reads and unrelated writes while allowing the join-only self-email update.
+- `flutter build apk --release` passes for `1.0.6+7`, producing `build/app/outputs/flutter-apk/app-release.apk` at 55.5 MB.
+- `flutter build appbundle --release` passes for `1.0.6+7`, producing `build/app/outputs/bundle/release/app-release.aab` at 46.9 MB.
+- `npm run prepare:play-handoff` regenerated the ignored `dist/play-console-handoff/` folder for `1.0.6+7`; the manifest reports AAB SHA-256 `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`.
+- Focused local validation after the join fix passes: `dart format --set-exit-if-changed lib test`, `flutter analyze --no-fatal-infos`, `flutter test`, `npm run test:manual-qa`, `npm run test:release-audit`, `npm run test:play-submit-packet`, `npm run test:play-handoff`, `npm run test:play-release-notes`, `npm run test:play-console-evidence`, `npm run test:android-release-identity`, `npm run test:rules`, and `git diff --check`.
 - `npm run test:play-console-evidence` passes: the Console evidence template covers the required acceptance proof items and redaction rules without embedding secrets.
 - 2026-05-06 local npm script sweep passed through all non-emulator Play/docs/policy validators plus `npm run test:upload-key`; it stopped at `npm run test:rules` because the local machine currently has OpenJDK 17 only and the installed Firebase CLI requires Java 21+ for emulator tests.
 - `git diff --check` passes for the private reviewer OpenAI notes slice.
@@ -149,8 +159,8 @@
 - `npm run test:public-urls` passes: verified Firebase Hosting privacy-policy and account-deletion URLs are recorded.
 - `npm run test:play-distribution` passes: distribution draft covers free app setup, Parenting category, suggested tags, Belgium/United States initial rollout, no ads, no IAP, and not enrolling in Families.
 - `keytool -list` opens `/Users/home/Documents/AndroidReleaseKeys/eranova_upload.jks` with alias `upload` using the ignored local signing config.
-- `flutter build appbundle --release` passes with Homebrew OpenJDK 17, producing `build/app/outputs/bundle/release/app-release.aab` at 46.9 MB for `1.0.5+6`.
-- Signed AAB SHA-256: `f8674c6287a0100807709da49cd70327d9457f1c51bb402f3e2bcfad8fed54a0`.
+- `flutter build appbundle --release` passes, producing `build/app/outputs/bundle/release/app-release.aab` at 46.9 MB for `1.0.6+7`.
+- Signed AAB SHA-256: `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`.
 - The bundle release manifest generated for the AAB reports package `com.eranova.babylog`, `android:versionCode="6"`, and `android:versionName="1.0.5"`.
 - `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0.
 - `firebase projects:list` shows `babylog-flutter` as the current Firebase project.

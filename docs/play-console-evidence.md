@@ -24,7 +24,7 @@ is done.
 
 | Console item | Evidence to capture | Evidence path or URL | Status |
 | --- | --- | --- | --- |
-| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.5+6`, and accepted AAB state. | User-provided chat screenshot on 2026-05-06: Internal testing track shows latest release `6 (1.0.5)`, `1 version code`, and active track summary. | Accepted for internal testing |
+| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.6+7`, and accepted AAB state. | User-provided chat screenshot on 2026-05-06 confirms previous internal testing release `6 (1.0.5)` was accepted. Version `1.0.6+7` / code 7 is the current local candidate after the join fix and still needs upload evidence. | Previous build Accepted for internal testing; current candidate pending |
 | Internal testing release rolled out | Internal testing track screen showing rollout active or available to testers. | User-provided chat screenshot on 2026-05-06: release `6 (1.0.5)` shows `Available to internal testers`, released on 6 May 15:06, review status `Not reviewed`. | Active / not reviewed |
 | Production release available | Production track screen or public listing proving Babylog is available to users. | Pending | Pending |
 | Public Play listing URL | Public Google Play URL for Babylog. | Pending | Pending |

@@ -26,9 +26,9 @@ test('manual QA checklist covers release-critical flows', async () => {
     'Public privacy page',
     '## Firebase Console Evidence',
     '## Play Review Inputs',
-    '1.0.5+6',
+    '1.0.6+7',
     'build/app/outputs/bundle/release/app-release.aab',
-    'f8674c6287a0100807709da49cd70327d9457f1c51bb402f3e2bcfad8fed54a0',
+    'b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5',
     'babylog-flutter',
     'flutter devices',
     'Android 15 / API 35',
@@ -46,6 +46,11 @@ test('manual QA checklist covers release-critical flows', async () => {
     'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-before-delete.png',
     'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-delete-confirm.png',
     'docs/qa-evidence/2026-05-06-release-apk-shared-assistant-after-delete.png',
+    'docs/qa-evidence/2026-05-06-join-assistant-ui-smoke.json',
+    'docs/qa-evidence/2026-05-06-release-apk-join-assistant-before.png',
+    'docs/qa-evidence/2026-05-06-release-apk-join-assistant-dialog.png',
+    'docs/qa-evidence/2026-05-06-release-apk-join-assistant-after.png',
+    'docs/qa-evidence/2026-05-06-release-apk-join-assistant-settings-after-refresh.png',
     'docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json',
     'docs/qa-evidence/2026-05-06-public-privacy-policy-page.png',
     'docs/qa-evidence/2026-05-06-public-delete-account-page.png',
@@ -68,6 +73,12 @@ test('manual QA checklist covers release-critical flows', async () => {
     'shared-delete-partner-event-20260506145235',
     'sharedprimary20260506145235@example.com',
     'sharedpartner20260506145235@example.com',
+    'join-ui-smoke-20260506151008',
+    'join-ui-owner-event-20260506151008',
+    'join-ui-joiner-event-20260506151008',
+    'joinowner20260506151008@example.com',
+    'joiner20260506151008@example.com',
+    '.qa-secrets/join-assistant-qa-account.json',
     'play-reviewer-welcome',
     'current assistant reference',
     'test@era-nova.be',
@@ -259,6 +270,51 @@ test('manual QA checklist covers release-critical flows', async () => {
     'events/shared-delete-partner-event-20260506145235',
   );
   for (const screenshotPath of Object.values(sharedDeletionSmoke.screenshots)) {
+    const image = await readFile(screenshotPath);
+    assert.equal(image.toString('ascii', 1, 4), 'PNG');
+    assert.equal(image.readUInt32BE(16), 1080);
+    assert.equal(image.readUInt32BE(20), 2400);
+  }
+
+  const joinSmoke = JSON.parse(
+    await readFile(
+      'docs/qa-evidence/2026-05-06-join-assistant-ui-smoke.json',
+      'utf8',
+    ),
+  );
+  assert.equal(joinSmoke.firebaseProject, 'babylog-flutter');
+  assert.equal(joinSmoke.appPackage, 'com.eranova.babylog');
+  assert.equal(joinSmoke.appVersion, '1.0.6+7');
+  assert.equal(joinSmoke.assistantId, 'join-ui-smoke-20260506151008');
+  assert.equal(joinSmoke.ownerEventId, 'join-ui-owner-event-20260506151008');
+  assert.equal(joinSmoke.joinerEventId, 'join-ui-joiner-event-20260506151008');
+  assert.equal(joinSmoke.owner.email, 'joinowner20260506151008@example.com');
+  assert.equal(joinSmoke.joiner.email, 'joiner20260506151008@example.com');
+  assert.match(joinSmoke.owner.password, /not committed|ignored/);
+  assert.match(joinSmoke.joiner.password, /not committed|ignored/);
+  for (const key of [
+    'releaseApkInstalledAndJoinerSignedIn',
+    'joinerStartedWithOwnAssistantBeforeJoin',
+    'joinDialogDisplayed',
+    'joinerCurrentAssistantUpdatedByUi',
+    'assistantUsersContainOwner',
+    'assistantUsersContainJoiner',
+    'assistantUsersContainJoinerOnce',
+    'ownerSeededEventReadableAfterJoin',
+    'joinerCanCreateEventAfterJoin',
+    'refreshedSettingsShowsBothUsers',
+  ]) {
+    assert.equal(joinSmoke.checks[key], true, `${key} should pass`);
+  }
+  assert.deepEqual(joinSmoke.firestore.assistantUsers, [
+    'joinowner20260506151008@example.com',
+    'joiner20260506151008@example.com',
+  ]);
+  assert.deepEqual(joinSmoke.firestore.eventIdsForAssistant, [
+    'join-ui-joiner-event-20260506151008',
+    'join-ui-owner-event-20260506151008',
+  ]);
+  for (const screenshotPath of Object.values(joinSmoke.screenshots)) {
     const image = await readFile(screenshotPath);
     assert.equal(image.toString('ascii', 1, 4), 'PNG');
     assert.equal(image.readUInt32BE(16), 1080);

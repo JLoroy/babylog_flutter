@@ -22,11 +22,11 @@ Format: Title / Description / Guidance / How to validate.
 
 ### Add Firebase security rules to the repo
 
-**Description:** Firestore and Realtime Database rules are now in the repo. Firestore rules are covered by emulator tests and deployed to `babylog-flutter`; Realtime Database is default-deny because no active RTDB code path or RTDB instance was found, and unused RTDB Flutter dependencies have been removed.
+**Description:** Firestore and Realtime Database rules are now in the repo. Firestore rules are covered by emulator tests and deployed to `babylog-flutter`; Realtime Database is default-deny because no active RTDB code path or RTDB instance was found, and unused RTDB Flutter dependencies have been removed. Shared-assistant joining is covered by a narrow rule that lets a signed-in non-member add only their own email to an assistant's `users` list, while non-member reads remain denied.
 
 **Guidance:** Smoke-test the deployed rules with the app/internal test account. The rules intentionally restrict assistant and event access to authenticated users whose email is in the assistant `users` list.
 
-**How to validate:** Run `npm run test:rules` and `npm run test:firestore-indexes`. In Firebase Console, verify the deployed Firestore rules match `firestore.rules`, then test sign-in, assistant read/update, event creation, and account deletion against real Firebase.
+**How to validate:** Run `npm run test:rules` and `npm run test:firestore-indexes`. In Firebase Console, verify the deployed Firestore rules match `firestore.rules`, then test sign-in, assistant read/update, shared-assistant joining, event creation, and account deletion against real Firebase. Shared join UI evidence is recorded in `docs/qa-evidence/2026-05-06-join-assistant-ui-smoke.json`.
 
 ### Establish release signing on this machine or CI
 
@@ -100,6 +100,6 @@ Format: Title / Description / Guidance / How to validate.
 
 **Description:** A professional launch needs the first session to be reliable and understandable for new parents. A manual QA evidence template now lives in `docs/manual-qa-checklist.md`.
 
-**Guidance:** Test first-run auth, email verification, assistant creation, first recording, first event creation, settings, invite/join assistant, account deletion, public privacy/deletion pages, and Firebase Console evidence on real Android devices.
+**Guidance:** Test first-run auth, email verification, assistant creation, first recording, first event creation, settings, account deletion, public privacy/deletion pages, and Firebase Console evidence on real Android devices. Invite/join assistant has local release APK smoke evidence, but can still be rechecked during Play internal testing.
 
 **How to validate:** Run `npm run test:manual-qa`, then complete `docs/manual-qa-checklist.md` with screenshots or notes for each flow before production rollout.

@@ -101,6 +101,37 @@ describe('assistants', () => {
       name: 'Nope',
     }));
   });
+
+  it('allows a signed-in user to join by adding only their own email', async () => {
+    const db = authedDb('uid-2', 'joiner@example.com');
+
+    await assertFails(getDoc(doc(db, 'assistants', 'assistant-1')));
+    await assertSucceeds(updateDoc(doc(db, 'assistants', 'assistant-1'), {
+      users: ['parent@example.com', 'joiner@example.com'],
+    }));
+    await assertSucceeds(setDoc(doc(db, 'users', 'uid-2'), {
+      email: 'joiner@example.com',
+    }));
+    await assertSucceeds(updateDoc(doc(db, 'users', 'uid-2'), {
+      current_assistant: doc(db, 'assistants', 'assistant-1'),
+    }));
+    await assertSucceeds(getDoc(doc(db, 'assistants', 'assistant-1')));
+  });
+
+  it('denies join attempts that change assistant data or add someone else', async () => {
+    const db = authedDb('uid-2', 'joiner@example.com');
+
+    await assertFails(updateDoc(doc(db, 'assistants', 'assistant-1'), {
+      name: 'Nope',
+      users: ['parent@example.com', 'joiner@example.com'],
+    }));
+    await assertFails(updateDoc(doc(db, 'assistants', 'assistant-1'), {
+      users: ['parent@example.com', 'other@example.com'],
+    }));
+    await assertFails(updateDoc(doc(db, 'assistants', 'assistant-1'), {
+      users: ['joiner@example.com'],
+    }));
+  });
 });
 
 describe('events', () => {

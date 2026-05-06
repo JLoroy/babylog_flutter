@@ -8,10 +8,10 @@ production release.
 
 ## Test Environment
 
-- App version/build: `1.0.5+6`
+- App version/build: `1.0.6+7`
 - Build artifact: `build/app/outputs/bundle/release/app-release.aab`
 - Build artifact SHA-256:
-  `f8674c6287a0100807709da49cd70327d9457f1c51bb402f3e2bcfad8fed54a0`
+  `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`
 - Device model: `sdk_gphone64_arm64` on local AVD `babylog_api35`
 - Android version: Android 15 / API 35
 - Firebase project: `babylog-flutter`
@@ -26,7 +26,7 @@ Local workspace device check on 2026-05-06:
 running as PID `3504`.
 
 Local release APK SHA-256:
-`aac71bfa737282db17251f9ea0277ea993fdab5ef164e29339eb3b328101702d`
+`62adf39ff32aee776a4b4d1af4fd05f548b6368d1fc9e09fa19f392c5c77fa1d`
 
 Launch screenshot evidence:
 `docs/qa-evidence/2026-05-06-release-apk-launch.png`
@@ -80,6 +80,17 @@ Shared-assistant account deletion screenshots:
 and
 `docs/qa-evidence/2026-05-06-release-apk-shared-assistant-after-delete.png`.
 
+Shared-assistant join UI smoke evidence for disposable users
+`joinowner20260506151008@example.com` and
+`joiner20260506151008@example.com`:
+`docs/qa-evidence/2026-05-06-join-assistant-ui-smoke.json`
+
+Shared-assistant join UI screenshots:
+`docs/qa-evidence/2026-05-06-release-apk-join-assistant-before.png`,
+`docs/qa-evidence/2026-05-06-release-apk-join-assistant-dialog.png`,
+`docs/qa-evidence/2026-05-06-release-apk-join-assistant-after.png`, and
+`docs/qa-evidence/2026-05-06-release-apk-join-assistant-settings-after-refresh.png`.
+
 Public policy page browser smoke evidence:
 `docs/qa-evidence/2026-05-06-public-policy-pages-smoke.json`
 
@@ -101,7 +112,9 @@ Disposable verified QA account passwords are stored only in ignored
 `.qa-secrets/deletion-qa-account.json`. Shared-assistant deletion smoke
 passwords are stored only in ignored
 `.qa-secrets/shared-deletion-qa-account.json`. The Play reviewer password is
-stored only in ignored `.qa-secrets/play-reviewer-account.json`.
+stored only in ignored `.qa-secrets/play-reviewer-account.json`. Shared join
+UI smoke passwords are stored only in ignored
+`.qa-secrets/join-assistant-qa-account.json`.
 
 Remaining manual Android QA still must run on this AVD, a real Android device,
 or a Play internal testing install.
@@ -127,7 +140,7 @@ or a Play internal testing install.
 | First recording | Record a synthetic baby-care event and send it. | Screenshot of recording/send flow. | TODO |
 | First event creation | Confirm transcription creates a timeline event. | Screenshot of event and matching Firestore `events` doc. | TODO |
 | Restart persistence | Restart the app and confirm the event remains visible. | Screenshot after restart. | TODO |
-| Shared assistant join | Sign in with a second test account and join the assistant. | Screenshot and Firestore `assistants.users` evidence. | PASS by seeded shared-assistant release smoke: disposable users `sharedprimary20260506145235@example.com` and `sharedpartner20260506145235@example.com` both started in assistant `shared-delete-smoke-20260506145235`; the Settings screenshot shows both synthetic users before deletion, and Firestore verification after deletion shows only the partner remains. Evidence: `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json`. |
+| Shared assistant join | Sign in with a second test account and join the assistant. | Screenshot and Firestore `assistants.users` evidence. | PASS locally on AVD `babylog_api35` with release APK `1.0.6+7`: joiner `joiner20260506151008@example.com` used Settings > Join another assistant to join assistant `join-ui-smoke-20260506151008`, the timeline switched to owner event `join-ui-owner-event-20260506151008`, refreshed Settings showed both synthetic users, and Firestore confirmed the joiner can write event `join-ui-joiner-event-20260506151008`. Evidence: `docs/qa-evidence/2026-05-06-join-assistant-ui-smoke.json`. |
 | Delete event | Delete a test event from the timeline. | Screenshot and Firestore evidence that event doc is gone. | PASS locally on AVD `babylog_api35` for an existing synthetic event in the reviewer assistant; evidence in `docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json` confirms event `ui-delete-smoke-20260506090414` was visible before deletion, hidden afterward, absent from the Firestore query, and the reviewer sample event remained. Recorder-created event deletion remains pending until recording/event creation QA is complete. |
 | Delete account | Delete the primary test account from Settings. | Firebase Auth, `users`, `assistants`, `events`, and local BYOK cleanup evidence. | PASS for single-user release APK smoke on AVD `babylog_api35`; evidence in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` confirms the app returned to sign-in, Auth sign-in was rejected afterward, and the Firebase user, assistant, and synthetic event documents were deleted. PASS for shared-assistant release APK smoke in `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json`: primary Auth sign-in is rejected after deletion, partner Auth sign-in still works, the assistant doc still exists for the partner, assistant `users` contains only the partner, old shared events are deleted, and the partner can create a new event afterward. Local BYOK cleanup is still covered by tests and exercised with a fake key before deletion, but not directly introspected from device secure storage. |
 | Reauthentication edge | Trigger or document `requires-recent-login` behavior. | Screenshot or note explaining reviewer-observed behavior. | TODO |
@@ -146,6 +159,7 @@ or a Play internal testing install.
 - Event documents after deletion: PASS in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json` and `docs/qa-evidence/2026-05-06-event-delete-ui-smoke.json`; the reviewer sample event `play-reviewer-welcome` remains for Play review.
 - Shared assistant before deletion: `shared-delete-smoke-20260506145235` contained users `sharedprimary20260506145235@example.com` and `sharedpartner20260506145235@example.com`, plus event `shared-delete-event-20260506145235`.
 - Shared assistant after primary deletion: PASS in `docs/qa-evidence/2026-05-06-shared-assistant-deletion-smoke.json`; primary Auth sign-in is rejected, partner Auth sign-in succeeds, assistant users are `sharedpartner20260506145235@example.com`, old shared events are gone, and partner-created event `shared-delete-partner-event-20260506145235` proves the remaining member can still write.
+- Shared assistant join via UI: PASS in `docs/qa-evidence/2026-05-06-join-assistant-ui-smoke.json`; assistant `join-ui-smoke-20260506151008` contains users `joinowner20260506151008@example.com` and `joiner20260506151008@example.com`, and events `join-ui-owner-event-20260506151008` and `join-ui-joiner-event-20260506151008`.
 - Disposable account deletion event before deletion: `delete-smoke-codexdeleteqa20260506075317ad1d03`
 - Disposable account deletion event after deletion: PASS in `docs/qa-evidence/2026-05-06-account-deletion-smoke.json`
 

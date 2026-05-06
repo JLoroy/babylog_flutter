@@ -1,0 +1,49 @@
+{
+  "capturedAt": "2026-05-06T15:20:27.967Z",
+  "firebaseProject": "babylog-flutter",
+  "appPackage": "com.eranova.babylog",
+  "appVersion": "1.0.6+7",
+  "releaseApk": "build/app/outputs/flutter-apk/app-release.apk",
+  "assistantId": "join-ui-smoke-20260506151008",
+  "ownerEventId": "join-ui-owner-event-20260506151008",
+  "joinerEventId": "join-ui-joiner-event-20260506151008",
+  "owner": {
+    "email": "joinowner20260506151008@example.com",
+    "uid": "codexjoinowner20260506151008",
+    "password": "stored only in ignored .qa-secrets/join-assistant-qa-account.json"
+  },
+  "joiner": {
+    "email": "joiner20260506151008@example.com",
+    "uid": "codexjoiner20260506151008",
+    "password": "stored only in ignored .qa-secrets/join-assistant-qa-account.json"
+  },
+  "checks": {
+    "releaseApkInstalledAndJoinerSignedIn": true,
+    "joinerStartedWithOwnAssistantBeforeJoin": true,
+    "joinDialogDisplayed": true,
+    "joinerCurrentAssistantUpdatedByUi": true,
+    "assistantUsersContainOwner": true,
+    "assistantUsersContainJoiner": true,
+    "assistantUsersContainJoinerOnce": true,
+    "ownerSeededEventReadableAfterJoin": true,
+    "joinerCanCreateEventAfterJoin": true,
+    "refreshedSettingsShowsBothUsers": true
+  },
+  "firestore": {
+    "joinerCurrentAssistantPath": "assistants/join-ui-smoke-20260506151008",
+    "assistantUsers": [
+      "joinowner20260506151008@example.com",
+      "joiner20260506151008@example.com"
+    ],
+    "eventIdsForAssistant": [
+      "join-ui-joiner-event-20260506151008",
+      "join-ui-owner-event-20260506151008"
+    ]
+  },
+  "screenshots": {
+    "beforeJoinSettings": "docs/qa-evidence/2026-05-06-release-apk-join-assistant-before.png",
+    "joinDialog": "docs/qa-evidence/2026-05-06-release-apk-join-assistant-dialog.png",
+    "timelineAfterJoin": "docs/qa-evidence/2026-05-06-release-apk-join-assistant-after.png",
+    "settingsAfterRefresh": "docs/qa-evidence/2026-05-06-release-apk-join-assistant-settings-after-refresh.png"
+  }
+}

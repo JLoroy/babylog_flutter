@@ -75,12 +75,16 @@
 - 2026-05-06: Generate Play Console App access notes as an ignored private handoff file from `.qa-secrets/play-reviewer-account.json`, with CI tests using fake secrets only.
 - 2026-05-06: Track Play Console acceptance proof in `docs/play-console-evidence.md`; require redacted screenshots, exports, or public URLs instead of treating handoff files as release evidence.
 - 2026-05-06: Bump the release identity to `1.0.5+6` after Play Console rejected version code 3 and Justin confirmed version code 5 was already used; keep the hardened `main` code instead of rebuilding stale `feature/unbug`.
-- 2026-05-06: Treat `build/app/outputs/bundle/release/app-release.aab` SHA-256 `f8674c6287a0100807709da49cd70327d9457f1c51bb402f3e2bcfad8fed54a0` as the current signed Play upload candidate for `1.0.5+6`.
+- 2026-05-06: Treat `build/app/outputs/bundle/release/app-release.aab` SHA-256 `f8674c6287a0100807709da49cd70327d9457f1c51bb402f3e2bcfad8fed54a0` as the signed Play upload candidate for `1.0.5+6` until it was superseded by the shared-assistant join fix.
 - 2026-05-06: Keep a CI guard that the configured Android version code remains greater than the highest known Play Console version code, currently 5.
-- 2026-05-06: Include the Play release identity in the generated handoff manifest and README so the upload folder visibly confirms package `com.eranova.babylog`, version `1.0.5+6`, and version code 6.
+- 2026-05-06: Include the Play release identity in the generated handoff manifest and README so the upload folder visibly confirms package `com.eranova.babylog`, version, and version code next to file hashes.
 - 2026-05-06: Treat Justin's Play Console screenshot as partial Console evidence: internal testing release `6 (1.0.5)` is active and available to internal testers, but review is still `Not reviewed` and production release remains open.
 - 2026-05-06: Keep OpenAI reviewer keys out of Firebase and git; if review needs AI recording, include a temporary limited key only in ignored private Play Console notes and instruct reviewers to paste it into the app's local BYOK Settings field.
 - 2026-05-06: Count shared-assistant account deletion as release-smoked on the signed release APK when evidence shows the deleted primary user loses Auth access, the partner keeps Auth/app data access, the assistant remains with only the partner in `users`, old shared events are removed, and the partner can create a new event afterward.
+- 2026-05-06: Treat the uploaded `1.0.5+6` AAB as superseded for the next stable internal-testing upload because live QA found the shared-assistant join flow was blocked by hardened non-member Firestore reads.
+- 2026-05-06: Implement shared-assistant joining as a narrow non-member update that can only add the signed-in user's own email to `assistants/{id}.users`; keep non-member assistant reads denied.
+- 2026-05-06: Bump the next Play upload candidate to `1.0.6+7`; current signed AAB SHA-256 is `b2c95f5489acfa076bd054e8d6733df8b9ed31eef3396f74b2d1e8f178c9d6b5`, and current release APK SHA-256 is `62adf39ff32aee776a4b4d1af4fd05f548b6368d1fc9e09fa19f392c5c77fa1d`.
+- 2026-05-06: Count the shared-assistant join UI path as release-smoked on AVD `babylog_api35` for `1.0.6+7` when evidence shows Settings > Join another assistant switches the timeline, refreshed Settings shows both users, and the joiner can write an event.
 
 ## Next
 
@@ -100,7 +104,7 @@
 - Upload/confirm the captured phone screenshots in Play Console; replace or extend them if Play Console rejects local AVD screenshots.
 - Capture Play Console install/acquisition evidence and Firebase Auth supporting evidence after production release.
 - Smoke-test deployed Firebase rules with production assistant membership data and the app/internal test account.
-- Complete full manual QA beyond the disposable AVD sign-in/assistant/deletion smoke: BYOK recording, event creation through the recorder, restart persistence, sharing, and final Play screenshots.
+- Complete full manual QA beyond the disposable AVD sign-in/assistant/deletion/sharing smoke: BYOK recording, event creation through the recorder, restart persistence, and final Play screenshots.
 - Capture Play Console screenshots or exports after updating contact email, website, privacy policy URL, account deletion URL, app access notes, media, and release artifact.
 - Re-check `docs/play-policy-freshness.md` against official Play docs before upload if submission slips past 2026-08-01.
 - Run `npm run prepare:play-handoff` immediately before Play Console upload and copy/upload from `dist/play-console-handoff/`.
