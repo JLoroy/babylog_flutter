@@ -55,6 +55,8 @@ an `openaiApiKey` field, the generated private notes include the temporary
 OpenAI key and the in-app BYOK setup steps reviewers should follow. Use the
 private notes only to copy/paste App access credentials into Play Console. Never
 commit, screenshot, or share the private file outside the release process.
+The generated file also includes a compact `Play Console instructions field`
+section that is validated to stay within Play Console's 500-character limit.
 
 To add a temporary reviewer OpenAI key without putting it in shell history as a
 command argument, set `OPENAI_API_KEY` in the environment and run:

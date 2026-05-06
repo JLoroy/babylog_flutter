@@ -26,6 +26,18 @@ for (const field of ['email', 'password', 'assistantId']) {
 }
 
 const openAiApiKey = optionalString(reviewer.openaiApiKey);
+const conciseInstructions = compactInstruction(
+  openAiApiKey
+    ? `Login ${reviewer.email} / ${reviewer.password}. Use sample data only. Settings > Bring your own API key ON, paste: ${openAiApiKey}, Save. Test timeline, record, privacy, deletion. Do not delete account unless review requires it.`
+    : `Login ${reviewer.email} / ${reviewer.password}. Use sample data only. Settings > Bring your own API key shows local-key setup. No OpenAI key was provided, so recording will show the key-required state. Do not delete account unless review requires it.`,
+);
+
+if (conciseInstructions.length > 500) {
+  throw new Error(
+    `Generated Play Console reviewer instructions are ${conciseInstructions.length} characters; max is 500.`,
+  );
+}
+
 const openAiKeySection = openAiApiKey
   ? `Temporary OpenAI API key for AI recording review:
 OpenAI API key: ${openAiApiKey}
@@ -59,6 +71,9 @@ Reviewer account:
 Email: ${reviewer.email}
 Password: ${reviewer.password}
 Assistant id: ${reviewer.assistantId}
+
+Play Console instructions field, ${conciseInstructions.length}/500 characters:
+${conciseInstructions}
 
 Reviewer instructions:
 Install and open Babylog.
@@ -95,4 +110,8 @@ function resolveFromRoot(value, flag) {
 
 function optionalString(value) {
   return typeof value === 'string' && value.trim() !== '' ? value.trim() : null;
+}
+
+function compactInstruction(value) {
+  return value.replace(/\s+/g, ' ').trim();
 }

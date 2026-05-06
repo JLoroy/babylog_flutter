@@ -40,6 +40,7 @@ test('private Play Console notes are generated only from a local reviewer secret
 
     for (const required of [
       'WARNING: This file contains private reviewer credentials and an OpenAI API key.',
+      'Play Console instructions field,',
       'Some or all functionality is restricted.',
       'Email: test@era-nova.be',
       'Password: fake-reviewer-password-for-test-only',
@@ -52,6 +53,22 @@ test('private Play Console notes are generated only from a local reviewer secret
     ]) {
       assert.match(notes, new RegExp(escapeRegExp(required)));
     }
+
+    const conciseMatch = notes.match(
+      /Play Console instructions field, (\d+)\/500 characters:\n(.+)\n\nReviewer instructions:/,
+    );
+    assert.ok(conciseMatch);
+    const [, reportedLength, conciseInstructions] = conciseMatch;
+    assert.equal(Number(reportedLength), conciseInstructions.length);
+    assert.ok(conciseInstructions.length <= 500);
+    assert.match(
+      conciseInstructions,
+      /Login test@era-nova\.be \/ fake-reviewer-password-for-test-only\./,
+    );
+    assert.match(
+      conciseInstructions,
+      /paste: sk-test-openai-key-for-private-notes-only/,
+    );
 
     const [script, docs] = await Promise.all([
       readFile('scripts/prepare_play_console_private_notes.mjs', 'utf8'),

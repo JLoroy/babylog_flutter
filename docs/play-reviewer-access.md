@@ -64,6 +64,9 @@ First-release reviewer path:
   it as `OPENAI_API_KEY` in the shell and run
   `npm run setup:play-reviewer-openai-key`, then run
   `npm run prepare:play-private-notes`.
+- The generated private notes include a compact Play Console instructions field
+  that is validated to stay at or below 500 characters, including the temporary
+  key when one is present.
 - The reviewer must enter the key in Settings because Babylog stores BYOK keys
   locally on-device, not in Firebase.
 - The authenticated non-AI timeline, Settings, Privacy Policy, BYOK setting,
