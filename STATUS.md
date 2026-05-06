@@ -97,6 +97,7 @@
 - Checked official Play target API, app review, and account deletion docs on 2026-05-06; added `docs/play-policy-freshness.md` and `npm run test:play-policy-freshness` so current API 35/privacy/app-access/deletion assumptions are tracked as a dated policy snapshot.
 - Added `scripts/prepare_play_console_handoff.mjs`, `docs/play-console-handoff.md`, and `npm run test:play-handoff` to generate and verify a non-secret `dist/play-console-handoff/` folder with the signed AAB, Play graphics, screenshots, and copy sources for Console upload.
 - Added `scripts/prepare_play_console_private_notes.mjs` and `npm run test:play-private-notes` to generate ignored private Play Console App access notes from `.qa-secrets/play-reviewer-account.json` without committing reviewer credentials.
+- Generated the ignored private Play Console App access notes at `dist/play-console-handoff/private/play-console-app-access-notes.txt`; the file is local-only and must not be committed or screenshotted without redacting the reviewer password.
 - Added `docs/play-console-evidence.md` and `npm run test:play-console-evidence` to define the redacted Play Console acceptance evidence that must be captured after upload, policy setup, listing/media acceptance, internal testing, production release, and later install metrics.
 
 ### Verification
