@@ -32,7 +32,7 @@ Not achieved.
 | --- | --- | --- | --- |
 | Track decisions in `plan.md` | `plan.md` contains release decisions through Play metadata/policy CI checks and the Play release runbook. | In progress | Continue updating for every material decision. |
 | Track progress in `STATUS.md` | `STATUS.md` has current milestone, changes, verification, and blockers. | In progress | Continue updating after each work chunk. |
-| Professional release gate | `docs/release-verification.md`, `docs/play-release-runbook.md`, `.github/workflows/flutter-ci.yml`, local tests, green remote runs `25421474641` and `25422575356`. | Passing for current main | Continue keeping remote CI green after each release slice. |
+| Professional release gate | `docs/release-verification.md`, `docs/play-release-runbook.md`, `.github/workflows/flutter-ci.yml`, local tests, and latest green remote run `25424811883` for commit `298e983`. | Passing for current main | Continue keeping remote CI green after each release slice. |
 | Flutter formatting | `dart format --set-exit-if-changed lib test` is recorded passing in `STATUS.md`; remote CI run `25422575356` passed formatting. | Passing | Keep enforced in CI. |
 | Flutter analyzer | `flutter analyze --no-fatal-infos` is recorded passing with 84 info-level issues. | Passing locally | Info-level lint debt remains. |
 | Flutter tests | `flutter test` is recorded passing with 10 tests; remote CI run `25422575356` passed tests. | Passing | Expand coverage as release risk changes. |
@@ -54,7 +54,7 @@ Not achieved.
 | Store listing | `docs/play-store-listing.md` exists; `npm run test:listing` passes and verifies published policy/deletion URL references. | Drafted | Screenshots and final Play Console entry still required. |
 | Play distribution | `docs/play-distribution.md` exists; `npm run test:play-distribution` passes. | Drafted | Final Play Console pricing/category/country settings still required. |
 | Play Store graphics | `docs/play-assets/icon-512.png` and `docs/play-assets/feature-graphic-1024x500.png` exist; `npm run test:play-assets` verifies the app icon is 512 x 512 and the feature graphic is a 1024 x 500 no-alpha PNG, both listed in `docs/play-store-listing.md`. | Prepared | Final Play Console upload must accept the graphics. |
-| Play screenshots | `docs/play-screenshots.md` exists; `npm run test:play-screenshots` verifies required sanitized phone screenshot coverage and now records local AVD `babylog_api35`, launch evidence, and signed-in timeline evidence after the Firebase Auth/UI upgrade. | Partially started | Complete event, settings, recording, deletion, and final Play media screenshots from final/internal-test build still required. |
+| Play screenshots | `docs/play-screenshots.md` exists; `npm run test:play-screenshots` verifies required sanitized phone screenshot coverage and the manifest `docs/play-assets/screenshots/2026-05-06-local-release-screenshot-set.json`. Local release APK screenshots exist for sign-in, synthetic shared timeline, Settings/BYOK, Privacy Policy, and microphone permission; the Settings screenshot redacts reviewer email and assistant id. | Locally prepared | Upload/confirm in Play Console, and replace or extend if Play rejects local AVD screenshots. Recorder-created first event evidence still requires BYOK/internal-test validation. |
 | App content answers | `docs/play-console-app-content.md` exists; `npm run test:app-content` passes; BYOK-only review path is documented. | Drafted | Final Play Console copy/paste and acceptance still required. |
 | Reviewer access notes | `docs/play-reviewer-access.md` records `test@era-nova.be`, assistant id `play-reviewer-assistant`, BYOK-only reviewer instructions, and local ignored password storage; `docs/qa-evidence/2026-05-06-play-reviewer-access-smoke.json` confirms REST sign-in and Firestore access; `docs/qa-evidence/2026-05-06-release-apk-play-reviewer-timeline.png` confirms release APK sign-in to the sample timeline; `npm run test:play-reviewer-access` passes. | Prepared locally | Copy the password into Play Console app-access notes and confirm the uploaded/internal-test build accepts it. |
 | Play release runbook | `docs/play-release-runbook.md` exists; `npm run test:play-release` passes. | Prepared | Must be followed now that signing is fixed and Play Console access is ready. |
@@ -79,8 +79,10 @@ Not achieved.
 - Single-user account deletion has release-APK smoke evidence against real
   Firebase Auth and Firestore data; shared-assistant deletion and local BYOK
   cleanup still need manual or broader integration evidence.
-- Local AVD `babylog_api35` is available and can install/launch the release APK,
-  but signed-in manual QA and final Play screenshots are not complete.
+- Local AVD `babylog_api35` can install/launch the release APK, sign in with
+  reviewer/test users, capture sanitized screenshots, and validate single-user
+  account deletion; BYOK recording, sharing, restart persistence, and final
+  Play Console media acceptance remain open.
 - Firebase rules are deployed and partially smoke-tested for disposable
   sign-in/user/assistant data, but account deletion, event writes/deletes,
   sharing, and BYOK recording are not fully validated yet.

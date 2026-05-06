@@ -17,6 +17,7 @@
     "test:play-screenshots": "node --test test/play_screenshots.test.mjs",
     "test:play-submit-packet": "node --test test/play_submit_packet.test.mjs",
     "test:public-urls": "node --test test/public_urls.test.mjs",
+    "test:release-audit": "node --test test/release_completion_audit.test.mjs",
     "test:manual-qa": "node --test test/manual_qa_checklist.test.mjs",
     "test:policy": "node --test test/policy_pages.test.mjs",
     "test:play-release": "node --test test/play_release_runbook.test.mjs",

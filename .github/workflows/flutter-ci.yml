@@ -124,6 +124,9 @@ jobs:
       - name: Test public URL placeholders
         run: npm run test:public-urls
 
+      - name: Test release completion audit
+        run: npm run test:release-audit
+
       - name: Test manual QA checklist
         run: npm run test:manual-qa
 

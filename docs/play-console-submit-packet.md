@@ -83,8 +83,14 @@ Please do not delete the reviewer account unless the review specifically needs t
 
 - App icon: `docs/play-assets/icon-512.png`
 - Feature graphic: `docs/play-assets/feature-graphic-1024x500.png`
-- Screenshots: still capture from the internal-test or final release build using
-  `docs/play-screenshots.md`.
+- Screenshots:
+  - `docs/play-assets/screenshots/phone-00-sign-in.png`
+  - `docs/play-assets/screenshots/phone-01-shared-timeline.png`
+  - `docs/play-assets/screenshots/phone-02-settings.png`
+  - `docs/play-assets/screenshots/phone-03-privacy-policy.png`
+  - `docs/play-assets/screenshots/phone-04-recording-permission.png`
+- Screenshot manifest:
+  `docs/play-assets/screenshots/2026-05-06-local-release-screenshot-set.json`
 
 ## Before Rollout
 

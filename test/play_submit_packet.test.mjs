@@ -23,6 +23,12 @@ test('Play Console submit packet contains final handoff values', async () => {
     "reviewer's own OpenAI API key",
     'docs/play-assets/icon-512.png',
     'docs/play-assets/feature-graphic-1024x500.png',
+    'docs/play-assets/screenshots/phone-00-sign-in.png',
+    'docs/play-assets/screenshots/phone-01-shared-timeline.png',
+    'docs/play-assets/screenshots/phone-02-settings.png',
+    'docs/play-assets/screenshots/phone-03-privacy-policy.png',
+    'docs/play-assets/screenshots/phone-04-recording-permission.png',
+    'docs/play-assets/screenshots/2026-05-06-local-release-screenshot-set.json',
     'docs/manual-qa-checklist.md',
   ]) {
     assert.match(packet, new RegExp(escapeRegExp(required)));
