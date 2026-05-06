@@ -59,6 +59,9 @@
 - 2026-05-06: Update the Play Store listing copy so the account deletion page is described as published, not merely prepared.
 - 2026-05-06: Local Android QA/screenshot capture is no longer blocked by emulator availability: AVD `babylog_api35` boots as Android 15 / API 35, installs the release APK, and launches Babylog to the sign-in screen. Signed-in manual QA remains blocked by reviewer/test credentials and full flow execution.
 - 2026-05-06: Keep `firebase-tools` as a project dev dependency for CI rules tests and exclude `node_modules/**` from Flutter analysis so Firebase Dart templates are not analyzed as app code.
+- 2026-05-06: Release APK sign-in exposed a Firebase Auth/UI Pigeon codec crash; upgrade Firebase packages to `firebase_core 4.7.0`, `firebase_auth 6.4.0`, `firebase_ui_auth 3.0.1`, `cloud_firestore 6.3.0`, and `firebase_ui_firestore 2.0.1`.
+- 2026-05-06: Keep disposable release-QA Firebase passwords only under ignored `.qa-secrets/`; commit only non-secret smoke evidence and screenshots.
+- 2026-05-06: Treat AVD release sign-in, user document load, current-assistant link creation, assistant document creation, and assistant membership under deployed Firestore rules as smoke-tested with disposable verified Firebase Auth user `qa202605060729068d@example.com`.
 
 ## Next
 
@@ -77,3 +80,4 @@
 - Complete `docs/manual-qa-checklist.md` during internal testing on a real Android device.
 - Capture Play Console install/acquisition evidence and Firebase Auth supporting evidence after production release.
 - Smoke-test deployed Firebase rules with production assistant membership data and the app/internal test account.
+- Complete full manual QA beyond the disposable AVD sign-in/assistant smoke: account deletion, BYOK recording, event creation, restart persistence, sharing, and final Play screenshots.

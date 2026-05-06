@@ -11,7 +11,7 @@ production release.
 - App version/build: `1.0.2+3`
 - Build artifact: `build/app/outputs/bundle/release/app-release.aab`
 - Build artifact SHA-256:
-  `ac9b27ec22bb4d6c963a2c38eb3b274f9c539ea508b566fccab8d3f4ba8b226b`
+  `11ccb6bd27a564f9772725b8ef10fdd1762c55cb1e2a38abffa7d78d1572f283`
 - Device model: `sdk_gphone64_arm64` on local AVD `babylog_api35`
 - Android version: Android 15 / API 35
 - Firebase project: `babylog-flutter`
@@ -31,6 +31,17 @@ Local release APK SHA-256:
 Launch screenshot evidence:
 `docs/qa-evidence/2026-05-06-release-apk-launch.png`
 
+Signed-in release smoke evidence after the Firebase Auth/UI upgrade:
+`docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png`
+
+Non-secret Firestore smoke evidence:
+`docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`
+
+This smoke confirms REST Auth sign-in, user document load, current assistant reference creation, assistant document creation, and assistant membership for the disposable QA account under the deployed Firestore rules.
+
+The disposable verified QA account password is stored only in ignored
+`.qa-secrets/current-qa-account.json`.
+
 Remaining manual Android QA still must run on this AVD, a real Android device,
 or a Play internal testing install.
 
@@ -46,9 +57,9 @@ or a Play internal testing install.
 | Flow | Steps | Evidence to capture | Result |
 | --- | --- | --- | --- |
 | Install and launch | Install the APK/AAB test build and open Babylog. | Screenshot of launch/auth screen and installed app version. | PASS locally on AVD `babylog_api35`; release APK installed, `com.eranova.babylog` launched, screenshot saved at `docs/qa-evidence/2026-05-06-release-apk-launch.png`. |
-| Sign up | Create a new Firebase email/password test account. | Firebase Auth user id and screenshot without password. | TODO |
-| Email verification | Complete or bypass only with documented reviewer-ready test account. | Screenshot/note showing verified state. | TODO |
-| Assistant creation | Let the app create the initial assistant/timeline. | Firestore `users/{uid}` and `assistants/{assistantId}` evidence. | TODO |
+| Sign up | Create a new Firebase email/password test account. | Firebase Auth user id and screenshot without password. | Not covered by UI smoke yet; disposable verified Firebase Auth user `qa202605060729068d@example.com` was imported for release sign-in validation. |
+| Email verification | Complete or bypass only with documented reviewer-ready test account. | Screenshot/note showing verified state. | PASS for disposable imported QA user; email-verified state is recorded in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`. |
+| Assistant creation | Let the app create the initial assistant/timeline. | Firestore `users/{uid}` and `assistants/{assistantId}` evidence. | PASS locally on AVD with disposable QA user; evidence saved in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json` and signed-in screenshot saved at `docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png`. |
 | Privacy Policy access | Open Settings and tap Privacy Policy. | Screenshot of Settings and policy dialog. | TODO |
 | BYOK key save | Enable BYOK and save a limited test OpenAI key. | Screenshot with key hidden plus note confirming no Firestore `apikey`. | TODO |
 | Recording permission | Tap record and approve microphone permission. | Screenshot of Android permission dialog or post-permission recording state. | TODO |
@@ -64,11 +75,11 @@ or a Play internal testing install.
 
 ## Firebase Console Evidence
 
-- Auth user before deletion: TODO
+- Disposable smoke auth user before deletion: `codexqa20260506072958350d`
 - Auth user after deletion: TODO
-- User document before deletion: TODO
+- Disposable smoke user document before deletion: PASS in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`
 - User document after deletion: TODO
-- Assistant users before deletion: TODO
+- Disposable smoke assistant users before deletion: PASS in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`
 - Assistant users after deletion: TODO
 - Event documents before deletion: TODO
 - Event documents after deletion: TODO

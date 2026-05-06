@@ -19,6 +19,9 @@ test('Play screenshot plan covers required sanitized phone screenshots', async (
     'babylog_api35',
     'Android 15 / API 35',
     'docs/qa-evidence/2026-05-06-release-apk-launch.png',
+    'docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png',
+    'Firebase Auth/UI upgrade',
+    'timeline shell loads',
   ]) {
     assert.match(plan, new RegExp(escapeRegExp(required)));
   }
@@ -29,6 +32,13 @@ test('Play screenshot plan covers required sanitized phone screenshots', async (
   assert.equal(screenshot.toString('ascii', 1, 4), 'PNG');
   assert.equal(screenshot.readUInt32BE(16), 1080);
   assert.equal(screenshot.readUInt32BE(20), 2400);
+
+  const timelineScreenshot = await readFile(
+    'docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png',
+  );
+  assert.equal(timelineScreenshot.toString('ascii', 1, 4), 'PNG');
+  assert.equal(timelineScreenshot.readUInt32BE(16), 1080);
+  assert.equal(timelineScreenshot.readUInt32BE(20), 2400);
 });
 
 function escapeRegExp(value) {

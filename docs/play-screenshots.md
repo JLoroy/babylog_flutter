@@ -16,6 +16,10 @@ Local workspace device check on 2026-05-06:
 installed and launched to the sign-in screen; the first local screenshot
 evidence is `docs/qa-evidence/2026-05-06-release-apk-launch.png`.
 
+After the Firebase Auth/UI upgrade, the release APK also signed in with a
+disposable verified QA user and reached the timeline. Sanitized local evidence:
+`docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png`.
+
 Final full screenshot coverage still requires completing the signed-in flows on
 this AVD, a real Android device, or a Play internal testing install.
 
@@ -33,9 +37,9 @@ this AVD, a real Android device, or a Play internal testing install.
 
 | Screenshot | Required content | Manual QA link | Status |
 | --- | --- | --- | --- |
-| Sign in | Babylog auth screen or signed-in reviewer entry point. | Install and launch / Sign up | TODO |
+| Sign in | Babylog auth screen or signed-in reviewer entry point. | Install and launch / Sign up | Partial local AVD evidence: `docs/qa-evidence/2026-05-06-release-apk-launch.png` and signed-in timeline screenshot after Firebase Auth/UI upgrade. |
 | Settings and Privacy Policy | Settings page with Privacy Policy entry visible, plus policy dialog if useful. | Privacy Policy access | TODO |
-| Shared timeline | Timeline with synthetic baby-care events and no real names. | Restart persistence / Shared assistant join | TODO |
+| Shared timeline | Timeline with synthetic baby-care events and no real names. | Restart persistence / Shared assistant join | Partial local AVD evidence: timeline shell loads for disposable QA user, but full event/restart/shared-account screenshot set remains TODO. |
 | Recording permission | Microphone permission or post-permission recording state. | Recording permission | TODO |
 | First event | Synthetic event created from recording/transcription. | First recording / First event creation | TODO |
 | Delete Account | Settings delete-account entry or confirmation flow without deleting reviewer account. | Delete account | TODO |

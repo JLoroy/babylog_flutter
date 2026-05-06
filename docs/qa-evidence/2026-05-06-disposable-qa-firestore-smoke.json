@@ -1,0 +1,28 @@
+{
+  "capturedAt": "2026-05-06T07:30:57.757Z",
+  "firebaseProject": "babylog-flutter",
+  "appPackage": "com.eranova.babylog",
+  "avd": "babylog_api35",
+  "android": "Android 15 / API 35",
+  "qaUser": {
+    "uid": "codexqa20260506072958350d",
+    "email": "qa202605060729068d@example.com",
+    "emailVerified": true,
+    "password": "stored only in .qa-secrets/current-qa-account.json, not committed"
+  },
+  "checks": {
+    "restAuthSignIn": true,
+    "userDocExists": true,
+    "userDocEmailMatches": true,
+    "currentAssistantReferenceCreated": true,
+    "assistantDocExists": true,
+    "assistantUsersContainsQaEmail": true,
+    "assistantName": "Baby",
+    "assistantByok": false,
+    "assistantUsage": 100
+  },
+  "assistantId": "bg9NFFlDnpacJbs8cxyw",
+  "screenshots": [
+    "docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png"
+  ]
+}

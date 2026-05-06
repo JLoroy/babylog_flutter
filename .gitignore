@@ -36,6 +36,7 @@ migrate_working_dir/
 # Node/Firebase emulator tests
 node_modules/
 .firebase/
+.qa-secrets/
 
 # Symbolication related
 app.*.symbols

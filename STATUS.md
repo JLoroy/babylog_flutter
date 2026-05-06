@@ -67,6 +67,11 @@
 - Updated `docs/play-store-listing.md` so account deletion is described as published, not merely prepared for publication.
 - Rechecked local Android device/emulator availability: `flutter emulators` now lists `babylog_api35`, and after launch `flutter devices` sees `emulator-5554` as Android 15 / API 35.
 - Installed `build/app/outputs/flutter-apk/app-release.apk` on AVD `babylog_api35`, launched `com.eranova.babylog`, confirmed it stayed running, and saved a non-private sign-in screenshot at `docs/qa-evidence/2026-05-06-release-apk-launch.png`.
+- Reproduced a release APK sign-in crash on the AVD with a verified disposable Firebase Auth user: Firebase Auth succeeded, then stale Firebase Auth/UI generated-code decoding failed with `type 'List<Object?>' is not a subtype of type 'PigeonUserDetails?'`.
+- Upgraded Firebase Flutter dependencies to `firebase_core 4.7.0`, `firebase_auth 6.4.0`, `firebase_ui_auth 3.0.1`, `cloud_firestore 6.3.0`, and `firebase_ui_firestore 2.0.1`, removing the discontinued `firebase_dynamic_links` transitive dependency.
+- Imported a disposable verified QA user `qa202605060729068d@example.com`; its password is stored only in ignored `.qa-secrets/current-qa-account.json`.
+- Rebuilt the release APK after the Firebase upgrade, signed in on AVD `babylog_api35`, reached the Babylog timeline, and saved sanitized evidence at `docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png`.
+- Captured non-secret Firestore smoke evidence at `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`: REST sign-in, user doc, current assistant reference, assistant doc, and assistant membership all passed under deployed Firestore rules.
 
 ### Verification
 - `git status` was clean immediately after the merge.
@@ -93,8 +98,8 @@
 - `npm run test:public-urls` passes: verified Firebase Hosting privacy-policy and account-deletion URLs are recorded.
 - `npm run test:play-distribution` passes: distribution draft covers free app setup, Parenting category, suggested tags, Belgium/United States initial rollout, no ads, no IAP, and not enrolling in Families.
 - `keytool -list` opens `/Users/home/Documents/AndroidReleaseKeys/eranova_upload.jks` with alias `upload` using the ignored local signing config.
-- `flutter build appbundle --release` passes with Homebrew OpenJDK 17, producing `build/app/outputs/bundle/release/app-release.aab` at 44 MB.
-- Signed AAB SHA-256: `ac9b27ec22bb4d6c963a2c38eb3b274f9c539ea508b566fccab8d3f4ba8b226b`.
+- `flutter build appbundle --release` passes with Homebrew OpenJDK 17, producing `build/app/outputs/bundle/release/app-release.aab` at 46.9 MB.
+- Signed AAB SHA-256: `11ccb6bd27a564f9772725b8ef10fdd1762c55cb1e2a38abffa7d78d1572f283`.
 - `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0.
 - `firebase projects:list` shows `babylog-flutter` as the current Firebase project.
 - `firebase deploy --only hosting` succeeds for `babylog-flutter`.
@@ -111,6 +116,12 @@
 - `rg` no longer finds `firebase-analytics` or `firebase_analytics`; only Babylog timeline event model names remain.
 - `flutter pub get` removed `firebase_database`, `firebase_database_platform_interface`, `firebase_database_web`, and `firebase_ui_database` from `pubspec.lock`.
 - `flutter build apk --debug` passes after the Analytics/RTDB dependency removals and Kotlin 2.1.0 upgrade when run with Homebrew OpenJDK 17 on `JAVA_HOME`.
+- `flutter test` passes after the Firebase Auth/UI dependency upgrade: 10 tests.
+- `flutter analyze --no-fatal-infos` exits successfully after the Firebase Auth/UI dependency upgrade with the same 84 info-level lint issues.
+- `flutter build apk --release` passes after the Firebase Auth/UI dependency upgrade and produces `build/app/outputs/flutter-apk/app-release.apk` at 55.5 MB.
+- AVD release sign-in with disposable verified QA user `qa202605060729068d@example.com` succeeds after the Firebase Auth/UI dependency upgrade; filtered logs show Firebase Auth token notification for uid `codexqa20260506072958350d` and no repeat of the Pigeon decode exception.
+- `docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png` is a sanitized 1080 x 2400 PNG showing the signed-in timeline.
+- `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json` records only non-secret smoke evidence and points to the local ignored password store for the disposable QA account.
 - GitHub Actions CI is configured but not yet verified in a remote run from this workspace.
 - `git diff --check` passes.
 - `.github/workflows/flutter-ci.yml` parses as valid YAML via Ruby.

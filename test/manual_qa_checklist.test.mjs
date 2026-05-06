@@ -28,7 +28,7 @@ test('manual QA checklist covers release-critical flows', async () => {
     '## Play Review Inputs',
     '1.0.2+3',
     'build/app/outputs/bundle/release/app-release.aab',
-    'ac9b27ec22bb4d6c963a2c38eb3b274f9c539ea508b566fccab8d3f4ba8b226b',
+    '11ccb6bd27a564f9772725b8ef10fdd1762c55cb1e2a38abffa7d78d1572f283',
     'babylog-flutter',
     'flutter devices',
     'Android 15 / API 35',
@@ -36,6 +36,12 @@ test('manual QA checklist covers release-critical flows', async () => {
     'babylog_api35',
     'adb install -r',
     'docs/qa-evidence/2026-05-06-release-apk-launch.png',
+    'docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png',
+    'docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json',
+    '.qa-secrets/current-qa-account.json',
+    'qa202605060729068d@example.com',
+    'codexqa20260506072958350d',
+    'current assistant reference',
     'test@era-nova.be',
     'play-reviewer-assistant',
     'documented BYOK-only review',
@@ -52,6 +58,40 @@ test('manual QA checklist covers release-critical flows', async () => {
   assert.equal(screenshot.toString('ascii', 1, 4), 'PNG');
   assert.equal(screenshot.readUInt32BE(16), 1080);
   assert.equal(screenshot.readUInt32BE(20), 2400);
+
+  const timelineScreenshot = await readFile(
+    'docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png',
+  );
+  assert.equal(timelineScreenshot.toString('ascii', 1, 4), 'PNG');
+  assert.equal(timelineScreenshot.readUInt32BE(16), 1080);
+  assert.equal(timelineScreenshot.readUInt32BE(20), 2400);
+
+  const smoke = JSON.parse(
+    await readFile(
+      'docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json',
+      'utf8',
+    ),
+  );
+  assert.equal(smoke.firebaseProject, 'babylog-flutter');
+  assert.equal(smoke.appPackage, 'com.eranova.babylog');
+  assert.equal(smoke.qaUser.email, 'qa202605060729068d@example.com');
+  assert.equal(smoke.qaUser.uid, 'codexqa20260506072958350d');
+  assert.equal(smoke.qaUser.emailVerified, true);
+  assert.match(smoke.qaUser.password, /not committed/);
+  for (const key of [
+    'restAuthSignIn',
+    'userDocExists',
+    'userDocEmailMatches',
+    'currentAssistantReferenceCreated',
+    'assistantDocExists',
+    'assistantUsersContainsQaEmail',
+  ]) {
+    assert.equal(smoke.checks[key], true, `${key} should pass`);
+  }
+  assert.equal(
+    smoke.screenshots[0],
+    'docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png',
+  );
 });
 
 function escapeRegExp(value) {

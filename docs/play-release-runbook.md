@@ -82,7 +82,7 @@ Release AAB is built and signed:
 `build/app/outputs/bundle/release/app-release.aab`.
 
 Artifact SHA-256 captured on 2026-05-06:
-`ac9b27ec22bb4d6c963a2c38eb3b274f9c539ea508b566fccab8d3f4ba8b226b`.
+`11ccb6bd27a564f9772725b8ef10fdd1762c55cb1e2a38abffa7d78d1572f283`.
 
 `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0.
 
