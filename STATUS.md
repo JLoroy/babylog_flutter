@@ -147,6 +147,7 @@
 16. Capture final Play screenshots from the internal-test or release build using `docs/play-screenshots.md`.
 17. Provide Play Console access or Play Developer API/service-account automation if AAB upload should be done from this workspace.
 18. Provide a real Android device or create an Android AVD if manual QA/screenshots should be captured locally.
+19. GitHub Actions is being stabilized after the first push: Firebase rules now use project-local `firebase-tools`, and Flutter analysis now excludes generated dependency folders.
 
 ## What this is
 A quick, living snapshot of where the Babylog app is at, what’s risky, and what we’re doing next.

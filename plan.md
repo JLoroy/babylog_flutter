@@ -58,11 +58,12 @@
 - 2026-05-06: Align `android/app/releasenotes.md` with the current Play listing release notes and validate it with `npm run test:play-release-notes`.
 - 2026-05-06: Update the Play Store listing copy so the account deletion page is described as published, not merely prepared.
 - 2026-05-06: Local Android QA/screenshot capture is blocked in this workspace because `flutter devices` only sees macOS/Chrome and `flutter emulators` finds no Android emulator sources.
+- 2026-05-06: Keep `firebase-tools` as a project dev dependency for CI rules tests and exclude `node_modules/**` from Flutter analysis so Firebase Dart templates are not analyzed as app code.
 
 ## Next
 
 - Use `todo.md` as the immediate release backlog and update it as blockers are resolved.
-- Push `main` so GitHub Actions can run the new Flutter CI gate; local `main` is ahead of `origin/main`.
+- Push each release-readiness fix to `main` in meaningful slices and keep watching GitHub Actions until the branch is green.
 - Manually verify account deletion against Firebase Auth and Firestore using a test account.
 - Upload `build/app/outputs/bundle/release/app-release.aab` to the existing Babylog Play Console app `com.eranova.babylog`.
 - Confirm Play Console developer/account details can be changed from Era Nova to Nacho / `lenacho.be`.
