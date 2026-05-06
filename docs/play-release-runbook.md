@@ -53,6 +53,7 @@ npm run test:hosting
 npm run test:listing
 npm run test:play-distribution
 npm run test:play-assets
+npm run test:play-console-evidence
 npm run test:play-handoff
 npm run test:play-policy-freshness
 npm run test:play-private-notes
@@ -133,6 +134,7 @@ Evidence to capture:
 - Tester list or tester group.
 - Internal testing opt-in URL.
 - Screenshot of release status.
+- Redacted evidence checklist updates in `docs/play-console-evidence.md`.
 
 ## Internal Testing QA
 

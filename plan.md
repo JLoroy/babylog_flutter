@@ -73,6 +73,7 @@
 - 2026-05-06: Official Play target API docs still require Android 15 / API 35 or higher for new apps and updates; keep Babylog at `targetSdk = 35` for the current submission, and re-check the policy before any submission after 2026-08-01.
 - 2026-05-06: Prepare Play Console upload inputs through a generated non-secret handoff folder instead of manually hunting for AAB/media/copy files during Console submission.
 - 2026-05-06: Generate Play Console App access notes as an ignored private handoff file from `.qa-secrets/play-reviewer-account.json`, with CI tests using fake secrets only.
+- 2026-05-06: Track Play Console acceptance proof in `docs/play-console-evidence.md`; require redacted screenshots, exports, or public URLs instead of treating handoff files as release evidence.
 
 ## Next
 
@@ -97,3 +98,4 @@
 - Re-check `docs/play-policy-freshness.md` against official Play docs before upload if submission slips past 2026-08-01.
 - Run `npm run prepare:play-handoff` immediately before Play Console upload and copy/upload from `dist/play-console-handoff/`.
 - Run `npm run prepare:play-private-notes` immediately before Play Console App access entry, paste the generated private notes, and keep any captured evidence redacted.
+- Fill `docs/play-console-evidence.md` with redacted Console evidence after AAB upload, policy fields, listing media, app access, internal testing, production release, and later install metrics are accepted.

@@ -18,6 +18,7 @@
     "test:play-distribution": "node --test test/play_distribution.test.mjs",
     "test:play-assets": "node --test test/play_store_assets.test.mjs",
     "test:play-console-history": "node --test test/play_console_action_history.test.mjs",
+    "test:play-console-evidence": "node --test test/play_console_evidence.test.mjs",
     "test:play-handoff": "node --test test/play_console_handoff.test.mjs",
     "test:play-policy-freshness": "node --test test/play_policy_freshness.test.mjs",
     "test:play-private-notes": "node --test test/play_console_private_notes.test.mjs",

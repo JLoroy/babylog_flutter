@@ -20,6 +20,7 @@ npm run test:firestore-indexes
 npm run test:listing
 npm run test:play-distribution
 npm run test:play-assets
+npm run test:play-console-evidence
 npm run test:play-handoff
 npm run test:play-private-notes
 npm run test:play-reviewer-access
