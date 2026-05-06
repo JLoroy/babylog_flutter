@@ -132,6 +132,7 @@
 - GitHub Actions run `25428242326` for commit `8a7bbf9` passed both jobs after adding the Play Console action-history guard: Firebase rules completed in 34s, and Analyze/test completed in 6m7s including the Android debug APK build.
 - GitHub Actions run `25430047488` for commit `c287738` passed both jobs after adding the private Play App access notes generator: Analyze/test completed in 6m54s including the new `npm run test:play-private-notes` step and Android debug APK build; Firebase rules completed in 29s.
 - GitHub Actions run `25430770146` for commit `661a8d0` passed both jobs after adding the Play Console evidence template: Analyze/test completed in 6m18s including the new `npm run test:play-console-evidence` step and Android debug APK build; Firebase rules completed in 26s.
+- GitHub Actions run `25434086084` for commit `1ff35a4` passed both jobs after bumping the Play release version code to `1.0.5+6`: Analyze/test completed in 6m10s and Firebase rules completed in 26s.
 - `npm run test:play-screenshots` passes: screenshot plan covers sign-in, Settings/Privacy Policy, shared timeline, recording permission, first event, Delete Account, synthetic data rules, hidden OpenAI keys, and manual QA linkage.
 - `npm run test:public-urls` passes: verified Firebase Hosting privacy-policy and account-deletion URLs are recorded.
 - `npm run test:play-distribution` passes: distribution draft covers free app setup, Parenting category, suggested tags, Belgium/United States initial rollout, no ads, no IAP, and not enrolling in Families.
