@@ -24,13 +24,13 @@ is done.
 
 | Console item | Evidence to capture | Evidence path or URL | Status |
 | --- | --- | --- | --- |
-| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.6+7`, and accepted AAB state. | User-provided chat screenshot on 2026-05-06 confirms previous internal testing release `6 (1.0.5)` was accepted. Version `1.0.6+7` / code 7 is the current local candidate after the join fix and still needs upload evidence. | Previous build Accepted for internal testing; current candidate pending |
+| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.6+7`, and accepted AAB state. | User reported in chat on 2026-05-06 that the uploaded AAB appears as version code 7. Redacted screenshot/export still needed for committed evidence. | User-reported Accepted for internal testing; redacted evidence pending |
 | Internal testing release rolled out | Internal testing track screen showing rollout active or available to testers. | User-provided chat screenshot on 2026-05-06: release `6 (1.0.5)` shows `Available to internal testers`, released on 6 May 15:06, review status `Not reviewed`. | Active / not reviewed |
 | Production release available | Production track screen or public listing proving Babylog is available to users. | Pending | Pending |
 | Public Play listing URL | Public Google Play URL for Babylog. | Pending | Pending |
 | Privacy policy URL configured | App content or Store settings screen showing `https://babylog-flutter.web.app/privacy-policy`. | Pending | Pending |
 | Account deletion URL configured | Data safety account deletion screen showing `https://babylog-flutter.web.app/delete-account`. | Pending | Pending |
-| App access notes saved | App access screen showing restricted access and redacted reviewer instructions. | Pending | Pending |
+| App access notes saved | App access screen showing restricted access and redacted reviewer instructions. | User reported in chat on 2026-05-06 that App access notes were added. Redacted screenshot/export still needed for committed evidence. | User-reported added; redacted evidence pending |
 | Data safety accepted | Data safety summary screen showing accepted or ready-to-submit answers for the uploaded build. | Pending | Pending |
 | Content rating accepted | Content rating screen showing questionnaire result accepted for Babylog. | Pending | Pending |
 | Target audience accepted | Target audience and content screen showing 18+ parent/guardian target. | Pending | Pending |

@@ -68,15 +68,14 @@ the small but important details of baby care.
 ## Release Notes
 
 en-US:
-Babylog now includes safer account deletion, local-only OpenAI key handling,
-tested Firebase security rules, Play policy pages, Android release signing, and
-a fixed shared-assistant join flow for internal testing.
+Version 1.0.6 fixes shared-assistant joining for internal testing, with tested Firebase security rules, safer account deletion, local-only OpenAI key handling,
+Play policy pages, and Android release signing.
 
 fr-FR:
-Babylog ajoute une suppression de compte plus sûre, une gestion locale des clés
-OpenAI, des règles Firebase testées, des pages de politique Play et une
-configuration de signature Android, avec une correction du partage d'assistant
-pour les tests internes.
+La version 1.0.6 corrige l'ajout a un assistant partage pour les tests internes,
+avec des règles Firebase testées, une suppression de compte plus sûre, une
+gestion locale des clés OpenAI, des pages de politique Play et une signature
+Android configurée.
 
 ## Store Contact Fields
 
