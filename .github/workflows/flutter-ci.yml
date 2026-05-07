@@ -103,6 +103,9 @@ jobs:
       - name: Test growth metrics plan
         run: npm run test:growth
 
+      - name: Test Google SSO config
+        run: npm run test:google-sso-config
+
       - name: Test Firebase Hosting config
         run: npm run test:hosting
 

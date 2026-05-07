@@ -19,6 +19,8 @@ test('Play compliance docs use the current public identity and URLs', async () =
     '18 and over',
     'not intended to be enrolled in Families',
     'First-release architecture decision: keep BYOK-only direct OpenAI calls',
+    'Google sign-in',
+    'Name/profile information',
   ]) {
     assert.match(content, new RegExp(escapeRegExp(required)));
   }

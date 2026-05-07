@@ -37,15 +37,15 @@ test('Play Console handoff bundle contains expected non-secret release files', a
 
     assert.deepEqual(manifest.release, {
       packageName: 'com.eranova.babylog',
-      version: '1.0.7+8',
-      versionName: '1.0.7',
-      versionCode: 8,
+      version: '1.0.8+9',
+      versionName: '1.0.8',
+      versionCode: 9,
     });
     for (const required of [
       'Package: `com.eranova.babylog`',
-      'Version: `1.0.7+8`',
-      'Version name: `1.0.7`',
-      'Version code: `8`',
+      'Version: `1.0.8+9`',
+      'Version name: `1.0.8`',
+      'Version code: `9`',
     ]) {
       assert.match(readme, new RegExp(escapeRegExp(required)));
     }

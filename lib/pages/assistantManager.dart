@@ -31,9 +31,21 @@ class _AssistantManagerState extends State<AssistantManager> {
     if (userDoc.exists) {
       Map<String, dynamic>? userData = userDoc.data() as Map<String, dynamic>?;
       if (userData != null && userData.containsKey('current_assistant')) {
-        // Load assistant if it exists
-        DocumentReference assistantRef = userData['current_assistant'];
-        DocumentSnapshot assistantDoc = await assistantRef.get();
+        final assistantRef = userData['current_assistant'];
+
+        if (assistantRef is! DocumentReference) {
+          return createAssistant(user, userDoc, users);
+        }
+
+        DocumentSnapshot assistantDoc;
+        try {
+          assistantDoc = await assistantRef.get();
+        } on FirebaseException catch (error) {
+          if (error.code == 'permission-denied') {
+            return createAssistant(user, userDoc, users);
+          }
+          rethrow;
+        }
 
         // Check if the assistant document actually exists
         if (assistantDoc.exists) {
@@ -61,20 +73,7 @@ class _AssistantManagerState extends State<AssistantManager> {
     // Create new assistant
     DocumentReference assistantRef = await FirebaseFirestore.instance
         .collection('assistants')
-        .add(BabylogAssistant(
-          assistantId: "notimportant",
-          name: "Baby",
-          language: "fr",
-          byok: false,
-          apikey: "",
-          usage: 100,
-          users: [user.email!],
-          promptsettings: {
-            "bottle_ml": "120",
-            "baby_name": "Basile",
-            "medicine": "gaviscon, fer, vitamineD, anticholique"
-          },
-        ).toFirestore());
+        .add(defaultAssistant(user).toFirestore());
     // Update user document with new assistant
     await users.doc(user.uid).update({'current_assistant': assistantRef});
     // Reload assistant
@@ -133,7 +132,48 @@ class _AssistantManagerState extends State<AssistantManager> {
             body: Center(child: CircularProgressIndicator()),
           ); // Or any other loading widget
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Scaffold(
+            backgroundColor: const Color(0xFFFCF7F3),
+            body: SafeArea(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.cloud_off_rounded,
+                        color: Color(0xFFB5534C),
+                        size: 40,
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Babylog could not load this account.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Please sign out and try again. If this is an old account, Babylog may need a fresh assistant timeline.',
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 20),
+                      FilledButton(
+                        onPressed: () async {
+                          await auth.signOut();
+                          widget.backToAuth();
+                        },
+                        child: const Text('Back to sign in'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
         } else {
           return BabylogApp(
               assistant: snapshot.data!,

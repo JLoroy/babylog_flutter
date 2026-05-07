@@ -5,6 +5,36 @@
 ## Update (2026-05-07)
 
 ### Current milestone
+- Prepare version `1.0.8+9` / version code 9 for Play internal testing with Google sign-in and old-account recovery on top of the accepted phone-installed build.
+
+### What changed
+- Added Firebase UI Google sign-in using `firebase_ui_oauth_google`, the existing Firebase web OAuth client id from `google-services.json`, and the Android Google Services Gradle plugin.
+- Kept email/password sign-in as the reviewer fallback path, but changed email-verification routing so only password-provider accounts are sent to the verification screen; Google-provider users can continue directly into the app.
+- Added focused tests that lock the Google SSO wiring, Gradle plugin setup, CI guard, and password-only verification behavior.
+- Improved old-account recovery: if `users/{uid}.current_assistant` is missing, malformed, or denied by Firestore rules, Babylog creates a fresh default assistant instead of showing a raw Firebase permission error.
+- Updated Play policy, App content, reviewer-access, privacy-policy draft, and public privacy-policy HTML copy for Firebase email/password auth, Google sign-in, and optional Google profile data.
+- Bumped the next Play candidate to `1.0.8+9`; current signed AAB SHA-256 is `4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492` and current release APK SHA-256 is `b095d5724280169ee7f3def864fec0f28f5748228f0c1c9e9ada27192b1cf644`.
+- Extracted release upload-key fingerprints for Firebase Android OAuth setup: SHA-1 `A6:BF:3B:93:62:71:6B:FA:C3:B2:F1:23:D0:7D:DC:F1:A7:86:B2:5A`, SHA-256 `4A:CA:E5:0B:D3:5D:37:5F:03:63:C6:47:FC:32:7B:0B:35:D0:4D:A3:09:BA:E6:05:E6:0E:F5:F4:C4:9F:05:CA`.
+
+### Validation
+- `dart format --set-exit-if-changed lib/main.dart lib/pages/babylogauth.dart lib/pages/assistantManager.dart test/auth_gate_test.dart` passed.
+- `flutter analyze --no-fatal-infos` passed with info-level lint only.
+- `flutter test` passed: 12 tests.
+- `flutter build apk --debug` passed.
+- `npm run test:android-release-identity`, `npm run test:google-sso-config`, and `npm run test:play-release-notes` passed.
+- `flutter build apk --release` and `flutter build appbundle --release` passed; `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0 with the expected self-signed/no-timestamp warnings.
+- `npm run prepare:play-console` passed and regenerated `dist/play-console-handoff/` for `1.0.8+9` / version code 9 with AAB SHA-256 `4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492`.
+- `firebase deploy --only hosting --project babylog-flutter` is currently blocked by expired Firebase CLI credentials and asks for `firebase login --reauth`; updated public privacy-policy HTML is committed locally but not redeployed yet.
+
+### Next steps
+1. Confirm Google sign-in is enabled in Firebase Authentication and the Android release SHA fingerprints above are registered, otherwise Android Google sign-in can fail after account selection.
+2. Regenerate the Play handoff/private notes for `1.0.8+9`, then upload `build/app/outputs/bundle/release/app-release.aab` to internal testing.
+3. Redeploy Firebase Hosting for the updated public privacy policy before using the Google sign-in copy as Play Console policy evidence.
+4. Real-device QA: Google sign-in, old-account recovery from the Firebase permission error, and full BYOK recording.
+
+## Update (2026-05-07 design-refresh)
+
+### Current milestone
 - Prepare a version code 8 design-refresh candidate for Play internal testing after Justin reported that `1.0.6+7` was accepted and deployed on his phone.
 
 ### What changed
@@ -45,6 +75,24 @@
 2. Copy the updated release notes from `android/app/releasenotes.md`.
 3. Capture redacted Play Console evidence for version 8 upload/acceptance and any remaining policy/store-listing fields.
 4. Continue manual QA on a real device or internal-test install, especially the full in-app microphone recording and recorder-created event flow.
+
+## Update (2026-05-06 recap)
+
+### Current milestone
+- Ship a Play-internal-testing-ready Android release candidate with secure Firebase/Auth behavior, BYOK reviewer access, public policy pages, and evidence-backed Play Console handoff docs.
+
+### What changed yesterday
+- Landed the main 2026-05-06 release-hardening sequence from `26eb4f3` through `ee3e56b`.
+- Hardened Android release flows, Firebase Auth/Firestore dependencies, account deletion, local OpenAI key storage, Firebase rules/indexes/hosting config, and Play target/version guards.
+- Prepared Play Console submission assets and docs: store listing, compliance/app-content answers, public privacy/deletion pages, reviewer access notes, handoff bundles, screenshot set, release runbook, and release-completion audit.
+- Captured release APK/AVD QA evidence under `docs/qa-evidence/2026-05-06-*` for launch, BYOK key save, account deletion, event deletion, public policy pages, shared assistant deletion/join, and restart persistence.
+- Advanced the candidate to `1.0.6+7` and updated version 7 release notes in `android/app/releasenotes.md` via `ee3e56b`.
+
+### Next steps
+1. Keep version, release notes, Play handoff docs, private reviewer notes, and CI evidence synchronized before/after each Play upload.
+2. Continue real-device/internal-test manual QA, especially full microphone recording and recorder-created Firestore events.
+3. Capture redacted Play Console evidence once each candidate is uploaded/accepted.
+
 
 ## Update (2026-05-05)
 

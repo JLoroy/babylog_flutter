@@ -86,8 +86,8 @@ Current status:
 Release AAB is built and signed:
 `build/app/outputs/bundle/release/app-release.aab`.
 
-Artifact SHA-256 captured on 2026-05-07 for `1.0.7+8`:
-`5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376`.
+Artifact SHA-256 captured on 2026-05-07 for `1.0.8+9`:
+`4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492`.
 
 `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0.
 
@@ -121,7 +121,7 @@ Complete these before production rollout:
    `build/app/outputs/bundle/release/app-release.aab`.
 7. If using generated App access notes, run
    `npm run prepare:play-private-notes` after the handoff bundle is generated.
-8. Set release name to the version/build, for example `1.0.7+8`.
+8. Set release name to the version/build, for example `1.0.8+9`.
 9. Use release notes from `docs/play-store-listing.md`.
 10. Add internal testers or tester email list.
 11. Review the release for Play warnings.

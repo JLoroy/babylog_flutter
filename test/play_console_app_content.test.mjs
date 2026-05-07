@@ -8,6 +8,7 @@ test('Play Console app content draft includes required review answers', async ()
   for (const required of [
     '## App Access',
     'Some or all functionality is restricted.',
+    'Google sign-in',
     '## Ads Declaration',
     'No, this app does not contain ads.',
     '## Target Audience And Content',

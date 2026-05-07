@@ -34,8 +34,8 @@ screens are accepted for the uploaded AAB.
 - Permissions in `android/app/src/main/AndroidManifest.xml`:
   - `android.permission.INTERNET`
   - `android.permission.RECORD_AUDIO`
-- Authentication: Firebase Auth email/password through `firebase_auth` and
-  `firebase_ui_auth`.
+- Authentication: Firebase Auth email/password and Google sign-in through
+  `firebase_auth`, `firebase_ui_auth`, and `firebase_ui_oauth_google`.
 - Cloud storage/database: Cloud Firestore through `cloud_firestore`.
 - Realtime Database packages were removed from `pubspec.yaml` after no active
   RTDB data path was found; committed RTDB rules remain default-deny.
@@ -54,8 +54,9 @@ screens are accepted for the uploaded AAB.
 
 | Data category | Collected by Babylog | Purpose | Stored by Babylog | Shared/processed by third parties | User deletion path |
 | --- | --- | --- | --- | --- | --- |
-| Email address | Yes, through Firebase Auth | Account creation, sign-in, shared assistant membership | Firebase Auth and Firestore `users` / `assistants.users` | Google Firebase | In-app account deletion; web deletion request at `https://babylog-flutter.web.app/delete-account` |
+| Email address | Yes, through Firebase Auth email/password or Google sign-in | Account creation, sign-in, shared assistant membership | Firebase Auth and Firestore `users` / `assistants.users` | Google Firebase | In-app account deletion; web deletion request at `https://babylog-flutter.web.app/delete-account` |
 | User identifier | Yes, Firebase Auth UID | Link account to current assistant | Firestore `users/{uid}` | Google Firebase | In-app account deletion; web deletion request at `https://babylog-flutter.web.app/delete-account` |
+| Name/profile information | Optional, through Google sign-in if the Google account provides it | Authentication account profile | Firebase Auth provider profile | Google Firebase | In-app account deletion; web deletion request at `https://babylog-flutter.web.app/delete-account` |
 | Baby event content | Yes, event type, description/log, timestamp, author, assistant id | Shared timeline | Firestore `events` | Google Firebase | In-app account deletion removes events for the user's assistant; manual Firebase validation pending |
 | Audio recording | Yes, microphone recording for transcription | Convert speech into text/events | Temporary local file during recording flow | OpenAI API during transcription | Local temporary file lifecycle needs manual device QA; OpenAI processing is outside Firebase deletion |
 | Transcribed text and AI prompt content | Yes, generated from audio and submitted for event interpretation | Create structured timeline events | Event result stored in Firestore | OpenAI API | Stored event data deleted through account deletion; OpenAI retention depends on API account settings |
@@ -76,7 +77,8 @@ list in Play Console.
   their SDKs/APIs.
 - Users can request deletion: yes in-app and through the public web deletion
   request URL.
-- Account creation: yes, email/password sign-up is available in the app.
+- Account creation: yes, email/password sign-up and Google sign-in are
+  available in the app.
 - Account deletion: in-app path exists in settings and public web request page
   is published; manual Firebase validation remains a blocker.
 - Ads: no.

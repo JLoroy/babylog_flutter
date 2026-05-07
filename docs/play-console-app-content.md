@@ -22,9 +22,10 @@ Recommended Play Console answer:
 Some or all functionality is restricted.
 
 Reason:
-Babylog requires Firebase email/password authentication before the main app can
-be reviewed. A reviewer needs a test account to inspect Settings, timeline,
-recording, BYOK behavior, privacy policy access, and account deletion.
+Babylog requires Firebase email/password authentication or Google sign-in before
+the main app can be reviewed. A reviewer needs a test account to inspect
+Settings, timeline, recording, BYOK behavior, privacy policy access, and account
+deletion.
 
 Reviewer instructions draft:
 Use `docs/play-reviewer-access.md` as the source of truth for the final Play

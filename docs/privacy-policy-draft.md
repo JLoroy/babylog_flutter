@@ -21,8 +21,10 @@ Privacy contact: privacy@lenacho.be
 
 ## Information We Collect
 
-Babylog collects account information, including email address and Firebase user
-identifier, to create and manage user accounts.
+Babylog collects account information, including email address, Firebase user
+identifier, and optional Google sign-in profile information such as display
+name or profile photo if provided by the user's Google account, to create and
+manage user accounts.
 
 Babylog stores timeline content that users create, including baby event
 descriptions, event types, timestamps, author information, and the shared
@@ -39,8 +41,9 @@ current assistant.
 
 ## How We Use Information
 
-Babylog uses account information to sign users in, keep shared timelines
-available across devices, and manage shared assistant membership.
+Babylog uses account information to sign users in with email/password or Google
+sign-in, keep shared timelines available across devices, and manage shared
+assistant membership.
 
 Babylog uses timeline content to display baby events to the authenticated users
 who belong to the same shared assistant/timeline.
@@ -50,8 +53,8 @@ timeline events.
 
 ## Service Providers
 
-Babylog uses Google Firebase for authentication and Cloud Firestore database
-storage.
+Babylog uses Google Firebase for email/password authentication, Google sign-in,
+and Cloud Firestore database storage.
 
 Babylog uses the OpenAI API to transcribe audio and interpret text into
 structured events when AI features are used. OpenAI's current API data controls

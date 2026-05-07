@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 
 const PACKAGE_NAME = 'com.eranova.babylog';
 const APP_NAME = 'Babylog';
-const VERSION = '1.0.7+8';
-const HIGHEST_KNOWN_PLAY_VERSION_CODE = 7;
+const VERSION = '1.0.8+9';
+const HIGHEST_KNOWN_PLAY_VERSION_CODE = 8;
 
 test('Android release identity is stable for Play Console submission', async () => {
   const [pubspec, buildGradle, manifest, listing] = await Promise.all([
@@ -16,7 +16,7 @@ test('Android release identity is stable for Play Console submission', async () 
   ]);
 
   assert.match(pubspec, new RegExp(`^version:\\s*${escapeRegExp(VERSION)}$`, 'm'));
-  assert.equal(androidVersionCode(VERSION), 8);
+  assert.equal(androidVersionCode(VERSION), 9);
   assert.ok(
     androidVersionCode(VERSION) > HIGHEST_KNOWN_PLAY_VERSION_CODE,
     `Android versionCode must be greater than the highest known Play Console version code ${HIGHEST_KNOWN_PLAY_VERSION_CODE}`,

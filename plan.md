@@ -96,6 +96,9 @@
 - 2026-05-07: Treat commit `fb74fc3` as the current stable v8 upload candidate after GitHub Actions run `25467216242` passed on `main`; next unblocker is Play Console upload/acceptance plus real-device recorder validation.
 - 2026-05-07: Keep real App access credentials and the temporary OpenAI key only in ignored private notes; expose only a 500-character-safe public template in the Play submit packet so Play Console copy/paste is constrained without leaking secrets.
 - 2026-05-07: Use `npm run prepare:play-console` as the preferred handoff command so the non-secret Play folder is generated before the ignored private App access notes; running the non-secret generator afterward intentionally clears generated private files.
+- 2026-05-07: Ship Google sign-in as the next candidate `1.0.8+9`; keep email/password available for reviewer fallback, require email verification only for password accounts, and let Google accounts enter the app without the email-verification screen.
+- 2026-05-07: Treat old-account Firebase `permission-denied` on unreadable `current_assistant` links as a recoverable migration edge: create a fresh default assistant for that user instead of exposing the raw Firebase error.
+- 2026-05-07: Update public policy/compliance docs for Google sign-in and optional Google profile data, then redeploy Firebase Hosting before Play upload if those public pages are part of the submitted policy evidence.
 
 ## Next
 

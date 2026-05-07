@@ -16,6 +16,7 @@
     "test:hosting": "node --test test/firebase_hosting_config.test.mjs",
     "test:firestore-indexes": "node --test test/firestore_indexes.test.mjs",
     "test:growth": "node --test test/growth_metrics.test.mjs",
+    "test:google-sso-config": "node --test test/google_sso_config.test.mjs",
     "test:listing": "node --test test/play_store_listing.test.mjs",
     "test:play-distribution": "node --test test/play_distribution.test.mjs",
     "test:play-assets": "node --test test/play_store_assets.test.mjs",

@@ -12,8 +12,9 @@ Recommended answer:
 Some or all functionality is restricted.
 
 Reason:
-Babylog requires Firebase email/password authentication before reviewers can
-inspect the app. The main app flows are not available anonymously.
+Babylog requires Firebase email/password authentication or Google sign-in before
+reviewers can inspect the app. The main app flows are not available
+anonymously.
 
 ## Reviewer Account
 

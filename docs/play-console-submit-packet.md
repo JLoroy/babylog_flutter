@@ -16,10 +16,10 @@ handoff regeneration.
 ## Release Artifact
 
 - Existing Play package: `com.eranova.babylog`
-- Release version: `1.0.7+8`
+- Release version: `1.0.8+9`
 - AAB path: `build/app/outputs/bundle/release/app-release.aab`
 - AAB SHA-256:
-  `5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376`
+  `4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492`
 - Signing verification: `jarsigner -verify` exits 0.
 
 ## Store Listing

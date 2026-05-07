@@ -16,6 +16,8 @@ test('Android release notes match the current Play release scope', async () => {
   }
 
   for (const required of [
+    'Google sign-in',
+    'old-account recovery',
     'modern Android design',
     'smoother timeline cards',
     'clearer recording feedback',

@@ -8,6 +8,7 @@ test('Play reviewer access notes cover restricted auth and BYOK review path', as
   for (const required of [
     'Some or all functionality is restricted',
     'Firebase email/password authentication',
+    'Google sign-in',
     'Reviewer account',
     'Email: `test@era-nova.be`',
     '.qa-secrets/play-reviewer-account.json',

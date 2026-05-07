@@ -5,6 +5,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 
+bool authProviderRequiresEmailVerification(Iterable<String> providerIds) {
+  return providerIds.contains('password');
+}
+
+bool userRequiresEmailVerification(User user) {
+  return !user.emailVerified &&
+      authProviderRequiresEmailVerification(
+        user.providerData.map((provider) => provider.providerId),
+      );
+}
+
 class AuthGateApp extends StatelessWidget {
   const AuthGateApp({super.key});
 
@@ -14,7 +25,7 @@ class AuthGateApp extends StatelessWidget {
     if (user == null) {
       return '/auth';
     }
-    if (!user.emailVerified) {
+    if (userRequiresEmailVerification(user)) {
       return '/verify-email';
     }
     return '/app';
@@ -28,7 +39,7 @@ class AuthGateApp extends StatelessWidget {
     if (user != null) {
       // Reload the user to ensure we have the most up-to-date info
       await user.reload();
-      if (!user.emailVerified) {
+      if (userRequiresEmailVerification(user)) {
         // Option: Send them a verification email again
         user.sendEmailVerification();
         Navigator.pushReplacementNamed(context, '/verify-email');
