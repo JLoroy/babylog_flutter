@@ -26,6 +26,8 @@
 - `npm run prepare:play-console` passed and regenerated `dist/play-console-handoff/` for `1.0.8+9` / version code 9 with AAB SHA-256 `4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492`.
 - `firebase deploy --only hosting --project babylog-flutter` is currently blocked by expired Firebase CLI credentials and asks for `firebase login --reauth`; updated public privacy-policy HTML is committed locally but not redeployed yet.
 - GitHub Actions run `25479382853` for commit `01890e5` passed on `main`: Firebase rules completed in 26s, and Analyze/test completed in 6m34s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, and Android debug APK build.
+- GitHub Actions run `25479856820` for commit `db5f3af` passed on `main`: Firebase rules completed in 25s, and Analyze/test completed in 7m44s including the Google sign-in blocker docs, release audit, Play submit packet, and Android debug APK build.
+- `curl https://babylog-flutter.web.app/privacy-policy` confirms the currently deployed public page still has the previous Firebase/OpenAI wording and does not yet include the new Google sign-in text; hosting redeploy remains required after Firebase reauth.
 - `gcloud` is also blocked by expired interactive credentials and asks for `gcloud auth login`, so Firebase Google-provider/fingerprint setup could not be inspected from this session.
 
 ### Next steps
