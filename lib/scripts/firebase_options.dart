@@ -55,10 +55,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAGaauJfG5B4GY6kwuJVTBMlLb-OBJ3250',
-    appId: '1:328975985379:android:9b9ab48fd27147b79af3d6',
+    appId: '1:328975985379:android:8ee5f4d65cee59899af3d6',
     messagingSenderId: '328975985379',
     projectId: 'babylog-flutter',
-    storageBucket: 'babylog-flutter.appspot.com',
+    storageBucket: 'babylog-flutter.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'scripts/firebase_options.dart';
 
 const googleOAuthClientId =
-    '328975985379-pr8mkiluvddcjhk1m6tcj3rqn0ld2059.apps.googleusercontent.com';
+    '328975985379-h99abg1d80q59d7oe4l635lvahrmuf92.apps.googleusercontent.com';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

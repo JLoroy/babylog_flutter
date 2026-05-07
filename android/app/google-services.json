@@ -2,19 +2,27 @@
   "project_info": {
     "project_number": "328975985379",
     "project_id": "babylog-flutter",
-    "storage_bucket": "babylog-flutter.appspot.com"
+    "storage_bucket": "babylog-flutter.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:328975985379:android:9b9ab48fd27147b79af3d6",
+        "mobilesdk_app_id": "1:328975985379:android:8ee5f4d65cee59899af3d6",
         "android_client_info": {
           "package_name": "com.eranova.babylog"
         }
       },
       "oauth_client": [
         {
-          "client_id": "328975985379-pr8mkiluvddcjhk1m6tcj3rqn0ld2059.apps.googleusercontent.com",
+          "client_id": "328975985379-6c14bnq4tpg7lsd1gjfcfl61ffd0f4ig.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.eranova.babylog",
+            "certificate_hash": "a6bf3b9362716bfac3b2f123d07ddcf1a786b25a"
+          }
+        },
+        {
+          "client_id": "328975985379-h99abg1d80q59d7oe4l635lvahrmuf92.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,15 +35,45 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "328975985379-pr8mkiluvddcjhk1m6tcj3rqn0ld2059.apps.googleusercontent.com",
+              "client_id": "328975985379-h99abg1d80q59d7oe4l635lvahrmuf92.apps.googleusercontent.com",
               "client_type": 3
-            },
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328975985379:android:9b9ab48fd27147b79af3d6",
+        "android_client_info": {
+          "package_name": "com.example.babylog"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328975985379-bckkq1ul90o63ne7umusvfv1um189vjv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.babylog",
+            "certificate_hash": "a6bf3b9362716bfac3b2f123d07ddcf1a786b25a"
+          }
+        },
+        {
+          "client_id": "328975985379-h99abg1d80q59d7oe4l635lvahrmuf92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGaauJfG5B4GY6kwuJVTBMlLb-OBJ3250"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
             {
-              "client_id": "328975985379-6vc6nlk5lpe661tn9pr0rd4hc9t6adp2.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.eranova.babylog.RunnerTests"
-              }
+              "client_id": "328975985379-h99abg1d80q59d7oe4l635lvahrmuf92.apps.googleusercontent.com",
+              "client_type": 3
             }
           ]
         }

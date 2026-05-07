@@ -1,6 +1,6 @@
 # Babylog Play Console Release Runbook
 
-Last updated: 2026-05-07
+Last updated: 2026-05-08
 
 Purpose:
 Move Babylog from a signed Android App Bundle to internal testing, then
@@ -88,10 +88,14 @@ Current status:
 Release AAB is built and signed:
 `build/app/outputs/bundle/release/app-release.aab`.
 
-Artifact SHA-256 captured on 2026-05-07 for `1.0.8+9`:
-`4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492`.
+Artifact SHA-256 captured on 2026-05-08 for `1.0.8+9`:
+`4d001263246659d6c442a3685fbdaa8500d99183100cbd5d62bafdac2932deb2`.
 
 `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0.
+
+The AAB was rebuilt after refreshing Firebase Android config for
+`com.eranova.babylog` from app id
+`1:328975985379:android:8ee5f4d65cee59899af3d6`.
 
 ## Play Console Setup Checklist
 
@@ -113,7 +117,8 @@ Complete these before production rollout:
 
 ## Firebase Google Sign-In Checklist
 
-Complete this before uploading or testing a Google sign-in release:
+Current status for version `1.0.8+9`: completed in Firebase, config refreshed,
+and rebuilt locally. Keep this checklist for future signing/config changes.
 
 1. Run `firebase login --reauth` locally if the Firebase CLI says credentials
    are expired.
@@ -126,6 +131,9 @@ Complete this before uploading or testing a Google sign-in release:
      `4A:CA:E5:0B:D3:5D:37:5F:03:63:C6:47:FC:32:7B:0B:35:D0:4D:A3:09:BA:E6:05:E6:0E:F5:F4:C4:9F:05:CA`
 4. Download the refreshed `google-services.json` if Firebase changes it, place
    it at `android/app/google-services.json`, and rebuild the AAB.
+   The current Firebase Android app id is
+   `1:328975985379:android:8ee5f4d65cee59899af3d6`; its Android OAuth client is
+   `328975985379-6c14bnq4tpg7lsd1gjfcfl61ffd0f4ig.apps.googleusercontent.com`.
 5. Smoke-test Google sign-in on a real device or the internal-test install. A
    failure after account selection usually means the provider or Android SHA
    fingerprints are not configured correctly.

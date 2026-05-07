@@ -1,10 +1,10 @@
 # Babylog Play Console Submit Packet
 
-Last updated: 2026-05-07
+Last updated: 2026-05-08
 
 Status:
 Ready for Play Console copy/paste after the reviewer password is copied from
-the local secret file and the AAB is uploaded.
+the local secret file and the rebuilt version `1.0.8+9` AAB is uploaded.
 
 Optional generated handoff folder:
 Run `npm run prepare:play-console` to gather the signed AAB, graphics,
@@ -19,7 +19,7 @@ handoff regeneration.
 - Release version: `1.0.8+9`
 - AAB path: `build/app/outputs/bundle/release/app-release.aab`
 - AAB SHA-256:
-  `4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492`
+  `4d001263246659d6c442a3685fbdaa8500d99183100cbd5d62bafdac2932deb2`
 - Signing verification: `jarsigner -verify` exits 0.
 
 ## Store Listing
@@ -45,19 +45,26 @@ Use the full description and release notes from `docs/play-store-listing.md`.
 - Contact email: `privacy@lenacho.be`
 
 Reminder: create or confirm the `privacy@lenacho.be` alias before submission.
-The local privacy policy copy now mentions Google sign-in. Redeploy Firebase
-Hosting after `firebase login --reauth` before relying on that updated public
-copy in Play Console.
+The public Firebase Hosting pages were redeployed on 2026-05-08 and the live
+privacy policy now mentions email/password and Google sign-in.
 
 ## Google Sign-In Firebase Setup
 
-Before uploading version `1.0.8+9`, confirm Firebase Authentication > Sign-in
-method has Google enabled and Firebase Project settings > Android app
-`com.eranova.babylog` includes these release upload-key fingerprints:
+Firebase Authentication > Sign-in method has Google enabled. The corrected
+Firebase Android app is named `babylog`, uses package `com.eranova.babylog`,
+and has app id `1:328975985379:android:8ee5f4d65cee59899af3d6`.
+
+Firebase Project settings > Android app `com.eranova.babylog` includes these
+release upload-key fingerprints:
 
 - SHA-1: `A6:BF:3B:93:62:71:6B:FA:C3:B2:F1:23:D0:7D:DC:F1:A7:86:B2:5A`
 - SHA-256:
   `4A:CA:E5:0B:D3:5D:37:5F:03:63:C6:47:FC:32:7B:0B:35:D0:4D:A3:09:BA:E6:05:E6:0E:F5:F4:C4:9F:05:CA`
+
+The refreshed `android/app/google-services.json` includes Android OAuth client
+`328975985379-6c14bnq4tpg7lsd1gjfcfl61ffd0f4ig.apps.googleusercontent.com`.
+The app-side Google web client id is
+`328975985379-h99abg1d80q59d7oe4l635lvahrmuf92.apps.googleusercontent.com`.
 
 ## Developer Identity
 

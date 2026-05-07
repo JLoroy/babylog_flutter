@@ -1,6 +1,6 @@
 # Babylog Android Release Verification
 
-Last updated: 2026-05-05
+Last updated: 2026-05-08
 
 Run and record this gate before uploading a Play Console release artifact.
 
@@ -48,8 +48,10 @@ Expected status today:
   paths above.
 - The current signed release artifact is
   `build/app/outputs/bundle/release/app-release.aab`.
-- Artifact SHA-256 captured on 2026-05-07 for `1.0.8+9`:
-  `4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492`.
+- Artifact SHA-256 captured on 2026-05-08 for `1.0.8+9`:
+  `4d001263246659d6c442a3685fbdaa8500d99183100cbd5d62bafdac2932deb2`.
+- Firebase Android config is refreshed for package `com.eranova.babylog`, app id
+  `1:328975985379:android:8ee5f4d65cee59899af3d6`, before this AAB build.
 - `npm run prepare:play-handoff` creates the optional non-secret upload folder
   at `dist/play-console-handoff/`.
 
@@ -93,8 +95,8 @@ Current artifact verification:
 - Confirm `docs/public/privacy-policy.html` and
   `docs/public/delete-account.html` are published at public URLs and load
   without authentication.
-- Publish the static policy pages with `firebase deploy --only hosting` after
-  confirming Firebase credentials and `docs/firebase-hosting-deploy.md`.
+- Static policy pages were published with
+  `firebase deploy --only hosting --project babylog-flutter` on 2026-05-08.
 - Confirm the public account deletion URL works without app access.
 
 ## Play Console gate

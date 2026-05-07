@@ -1,8 +1,8 @@
 # STATUS — Babylog
 
-**Last updated:** 2026-05-07
+**Last updated:** 2026-05-08
 
-## Update (2026-05-07)
+## Update (2026-05-08)
 
 ### Current milestone
 - Prepare version `1.0.8+9` / version code 9 for Play internal testing with Google sign-in and old-account recovery on top of the accepted phone-installed build.
@@ -13,8 +13,12 @@
 - Added focused tests that lock the Google SSO wiring, Gradle plugin setup, CI guard, and password-only verification behavior.
 - Improved old-account recovery: if `users/{uid}.current_assistant` is missing, malformed, or denied by Firestore rules, Babylog creates a fresh default assistant instead of showing a raw Firebase permission error.
 - Updated Play policy, App content, reviewer-access, privacy-policy draft, and public privacy-policy HTML copy for Firebase email/password auth, Google sign-in, and optional Google profile data.
-- Bumped the next Play candidate to `1.0.8+9`; current signed AAB SHA-256 is `4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492` and current release APK SHA-256 is `b095d5724280169ee7f3def864fec0f28f5748228f0c1c9e9ada27192b1cf644`.
+- Bumped the next Play candidate to `1.0.8+9`; current signed AAB SHA-256 is `4d001263246659d6c442a3685fbdaa8500d99183100cbd5d62bafdac2932deb2` and current release APK SHA-256 is `2b86c13e307393b1ed222104dc3a4fe9083bbddcb386723f830af2d0aa209f30`.
 - Extracted release upload-key fingerprints for Firebase Android OAuth setup: SHA-1 `A6:BF:3B:93:62:71:6B:FA:C3:B2:F1:23:D0:7D:DC:F1:A7:86:B2:5A`, SHA-256 `4A:CA:E5:0B:D3:5D:37:5F:03:63:C6:47:FC:32:7B:0B:35:D0:4D:A3:09:BA:E6:05:E6:0E:F5:F4:C4:9F:05:CA`.
+- Justin reauthenticated Firebase CLI, enabled Google sign-in, added the release SHAs, and set the public-facing project name to `babylog`.
+- Deployed Firebase Hosting again; `https://babylog-flutter.web.app/privacy-policy` now serves the Google sign-in privacy wording.
+- Found the existing Firebase Android app returned by `firebase apps:sdkconfig` was bound to `com.example.babylog`, created a new Firebase Android app named `babylog` for package `com.eranova.babylog`, added both release fingerprints to it, updated `android/app/google-services.json`, `lib/scripts/firebase_options.dart`, and the Firebase UI Google web client id.
+- Rebuilt signed `1.0.8+9` release artifacts after the corrected Firebase Android app config: AAB SHA-256 `4d001263246659d6c442a3685fbdaa8500d99183100cbd5d62bafdac2932deb2`; APK SHA-256 `2b86c13e307393b1ed222104dc3a4fe9083bbddcb386723f830af2d0aa209f30`.
 
 ### Validation
 - `dart format --set-exit-if-changed lib/main.dart lib/pages/babylogauth.dart lib/pages/assistantManager.dart test/auth_gate_test.dart` passed.
@@ -23,18 +27,17 @@
 - `flutter build apk --debug` passed.
 - `npm run test:android-release-identity`, `npm run test:google-sso-config`, and `npm run test:play-release-notes` passed.
 - `flutter build apk --release` and `flutter build appbundle --release` passed; `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0 with the expected self-signed/no-timestamp warnings.
-- `npm run prepare:play-console` passed and regenerated `dist/play-console-handoff/` for `1.0.8+9` / version code 9 with AAB SHA-256 `4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492`.
-- `firebase deploy --only hosting --project babylog-flutter` is currently blocked by expired Firebase CLI credentials and asks for `firebase login --reauth`; updated public privacy-policy HTML is committed locally but not redeployed yet.
+- `npm run prepare:play-console` passed and regenerated `dist/play-console-handoff/` for `1.0.8+9` / version code 9 with AAB SHA-256 `4d001263246659d6c442a3685fbdaa8500d99183100cbd5d62bafdac2932deb2`.
+- `firebase projects:list` passes after reauth and shows `babylog-flutter` as current.
+- `firebase deploy --only hosting --project babylog-flutter` passes and releases the updated public policy pages.
+- `curl https://babylog-flutter.web.app/privacy-policy` confirms the live page contains `Google sign-in`, `email/password`, `Developer: Nacho`, and `privacy@lenacho.be`.
+- `firebase apps:sdkconfig android 1:328975985379:android:8ee5f4d65cee59899af3d6 --project babylog-flutter` confirms the active Android config includes package `com.eranova.babylog`, Android OAuth client `328975985379-6c14bnq4tpg7lsd1gjfcfl61ffd0f4ig.apps.googleusercontent.com`, release SHA-1 `a6bf3b9362716bfac3b2f123d07ddcf1a786b25a`, and web client `328975985379-h99abg1d80q59d7oe4l635lvahrmuf92.apps.googleusercontent.com`.
 - GitHub Actions run `25479382853` for commit `01890e5` passed on `main`: Firebase rules completed in 26s, and Analyze/test completed in 6m34s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, and Android debug APK build.
 - GitHub Actions run `25479856820` for commit `db5f3af` passed on `main`: Firebase rules completed in 25s, and Analyze/test completed in 7m44s including the Google sign-in blocker docs, release audit, Play submit packet, and Android debug APK build.
-- `curl https://babylog-flutter.web.app/privacy-policy` confirms the currently deployed public page still has the previous Firebase/OpenAI wording and does not yet include the new Google sign-in text; hosting redeploy remains required after Firebase reauth.
-- `gcloud` is also blocked by expired interactive credentials and asks for `gcloud auth login`, so Firebase Google-provider/fingerprint setup could not be inspected from this session.
-
 ### Next steps
-1. Confirm Google sign-in is enabled in Firebase Authentication and the Android release SHA fingerprints above are registered, otherwise Android Google sign-in can fail after account selection.
-2. Regenerate the Play handoff/private notes for `1.0.8+9`, then upload `build/app/outputs/bundle/release/app-release.aab` to internal testing.
-3. Redeploy Firebase Hosting for the updated public privacy policy before using the Google sign-in copy as Play Console policy evidence.
-4. Real-device QA: Google sign-in, old-account recovery from the Firebase permission error, and full BYOK recording.
+1. Upload the rebuilt `build/app/outputs/bundle/release/app-release.aab` for `1.0.8+9` / version code 9 to internal testing.
+2. Real-device/internal-test QA: Google sign-in, old-account recovery from the Firebase permission error, and full BYOK recording.
+3. Capture redacted Play Console evidence after version code 9 upload/acceptance and update `docs/play-console-evidence.md`.
 
 ## Update (2026-05-07 design-refresh)
 
