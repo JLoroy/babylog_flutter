@@ -37,6 +37,8 @@
 - GitHub Actions run `25479856820` for commit `db5f3af` passed on `main`: Firebase rules completed in 25s, and Analyze/test completed in 7m44s including the Google sign-in blocker docs, release audit, Play submit packet, and Android debug APK build.
 - GitHub Actions run `25524861500` for commit `d65477f` passed on `main`: Firebase rules completed in 28s, and Analyze/test completed in 6m45s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, and Android debug APK build.
 - GitHub Actions run `25525171080` for commit `720cc33` passed on `main`: Firebase rules completed in 33s, and Analyze/test completed in 6m10s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, and Android debug APK build.
+- GitHub Actions run `25525502635` for commit `abe1504` passed on `main`: Firebase rules completed in 26s, and Analyze/test completed in 6m40s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, manual QA checklist validation, Play Console evidence validation, and Android debug APK build.
+- GitHub Actions run `25525810105` for commit `67a8ff0` passed on `main`: Firebase rules completed in 26s, and Analyze/test completed in 6m45s including formatting, analyzer, Flutter tests, Play/docs validators, release audit validation, and Android debug APK build.
 - `npm run test:manual-qa`, `npm run test:play-console-evidence`, and `git diff --check` pass after retargeting the QA/evidence docs to version `1.0.8+9`.
 ### Next steps
 1. Upload the rebuilt `build/app/outputs/bundle/release/app-release.aab` for `1.0.8+9` / version code 9 to internal testing.
