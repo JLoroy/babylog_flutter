@@ -5,6 +5,7 @@
   "scripts": {
     "prepare:play-handoff": "node scripts/prepare_play_console_handoff.mjs",
     "prepare:play-private-notes": "node scripts/prepare_play_console_private_notes.mjs",
+    "prepare:play-console": "npm run prepare:play-handoff && npm run prepare:play-private-notes",
     "setup:play-reviewer-openai-key": "node scripts/setup_play_reviewer_openai_key.mjs",
     "test:android-manifest": "node --test test/android_manifest.test.mjs",
     "test:android-release-identity": "node --test test/android_release_identity.test.mjs",

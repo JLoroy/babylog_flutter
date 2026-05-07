@@ -26,12 +26,14 @@ test('Play Console handoff bundle contains expected non-secret release files', a
       fixtureAab,
     ]);
 
-    const [manifestRaw, readme, handoffDoc] = await Promise.all([
+    const [manifestRaw, readme, handoffDoc, packageRaw] = await Promise.all([
       readFile(join(outDir, 'manifest.json'), 'utf8'),
       readFile(join(outDir, 'README.md'), 'utf8'),
       readFile('docs/play-console-handoff.md', 'utf8'),
+      readFile('package.json', 'utf8'),
     ]);
     const manifest = JSON.parse(manifestRaw);
+    const packageJson = JSON.parse(packageRaw);
 
     assert.deepEqual(manifest.release, {
       packageName: 'com.eranova.babylog',
@@ -82,7 +84,9 @@ test('Play Console handoff bundle contains expected non-secret release files', a
     }
 
     for (const required of [
+      'npm run prepare:play-console',
       'npm run prepare:play-handoff',
+      'npm run prepare:play-private-notes',
       'dist/play-console-handoff/',
       '--aab /absolute/or/relative/path.aab',
       'manifest.json',
@@ -91,6 +95,10 @@ test('Play Console handoff bundle contains expected non-secret release files', a
     ]) {
       assert.match(handoffDoc, new RegExp(escapeRegExp(required)));
     }
+    assert.equal(
+      packageJson.scripts['prepare:play-console'],
+      'npm run prepare:play-handoff && npm run prepare:play-private-notes',
+    );
   } finally {
     await rm(tempRoot, { recursive: true, force: true });
   }

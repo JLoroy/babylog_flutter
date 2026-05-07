@@ -9,7 +9,7 @@ submission.
 ## Generate
 
 ```bash
-npm run prepare:play-handoff
+npm run prepare:play-console
 ```
 
 Default output:
@@ -18,7 +18,9 @@ Default output:
 dist/play-console-handoff/
 ```
 
-The script uses `build/app/outputs/bundle/release/app-release.aab` by default.
+This runs the non-secret handoff generator first, then regenerates the ignored
+private App access notes in the correct order. The handoff script uses
+`build/app/outputs/bundle/release/app-release.aab` by default.
 For tests or one-off verification, pass `--aab /absolute/or/relative/path.aab`
 to package a specific bundle path.
 
@@ -67,7 +69,8 @@ npm run prepare:play-private-notes
 ```
 
 Run `npm run prepare:play-handoff` first, then `npm run
-prepare:play-private-notes`. Regenerating the non-secret handoff clears the
+prepare:play-private-notes`, or use `npm run prepare:play-console` to do both
+in the safe order. Regenerating the non-secret handoff clears the
 `dist/play-console-handoff/` folder, including private generated files.
 
 ## Secret Handling
@@ -88,6 +91,7 @@ output.
 ## Verification
 
 ```bash
+npm run prepare:play-console
 npm run test:play-handoff
 npm run test:play-private-notes
 ```
