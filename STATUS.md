@@ -34,6 +34,7 @@
 - `firebase apps:sdkconfig android 1:328975985379:android:8ee5f4d65cee59899af3d6 --project babylog-flutter` confirms the active Android config includes package `com.eranova.babylog`, Android OAuth client `328975985379-6c14bnq4tpg7lsd1gjfcfl61ffd0f4ig.apps.googleusercontent.com`, release SHA-1 `a6bf3b9362716bfac3b2f123d07ddcf1a786b25a`, and web client `328975985379-h99abg1d80q59d7oe4l635lvahrmuf92.apps.googleusercontent.com`.
 - GitHub Actions run `25479382853` for commit `01890e5` passed on `main`: Firebase rules completed in 26s, and Analyze/test completed in 6m34s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, and Android debug APK build.
 - GitHub Actions run `25479856820` for commit `db5f3af` passed on `main`: Firebase rules completed in 25s, and Analyze/test completed in 7m44s including the Google sign-in blocker docs, release audit, Play submit packet, and Android debug APK build.
+- GitHub Actions run `25524861500` for commit `d65477f` passed on `main`: Firebase rules completed in 28s, and Analyze/test completed in 6m45s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, and Android debug APK build.
 ### Next steps
 1. Upload the rebuilt `build/app/outputs/bundle/release/app-release.aab` for `1.0.8+9` / version code 9 to internal testing.
 2. Real-device/internal-test QA: Google sign-in, old-account recovery from the Firebase permission error, and full BYOK recording.
