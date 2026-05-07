@@ -1,6 +1,6 @@
 # Babylog Play Console Release Runbook
 
-Last updated: 2026-05-06
+Last updated: 2026-05-07
 
 Purpose:
 Move Babylog from a signed Android App Bundle to internal testing, then
@@ -27,6 +27,8 @@ Official references:
 - Production Firestore indexes are preserved in `firestore.indexes.json`.
 - Public privacy policy URL is live.
 - Public account deletion URL is live.
+- If the release includes Google sign-in, Firebase Authentication has the Google
+  provider enabled and the Android release signing fingerprints registered.
 - Reviewer Firebase Auth account exists, is verified, and is linked to a
   synthetic sample assistant.
 - BYOK review path is documented BYOK-only behavior; no OpenAI key is committed
@@ -108,6 +110,25 @@ Complete these before production rollout:
 - Data safety form using `docs/play-console-compliance.md`.
 - Countries/regions and pricing/distribution settings using
   `docs/play-distribution.md`.
+
+## Firebase Google Sign-In Checklist
+
+Complete this before uploading or testing a Google sign-in release:
+
+1. Run `firebase login --reauth` locally if the Firebase CLI says credentials
+   are expired.
+2. In Firebase Console > Authentication > Sign-in method, enable Google.
+3. In Firebase Console > Project settings > Babylog Android app
+   `com.eranova.babylog`, add these release upload-key fingerprints:
+   - SHA-1:
+     `A6:BF:3B:93:62:71:6B:FA:C3:B2:F1:23:D0:7D:DC:F1:A7:86:B2:5A`
+   - SHA-256:
+     `4A:CA:E5:0B:D3:5D:37:5F:03:63:C6:47:FC:32:7B:0B:35:D0:4D:A3:09:BA:E6:05:E6:0E:F5:F4:C4:9F:05:CA`
+4. Download the refreshed `google-services.json` if Firebase changes it, place
+   it at `android/app/google-services.json`, and rebuild the AAB.
+5. Smoke-test Google sign-in on a real device or the internal-test install. A
+   failure after account selection usually means the provider or Android SHA
+   fingerprints are not configured correctly.
 
 ## Internal Testing Release
 

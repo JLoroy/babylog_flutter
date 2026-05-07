@@ -25,6 +25,8 @@
 - `flutter build apk --release` and `flutter build appbundle --release` passed; `jarsigner -verify build/app/outputs/bundle/release/app-release.aab` exits 0 with the expected self-signed/no-timestamp warnings.
 - `npm run prepare:play-console` passed and regenerated `dist/play-console-handoff/` for `1.0.8+9` / version code 9 with AAB SHA-256 `4b6544dc6bd4f6b379fb3024368e32691cbd2191027bee24ed3862be69e97492`.
 - `firebase deploy --only hosting --project babylog-flutter` is currently blocked by expired Firebase CLI credentials and asks for `firebase login --reauth`; updated public privacy-policy HTML is committed locally but not redeployed yet.
+- GitHub Actions run `25479382853` for commit `01890e5` passed on `main`: Firebase rules completed in 26s, and Analyze/test completed in 6m34s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, and Android debug APK build.
+- `gcloud` is also blocked by expired interactive credentials and asks for `gcloud auth login`, so Firebase Google-provider/fingerprint setup could not be inspected from this session.
 
 ### Next steps
 1. Confirm Google sign-in is enabled in Firebase Authentication and the Android release SHA fingerprints above are registered, otherwise Android Google sign-in can fail after account selection.

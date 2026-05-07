@@ -45,6 +45,19 @@ Use the full description and release notes from `docs/play-store-listing.md`.
 - Contact email: `privacy@lenacho.be`
 
 Reminder: create or confirm the `privacy@lenacho.be` alias before submission.
+The local privacy policy copy now mentions Google sign-in. Redeploy Firebase
+Hosting after `firebase login --reauth` before relying on that updated public
+copy in Play Console.
+
+## Google Sign-In Firebase Setup
+
+Before uploading version `1.0.8+9`, confirm Firebase Authentication > Sign-in
+method has Google enabled and Firebase Project settings > Android app
+`com.eranova.babylog` includes these release upload-key fingerprints:
+
+- SHA-1: `A6:BF:3B:93:62:71:6B:FA:C3:B2:F1:23:D0:7D:DC:F1:A7:86:B2:5A`
+- SHA-256:
+  `4A:CA:E5:0B:D3:5D:37:5F:03:63:C6:47:FC:32:7B:0B:35:D0:4D:A3:09:BA:E6:05:E6:0E:F5:F4:C4:9F:05:CA`
 
 ## Developer Identity
 

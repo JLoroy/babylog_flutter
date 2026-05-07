@@ -99,6 +99,7 @@
 - 2026-05-07: Ship Google sign-in as the next candidate `1.0.8+9`; keep email/password available for reviewer fallback, require email verification only for password accounts, and let Google accounts enter the app without the email-verification screen.
 - 2026-05-07: Treat old-account Firebase `permission-denied` on unreadable `current_assistant` links as a recoverable migration edge: create a fresh default assistant for that user instead of exposing the raw Firebase error.
 - 2026-05-07: Update public policy/compliance docs for Google sign-in and optional Google profile data, then redeploy Firebase Hosting before Play upload if those public pages are part of the submitted policy evidence.
+- 2026-05-07: Treat Firebase/Google Cloud Console setup for Google sign-in as externally blocked until Justin reauthenticates CLI/browser access; keep the exact release SHA fingerprints in the Play runbook and submit packet so the Console step is deterministic.
 
 ## Next
 
