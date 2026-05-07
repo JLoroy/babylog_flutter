@@ -102,6 +102,7 @@
 - 2026-05-07: Treat Firebase/Google Cloud Console setup for Google sign-in as externally blocked until Justin reauthenticates CLI/browser access; keep the exact release SHA fingerprints in the Play runbook and submit packet so the Console step is deterministic.
 - 2026-05-08: After Firebase reauth, deploy the updated public privacy policy and create a correct Firebase Android app named `babylog` for package `com.eranova.babylog`; do not use the older Firebase Android app because CLI config shows it is bound to `com.example.babylog`.
 - 2026-05-08: Rebuild and submit version code 9 only with the corrected Firebase Android config; regenerate the Play handoff/private notes after that rebuild so the upload artifact hash and reviewer instructions stay synchronized.
+- 2026-05-08: Treat version `1.0.8+9` internal-test evidence as the next manual QA target; require Google sign-in, email/password fallback, old-account recovery, and BYOK recording evidence before production.
 
 ## Next
 

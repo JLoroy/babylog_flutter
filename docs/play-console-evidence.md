@@ -1,6 +1,6 @@
 # Babylog Play Console Evidence
 
-Last updated: 2026-05-07
+Last updated: 2026-05-08
 
 Status: partial Console capture.
 
@@ -24,7 +24,7 @@ is done.
 
 | Console item | Evidence to capture | Evidence path or URL | Status |
 | --- | --- | --- | --- |
-| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.6+7`, and accepted AAB state. | User reported in chat on 2026-05-06 that the uploaded AAB appears as version code 7. User reported on 2026-05-07 that the release was accepted and deployed to his phone. Redacted screenshot/export still needed for committed evidence. | User-reported Accepted for internal testing and deployed to device; redacted evidence pending |
+| AAB uploaded and accepted | Release artifact screen showing package `com.eranova.babylog`, version `1.0.8+9` / version code 9, and accepted AAB state. | Version code 9 AAB is prepared locally with SHA-256 `4d001263246659d6c442a3685fbdaa8500d99183100cbd5d62bafdac2932deb2`; upload/acceptance evidence is pending. Historical context: user reported in chat on 2026-05-06 that version code 7 appeared in Play Console, and on 2026-05-07 that it was accepted/deployed to his phone. | Version 9 pending upload; version 7 user-reported Accepted for internal testing and deployed to device; redacted evidence pending |
 | Internal testing release rolled out | Internal testing track screen showing rollout active or available to testers. | User-provided chat screenshot on 2026-05-06: release `6 (1.0.5)` shows `Available to internal testers`, released on 6 May 15:06, review status `Not reviewed`. | Active / not reviewed |
 | Production release available | Production track screen or public listing proving Babylog is available to users. | Pending | Pending |
 | Public Play listing URL | Public Google Play URL for Babylog. | Pending | Pending |
@@ -38,6 +38,8 @@ is done.
 | Store listing media accepted | Main store listing screen showing app icon, feature graphic, and phone screenshots accepted. | Pending | Pending |
 | SDK/data disclosure reviewed | SDK/data disclosure or Policy status screen for the uploaded AAB. | Pending | Pending |
 | Developer identity/contact reviewed | Developer account or Store settings screen showing Nacho / `privacy@lenacho.be` where Play allows it. | Pending | Pending |
+| Google sign-in internal-test smoke | Internal-test install showing Google sign-in succeeds and reaches a usable timeline. | Pending for version `1.0.8+9`; Firebase provider/SHAs/config are prepared. | Pending |
+| Old-account recovery smoke | Internal-test install showing an older account no longer lands on the raw Firebase permission error and instead has a usable assistant/timeline. | Pending for version `1.0.8+9`. | Pending |
 | 1000 installs/acquisitions evidence | Play Console statistics or acquisition report showing at least 1000 installs/acquisitions after release. | Paused by current user direction | Paused |
 
 ## Capture Procedure

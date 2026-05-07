@@ -19,6 +19,7 @@
 - Deployed Firebase Hosting again; `https://babylog-flutter.web.app/privacy-policy` now serves the Google sign-in privacy wording.
 - Found the existing Firebase Android app returned by `firebase apps:sdkconfig` was bound to `com.example.babylog`, created a new Firebase Android app named `babylog` for package `com.eranova.babylog`, added both release fingerprints to it, updated `android/app/google-services.json`, `lib/scripts/firebase_options.dart`, and the Firebase UI Google web client id.
 - Rebuilt signed `1.0.8+9` release artifacts after the corrected Firebase Android app config: AAB SHA-256 `4d001263246659d6c442a3685fbdaa8500d99183100cbd5d62bafdac2932deb2`; APK SHA-256 `2b86c13e307393b1ed222104dc3a4fe9083bbddcb386723f830af2d0aa209f30`.
+- Updated `docs/manual-qa-checklist.md` and `docs/play-console-evidence.md` so version `1.0.8+9` / version code 9 is the explicit next internal-test target, with Google sign-in, email/password fallback, old-account recovery, and BYOK recording called out as required evidence before production.
 
 ### Validation
 - `dart format --set-exit-if-changed lib/main.dart lib/pages/babylogauth.dart lib/pages/assistantManager.dart test/auth_gate_test.dart` passed.
@@ -35,6 +36,8 @@
 - GitHub Actions run `25479382853` for commit `01890e5` passed on `main`: Firebase rules completed in 26s, and Analyze/test completed in 6m34s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, and Android debug APK build.
 - GitHub Actions run `25479856820` for commit `db5f3af` passed on `main`: Firebase rules completed in 25s, and Analyze/test completed in 7m44s including the Google sign-in blocker docs, release audit, Play submit packet, and Android debug APK build.
 - GitHub Actions run `25524861500` for commit `d65477f` passed on `main`: Firebase rules completed in 28s, and Analyze/test completed in 6m45s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, and Android debug APK build.
+- GitHub Actions run `25525171080` for commit `720cc33` passed on `main`: Firebase rules completed in 33s, and Analyze/test completed in 6m10s including formatting, analyzer, Flutter tests, Play/docs validators, Google SSO config validation, and Android debug APK build.
+- `npm run test:manual-qa`, `npm run test:play-console-evidence`, and `git diff --check` pass after retargeting the QA/evidence docs to version `1.0.8+9`.
 ### Next steps
 1. Upload the rebuilt `build/app/outputs/bundle/release/app-release.aab` for `1.0.8+9` / version code 9 to internal testing.
 2. Real-device/internal-test QA: Google sign-in, old-account recovery from the Firebase permission error, and full BYOK recording.

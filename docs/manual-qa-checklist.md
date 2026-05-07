@@ -1,22 +1,31 @@
 # Babylog Manual QA Evidence Checklist
 
-Last updated: 2026-05-07
+Last updated: 2026-05-08
 
 Status: partially prefilled release evidence template. Complete the remaining
 result fields on a real Android device or Play internal testing install before
-production release.
+production release. The next build to test is `1.0.8+9` / version code 9.
 
 ## Test Environment
 
-- App version/build: `1.0.7+8`
+- App version/build: `1.0.8+9`
 - Build artifact: `build/app/outputs/bundle/release/app-release.aab`
 - Build artifact SHA-256:
-  `5947ba69b5a05b16c1627fdc3db7882c27b418838623b63c3e46607690b8d376`
+  `4d001263246659d6c442a3685fbdaa8500d99183100cbd5d62bafdac2932deb2`
+- Release APK SHA-256:
+  `2b86c13e307393b1ed222104dc3a4fe9083bbddcb386723f830af2d0aa209f30`
 - Device model: `sdk_gphone64_arm64` on local AVD `babylog_api35`
 - Android version: Android 15 / API 35
 - Firebase project: `babylog-flutter`
 - Tester: Codex local release install smoke test
 - Date/time: 2026-05-06 09:07 Europe/Brussels
+
+Version `1.0.8+9` adds Google sign-in and old-account recovery on top of the
+`1.0.7+8` design-refresh evidence below. Its Firebase Android config now points
+to app id `1:328975985379:android:8ee5f4d65cee59899af3d6` for package
+`com.eranova.babylog`. The Play internal-test install must validate Google
+sign-in, email/password fallback, old-account recovery, and BYOK recording
+against this build before production.
 
 Local workspace device check on 2026-05-06:
 `flutter emulators` lists local AVD `babylog_api35`. After launching it,
@@ -145,8 +154,11 @@ or a Play internal testing install.
 | --- | --- | --- | --- |
 | Install and launch | Install the APK/AAB test build and open Babylog. | Screenshot of launch/auth screen and installed app version. | PASS locally on AVD `babylog_api35`; release APK installed, `com.eranova.babylog` launched, screenshot saved at `docs/qa-evidence/2026-05-06-release-apk-launch.png`. |
 | Sign up | Create a new Firebase email/password test account. | Firebase Auth user id and screenshot without password. | Not covered by UI smoke yet; disposable verified Firebase Auth user `qa202605060729068d@example.com` was imported for release sign-in validation. |
+| Google sign-in | Sign in on the internal-test install with a Google account. | Screenshot after Google account selection and timeline load, plus Firebase Auth provider note. | TODO for `1.0.8+9`; Firebase provider, SHAs, and app config are prepared, but the flow still needs real-device/internal-test evidence. |
+| Email/password fallback | Sign in with `test@era-nova.be` on the internal-test install. | Screenshot of reviewer timeline and note that verification screen is not blocking the reviewer account. | TODO for `1.0.8+9`; older release APK reviewer sign-in evidence exists, but the rebuilt Google sign-in candidate needs final internal-test evidence. |
 | Email verification | Complete or bypass only with documented reviewer-ready test account. | Screenshot/note showing verified state. | PASS for disposable imported QA user; email-verified state is recorded in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json`. |
 | Assistant creation | Let the app create the initial assistant/timeline. | Firestore `users/{uid}` and `assistants/{assistantId}` evidence. | PASS locally on AVD with disposable QA user; evidence saved in `docs/qa-evidence/2026-05-06-disposable-qa-firestore-smoke.json` and signed-in screenshot saved at `docs/qa-evidence/2026-05-06-release-apk-qa-timeline-after-firebase-upgrade.png`. |
+| Old-account recovery | Sign in with an older account that previously hit `permission-denied` on `current_assistant`. | Screenshot showing app creates or opens a usable assistant instead of showing a raw Firebase error. | TODO for `1.0.8+9`; app-side recovery is implemented, but needs internal-test evidence with a real migrated/legacy account. |
 | Privacy Policy access | Open Settings and tap Privacy Policy. | Screenshot of Settings and policy dialog. | PASS locally on AVD `babylog_api35`; Settings and Privacy Policy screenshots saved at `docs/play-assets/screenshots/phone-02-settings.png` and `docs/play-assets/screenshots/phone-03-privacy-policy.png`. |
 | BYOK key save | Enable BYOK and save a limited test OpenAI key. | Screenshot with key hidden plus note confirming no Firestore `apikey`. | PARTIAL PASS locally on AVD `babylog_api35`; a non-secret fake key validates local key save/restart masking and confirms Firestore has `byok: true` with no `apikey` field. Evidence: `docs/qa-evidence/2026-05-06-byok-key-save-smoke.json`. A temporary reviewer OpenAI key also passed direct redacted endpoint smoke for Whisper transcription and `gpt-4o-mini` event interpretation in `docs/qa-evidence/2026-05-07-openai-byok-endpoint-smoke.json`. Full in-app recorder-created event QA is still pending. |
 | Recording permission | Tap record and approve microphone permission. | Screenshot of Android permission dialog or post-permission recording state. | PASS locally on AVD `babylog_api35`; microphone permission dialog screenshot saved at `docs/play-assets/screenshots/phone-04-recording-permission.png`. |
@@ -193,5 +205,7 @@ or a Play internal testing install.
 
 - Manual QA owner: TODO
 - Release owner: TODO
-- Known issues accepted for internal testing: TODO
+- Known issues accepted for internal testing: Google sign-in, old-account
+  recovery, and full BYOK microphone recording require version `1.0.8+9`
+  internal-test evidence before production.
 - Known issues accepted for production: TODO
